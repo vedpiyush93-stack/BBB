@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bounding Box Bonanza browser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f1e8;--card:#fffdf8;--ink:#1d2433;--soft:#6b6f7b;--rule:#e2dccd;--navy:#16233f;--gold:#c8a44d;
+  --expert:#2a78d6;--claude:#eb6834;--cons:#52514e;--best:#6250d6;--typ:#a0620f;--one:#0f8fa3;--miss:#d03b3b;--good:#0ca30c;
+  --diffE:#d3e2f8;--diffC:#fddcc4;--hl:#c8a44d;
+  --jU:#1f8fb0;--jD:#e09b16;--jN:#8a887f;--jQ:#c9c7bf;--jP:#cfcabb;--mF:#ec9a9a;--vno:#9a988f;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#11151d;--card:#181d28;--ink:#e8e6df;--soft:#9ea3ae;--rule:#2b3140;--navy:#0b1220;--gold:#d8b864;
+  --expert:#3987e5;--claude:#d95926;--cons:#c3c2b7;--best:#9085e9;--typ:#d09a4a;--one:#3fb6c9;--miss:#e66767;--good:#0ca30c;
+  --diffE:#23395e;--diffC:#5a3a22;--hl:#d8b864}}
+:root[data-theme="dark"]{
+  --paper:#11151d;--card:#181d28;--ink:#e8e6df;--soft:#9ea3ae;--rule:#2b3140;--navy:#0b1220;--gold:#d8b864;
+  --expert:#3987e5;--claude:#d95926;--cons:#c3c2b7;--best:#9085e9;--typ:#d09a4a;--one:#3fb6c9;--miss:#e66767;--good:#0ca30c;
+  --diffE:#23395e;--diffC:#5a3a22;--hl:#d8b864}
+*{box-sizing:border-box}html,body{height:100%;overflow:clip}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  display:grid;grid-template-rows:auto 1fr;grid-template-columns:minmax(0,1fr);overflow:hidden}
+header{background:linear-gradient(90deg,var(--navy),color-mix(in srgb,var(--navy) 80%,#2c3d66));color:#f3eee2;padding:8px 18px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:3px solid var(--gold)}
+header h1{font:500 23px "Cormorant Garamond",Georgia,serif;margin:0;letter-spacing:.01em}
+header span{color:#b9c1d3;font-size:13px}
+header{flex-wrap:nowrap;align-items:center}header h1{white-space:nowrap}
+#hdr{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .theme,header .guide{background:none;border:1px solid #3a4560;color:#d9dce6;border-radius:8px;padding:4px 10px;cursor:pointer;font:13px Inter,sans-serif}
+header .guide{margin-left:auto;border-color:var(--gold);color:#f3e6c4}header .guide:hover,header .theme:hover{background:#ffffff14}
+.views{display:flex;flex-wrap:wrap;gap:5px;align-items:center;padding:7px 10px;background:var(--card);border-bottom:1px solid var(--rule)}
+.navg{display:inline-flex;gap:4px;align-items:center;margin-left:6px}
+.pnav{display:flex;justify-content:space-between;align-items:center}
+#pos{font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums;min-width:58px;text-align:center}
+.btn.lay{font-weight:500}.btn.lay.on{background:var(--navy);color:#f3eee2;border-color:var(--navy)}
+.views .gl{margin-right:4px}
+.vw{border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:5px 9px;font:500 12px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+.vw:hover{border-color:var(--soft)}.vw.on{background:var(--navy);color:#f3eee2;border-color:var(--navy)}
+:root[data-theme="dark"] .vw.on{background:var(--gold);color:#11151d;border-color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .vw.on{background:var(--gold);color:#11151d;border-color:var(--gold)}}
+.pill{display:inline-block;min-width:34px;text-align:center;border-radius:999px;padding:1px 7px;font:600 12px Inter,sans-serif;color:#fff}
+.modal{position:fixed;inset:0;background:rgba(10,14,24,.55);display:none;place-items:center;z-index:50;padding:20px}
+.modal.open{display:grid}
+.sheet{background:var(--card);color:var(--ink);border-radius:16px;max-width:980px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.35);border:1px solid var(--rule)}
+.sheet .top{background:var(--navy);color:#f3eee2;padding:18px 24px;border-bottom:3px solid var(--gold);border-radius:16px 16px 0 0}
+.sheet .top h2{font:500 28px "Cormorant Garamond",Georgia,serif;margin:0}.sheet .top p{margin:4px 0 0;color:#c9cfdd;font-size:13.5px}
+.sheet .body{padding:18px 24px 8px;display:grid;gap:18px}
+.sheet h3{font:600 11.5px Inter;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:0 0 8px}
+.lay3{display:grid;grid-template-columns:1fr 2.2fr 1.3fr;gap:8px}
+.lay3 div{border:1px solid var(--rule);background:var(--paper);border-radius:10px;padding:10px 12px;font-size:13px}
+.lay3 b{display:block;margin-bottom:3px}
+.keyl{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 22px;font-size:13px}
+.keyl > div{display:flex;gap:9px;align-items:baseline}
+.keyl i{flex:none;display:inline-block;width:20px;height:4px;border-radius:2px;transform:translateY(-3px)}
+.keyl i.bx{height:11px;border:2px solid;background:transparent;transform:none}
+.scores{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px}
+.scores div{border:1px solid var(--rule);border-radius:10px;padding:10px 12px;background:var(--paper)}
+.kbd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px}.kbd kbd{display:inline-block;border:1px solid var(--rule);border-bottom-width:2px;border-radius:5px;padding:0 6px;font:12px Inter,sans-serif;background:var(--paper);margin-right:4px}
+.sheet .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px 24px 16px;position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--rule);border-radius:0 0 16px 16px}
+.ill{height:58px!important}
+.sheet .foot .hint{font-size:12.5px;color:var(--soft)}
+.sheet{max-width:860px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{position:relative;border:1px solid var(--rule);background:var(--paper);border-radius:14px;padding:12px 13px 14px;font-size:13px;line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.step b{font-size:14px}.step > span{color:color-mix(in srgb,var(--ink) 80%,var(--soft))}
+.step .num{position:absolute;top:-10px;left:-10px;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#1d2433;font:700 13px Inter,sans-serif;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.ill{height:70px;border-radius:10px;background:radial-gradient(160px 90px at 50% 30%,#2f3646,#171b24);display:grid;place-items:center;margin-bottom:2px}
+.ill-list{display:grid;gap:4px;width:70%}.ill-list i{display:block;height:9px;border-radius:3px;background:#3a4256}.ill-list i.on{background:var(--gold)}
+.ill-zoom{position:relative;width:46px;height:56px;background:#efe6cf;border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.ill-zoom i{position:absolute;left:8px;right:8px;top:12px;height:3px;background:#6b5a3a;box-shadow:0 9px 0 #6b5a3a,0 18px 0 #6b5a3a,0 27px 0 #6b5a3a}
+.ill-zoom em{position:absolute;right:-12px;bottom:-8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#1d2433;font:700 15px/24px Inter,sans-serif;text-align:center;font-style:normal}
+.ill-views{display:flex;gap:5px}.ill-views i{display:block;width:30px;height:13px;border-radius:5px;background:#3a4256}.ill-views i.on{background:#f3eee2}
+.ill-card{position:relative;width:60%;height:50px}.ill-card i{position:absolute;left:0;top:30px;width:55%;height:5px;border-radius:2px;background:var(--claude)}
+.ill-card div{position:absolute;right:0;top:0;width:52%;height:46px;border-radius:6px;background:#f3eee2;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.more{border:1px solid var(--rule);border-radius:12px;padding:10px 14px;background:var(--paper)}
+.whos{font-size:13px;line-height:1.55;border-left:3px solid var(--gold);padding:4px 0 4px 12px;color:var(--ink)}
+.whos span{margin-right:4px}
+.more summary{cursor:pointer;font-weight:600;font-size:13.5px}.more[open] summary{margin-bottom:10px}
+.more .keyl{margin-bottom:10px}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+.go{background:var(--navy);color:#f3eee2;border:0;border-radius:9px;padding:8px 18px;font:600 13.5px Inter,sans-serif;cursor:pointer}
+:root{--lw:290px;--rw:400px}
+@media (max-width:1500px){:root{--lw:250px;--rw:360px}}
+.app{display:grid;grid-template-columns:var(--lw) 7px minmax(0,1fr) 7px var(--rw);min-height:0}
+.split{background:var(--rule);cursor:col-resize;position:relative;z-index:3}
+.split::after,.hsplit::after{content:"";position:absolute;inset:0;margin:auto;border-radius:2px;background:var(--soft);opacity:.45}
+.split::after{width:3px;height:36px}.hsplit::after{width:36px;height:3px}
+.split:hover,.hsplit:hover,body.dragging .split.on,body.dragging .hsplit.on{background:var(--gold)}
+.hsplit{flex:none;height:7px;background:var(--rule);cursor:row-resize;position:relative}
+body.dragging{user-select:none}body.dragging.col{cursor:col-resize}body.dragging.row{cursor:row-resize}
+.upper{flex:none;overflow-y:auto;height:auto;max-height:var(--uh,58%)}
+aside,section.side{background:var(--card);display:flex;flex-direction:column;min-height:0}
+aside,section.side{border:0}
+.f{padding:12px;display:grid;gap:8px;border-bottom:1px solid var(--rule)}
+.f input[type=search],.f select{font:13px Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:7px 9px;width:100%}
+.f .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f label{font-size:12.5px;color:var(--soft);display:flex;gap:6px;align-items:center}
+.f .n{font-size:12px;color:var(--soft)}
+.list{overflow-y:auto;flex:1}
+.item{padding:9px 12px;border-bottom:1px solid var(--rule);cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;align-items:center}
+.item b{grid-column:1;grid-row:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .pill{grid-column:2;grid-row:1 / span 3;align-self:center}
+.item small{grid-column:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item:hover{background:var(--paper)}
+.item.on{background:color-mix(in srgb,var(--expert) 12%,var(--card));box-shadow:inset 3px 0 0 var(--gold)}
+.item b{font-weight:500;font-size:13.5px}.item small{color:var(--soft);font-size:11.5px}
+.item .k{font-variant-numeric:tabular-nums;font-size:12px;color:var(--soft);text-align:right}
+.item .k i{font-style:normal;color:var(--ink);font-weight:600}
+main{display:grid;grid-template-rows:auto 1fr;min-height:0;min-width:0}   /* the switch row, the page */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:5px 10px 6px;background:var(--card);border-bottom:1px solid var(--rule)}
+.bar .chip{padding:2px 9px 2px 7px;font-size:12px}.bar .chip kbd{display:none}
+.bar .lt{margin-right:-6px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--rule);background:var(--paper);border-radius:999px;padding:4px 10px 4px 8px;font-size:12.5px;cursor:pointer;user-select:none;color:var(--ink)}
+.chip .sw{width:16px;height:4px;border-radius:2px}
+.chip .sw.box{height:10px;border:2px solid;background:transparent;border-radius:2px}
+.chip.off{opacity:.45}
+.bar .chip{background:var(--card);border-color:var(--rule)}.bar .chip:hover{border-color:var(--soft)}
+.bar .chip.off{opacity:1;color:var(--soft)}.bar .chip.off .sw{opacity:.5}
+.bar .chip.on{background:color-mix(in srgb,var(--gold) 16%,var(--card));border-color:color-mix(in srgb,var(--gold) 70%,var(--rule));color:var(--ink);font-weight:600}
+.bar .grp{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap;padding-right:10px;margin-right:2px;border-right:1px solid var(--rule)}
+.bar .grp:last-of-type{border-right:0}.bar .grp .gl{margin-right:2px}.bar .reset{margin-left:auto;padding:2px 10px;font-size:12px}
+.chip .sw.thick{height:6px}.chip .sw.pair{height:8px;background:linear-gradient(180deg,var(--expert) 0 38%,transparent 38% 62%,var(--claude) 62%)}
+.bar .sep{width:1px;align-self:stretch;background:var(--rule);margin:2px 4px}
+.cnt{font-weight:700;margin-left:1px}
+.dkey.bkey{display:flex;align-items:center;flex-wrap:wrap;gap:2px 0;margin-top:2px}
+.bkey .bk{margin:0 4px 0 10px}.bkey .bk:first-child,.bkey .prsw:first-child{margin-left:0}
+.prsw{display:inline-block;width:16px;height:3px;background:#9a988f;border-radius:2px;margin:0 4px 0 10px;vertical-align:middle}
+.hidechip{display:none!important}.chip.na{opacity:.45;cursor:not-allowed;text-decoration:line-through}
+.chip.na::after{content:"n/a";font-size:10px;color:var(--soft);display:inline-block;text-decoration:none}
+.chip:focus-visible,.item:focus-visible,.ln:focus-visible,.vw:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.chip kbd{font:10.5px Inter,sans-serif;color:var(--soft)}
+.vstep{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--soft)}.vstep .btn{padding:2px 8px}
+.vstep.hide{display:none}
+.sp{flex:1}
+.btn{border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:4px 10px;cursor:pointer;font:13px Inter,sans-serif}
+.btn:hover{border-color:var(--soft)}
+.stage{position:relative;overflow:hidden;background:radial-gradient(1400px 900px at 50% 30%,#2f3646 0%,#1a1f2a 55%,#12151c 100%);cursor:grab;min-height:0}
+.canvas.anim{transition:transform .28s cubic-bezier(.2,.7,.2,1)}
+.zoomc{position:absolute;right:12px;bottom:12px;z-index:6;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;
+  box-shadow:0 6px 22px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);cursor:default}
+.zoomc button{border:0;border-bottom:1px solid var(--rule);background:color-mix(in srgb,var(--card) 94%,transparent);color:var(--ink);
+  font:600 13px Inter,sans-serif;padding:7px 10px;min-width:52px;cursor:pointer;backdrop-filter:blur(4px)}
+.zoomc button:last-child{border-bottom:0}.zoomc button:hover{background:var(--paper)}
+.zoomc #zi,.zoomc #zo{font-size:17px;line-height:1}
+.canvas img{opacity:0;transition:opacity .35s}.canvas img.loaded{opacity:1}
+.stage.drag{cursor:grabbing}
+.canvas{position:absolute;left:0;top:0;transform-origin:0 0;box-shadow:0 10px 50px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.06)}
+.canvas img{display:block;user-select:none;-webkit-user-drag:none}
+.canvas svg{position:absolute;inset:0;overflow:visible}
+svg{--k:1}
+svg .ex{stroke:var(--expert);stroke-width:calc(2.5px * var(--k));fill:none;stroke-linecap:round}
+svg .mi{stroke:var(--expert);stroke-width:calc(6px * var(--k));fill:none;stroke-linecap:round}
+svg .cl{stroke:var(--claude);stroke-width:calc(2px * var(--k));fill:none;stroke-linecap:round}
+svg .cb{stroke:var(--claude);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--claude) 10%,transparent)}
+svg .vc{stroke:var(--cons);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--cons) 8%,transparent)}
+svg .vb{stroke:var(--best);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--best) 8%,transparent)}
+svg .vt{stroke:var(--typ);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--typ) 8%,transparent)}
+svg .vo{stroke:var(--one);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--one) 8%,transparent)}
+svg .xj{stroke:var(--claude);stroke-width:calc(6px * var(--k));fill:none;stroke-linecap:round}
+svg .xc{stroke:#fff;stroke-width:calc(6px * var(--k));stroke-linecap:round;opacity:.9;pointer-events:none}
+svg .pr{stroke:#9a988f;stroke-width:calc(2.5px * var(--k));fill:none;stroke-linecap:round;cursor:pointer}
+svg .bdg{transform:scale(var(--k));pointer-events:none}
+svg .bdg circle{stroke:#fff;stroke-width:1.5px}svg .bdg text{font:700 11px Inter,system-ui,sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central}
+svg .bdg.ok circle{fill:#0a7d0a}svg .bdg.bad circle{fill:#c62828}svg .bdg.diff circle{fill:#a86400}svg .bdg.print circle{fill:#6b6f7b}svg .bdg.unk circle{fill:#9a988f}
+.bk{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;color:#fff;font:700 10.5px Inter,sans-serif;margin:0 4px 0 9px;vertical-align:-3px}
+.bk.ok{background:#0a7d0a}.bk.bad{background:#c62828}.bk.diff{background:#a86400}.bk.print{background:#6b6f7b}.bk.unk{background:#9a988f}
+svg .mi,svg .xj{cursor:pointer}
+.card .l b{font-weight:700}
+.grp{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+.grp .gl{font-size:9.5px;opacity:.85}
+.gl{font:600 10.5px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.notice{position:absolute;left:50%;top:16px;transform:translateX(-50%);z-index:6;display:none;max-width:min(560px,calc(100% - 24px));
+  background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:12px;padding:10px 14px;box-shadow:0 8px 28px rgba(0,0,0,.3);font-size:13.5px;text-align:center;cursor:default}
+.notice.show{display:block}.notice button{margin-top:8px}
+.gh{position:sticky;top:0;z-index:1;background:var(--card);padding:6px 12px;font:600 11px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);border-bottom:1px solid var(--rule)}
+.gh span{float:right;font-weight:500;letter-spacing:0}
+.vic{display:inline-block;vertical-align:-2px;margin-left:5px;color:var(--best)}
+.lines{grid-column:1 / -1;font-size:12px;color:var(--soft);margin-top:-2px}
+#cards{grid-template-columns:1fr}
+.card.sc{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;align-items:baseline;font-size:13px;padding:8px 11px}
+.card.sc .k{font:600 10.5px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+.card.sc small{color:var(--soft);font-size:11.5px}.card.sc .big{font-size:19px}.card.sc .bar2{margin-top:2px}
+.gh3{margin-top:14px!important}.gh3 span{font-weight:400;text-transform:none;letter-spacing:0;color:var(--soft);margin-left:4px}
+.gidx{font-size:12.5px;color:var(--soft);margin-bottom:4px}.gidx .lnk{margin-right:8px}
+.vrow{font-size:12.5px;color:var(--soft);display:flex;flex-wrap:wrap;gap:3px 8px;align-items:baseline}.vrow b{color:var(--ink)}
+.lnk{border:0;background:none;color:var(--expert);cursor:pointer;font:500 12.5px Inter,sans-serif;padding:0}
+.hide{display:none!important}
+.ln .who.both{color:var(--soft)}
+.ln.open{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 35%,transparent)}
+.jx{display:grid;gap:9px;cursor:default}
+.ln.open > :not(.jx){display:none}
+.jx figure{margin:0}.jx figcaption{font-size:11.5px;color:var(--soft);margin-top:4px;display:flex;align-items:center;gap:5px}
+.jx figcaption i{display:inline-block;width:14px;height:4px;border-radius:2px}.jx figcaption i + *{margin-right:6px}
+.jx .sides,.jx .verdict{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;align-items:baseline;font-size:13.5px}
+.jx .lab{font:600 10.5px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);white-space:nowrap}
+.jx .q{font-weight:500}.jx .nol{color:var(--soft);font-style:italic}
+.jx .verdict{border-top:1px solid var(--rule);padding-top:9px}.jx .verdict .bk{margin:0 6px 0 0}
+.jx .because{font-size:13px;line-height:1.45}
+.jx .jh{display:flex;align-items:flex-start;gap:6px}.jx .jh b{font-size:13.5px;line-height:1.35}.jx .jh .nav{flex:none}
+.jx .nav{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--soft)}.jx .nav .btn{padding:1px 8px}
+.jx .x{border:0;background:none;color:var(--soft);font-size:18px;cursor:pointer;line-height:1;margin-left:4px}
+.jx .vsent{font-size:13.5px;line-height:1.4;font-weight:500}.jx .vsent .bk{margin:0 6px 0 0}
+.ln.open > .jl{display:none}
+.jx img{width:100%;border-radius:8px;border:1px solid var(--rule);display:block}
+.jx .wd{font-size:13px}.jx .wd span{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);margin-right:4px}
+.jx .wd small{color:var(--soft)}
+.jx .why{background:var(--paper);border-left:3px solid var(--gold);padding:6px 9px;border-radius:6px;font-size:12.5px}
+.jx .score{font-size:12px;color:var(--soft)}
+.jx .cap{font-size:11.5px;color:var(--soft);margin-top:4px}
+.dkey{font-size:11.5px;color:var(--soft);margin:-4px 0 10px}
+.br .who{font-size:12.5px}.br small{color:var(--soft);font-weight:400;grid-column:2/4;white-space:nowrap;font-size:11.5px}
+.lsnote{font-size:11.5px;color:var(--soft);margin:8px 0 0;line-height:1.4}
+svg [data-r]{pointer-events:stroke;cursor:pointer}
+svg .hit{stroke:transparent;stroke-width:calc(18px * var(--k));stroke-linecap:round;fill:none}svg .hit.hot{stroke:transparent;filter:none}
+.tip{position:absolute;z-index:7;pointer-events:none;max-width:320px;background:var(--card);color:var(--ink);border:1px solid var(--rule);border-radius:9px;
+  padding:6px 9px;font-size:12.5px;line-height:1.4;box-shadow:0 6px 20px rgba(0,0,0,.3);display:none}
+.tip.show{display:block}.tip b{font-weight:600}.tip small{color:var(--soft);display:block;margin-top:2px}
+svg .cb[data-r]{pointer-events:all}
+svg .hot{stroke-width:calc(8px * var(--k))!important;filter:drop-shadow(0 0 calc(2px * var(--k)) #fff) drop-shadow(0 0 calc(5px * var(--k)) rgba(0,0,0,.9))}
+.empty{position:absolute;inset:0;display:grid;place-items:center;color:#c9cfdd}
+.side .head{padding:10px 14px 8px;border-bottom:1px solid var(--rule)}
+.side h2{font:500 24px/1.15 "Cormorant Garamond",Georgia,serif;margin:0}
+.side .sub{color:var(--soft);font-size:12.5px;margin-top:2px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:6px 9px}
+.card .v{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.card .v span{font-size:11.5px!important}
+.card .l{font-size:11.5px;color:var(--soft);line-height:1.3}
+.cards .wl{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card .bar2{height:6px;border-radius:3px;background:var(--rule);margin-top:6px;overflow:hidden}.card .bar2 i{display:block;height:100%;border-radius:3px}
+.says{grid-column:1 / -1;font-size:13px;line-height:1.45;color:var(--ink);background:color-mix(in srgb,var(--gold) 12%,var(--card));border:1px solid color-mix(in srgb,var(--gold) 35%,var(--rule));border-radius:10px;padding:8px 11px}
+.boxcmp{padding:8px 16px 8px;border-bottom:1px solid var(--rule)}
+.vd summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:12.5px;color:var(--soft)}
+.vd summary::-webkit-details-marker{display:none}.vd summary::before{content:"▸";color:var(--soft);font-size:11px}
+.vd[open] summary::before{content:"▾"}.vd summary h3{margin:0!important}.vd summary b{color:var(--ink)}
+.vd[open] summary{margin-bottom:6px}.vnone{font-size:12.5px;color:var(--soft)}
+.boxcmp h3,.tx h3{font:600 11.5px Inter;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:0 0 8px}
+.br{display:grid;grid-template-columns:118px 1fr 34px;align-items:center;gap:8px;font-size:12.5px;margin:4px 0}
+.br .tr{height:9px;background:var(--rule);border-radius:5px;overflow:hidden}
+.br .fl{height:100%;border-radius:5px}
+.br .nv{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.tx{overflow-y:auto;flex:1;padding:12px 16px 40px}
+.ln{border:1px solid var(--rule);border-radius:9px;padding:7px 9px;margin:0 0 7px;cursor:pointer;background:var(--paper)}
+.ln:hover{border-color:var(--soft)}.ln.hot{border-color:var(--hl);box-shadow:0 0 0 2px color-mix(in srgb,var(--hl) 45%,transparent)}
+.ln .who{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-right:6px}
+.ln .e .who{color:var(--expert)}.ln .c .who{color:var(--claude)}
+.ln div{font-size:13.5px;line-height:1.4;word-break:break-word}
+.ln .tag{float:right;font-size:10.5px;font-weight:600;border-radius:999px;padding:1px 7px;margin-left:6px}
+.tag.ok{color:var(--good);border:1px solid var(--good)}
+.ln.prt{padding-top:5px;padding-bottom:5px;opacity:.8}.tag.prt{color:var(--soft)!important;border:1px solid var(--rule)!important;background:none!important}.tag.miss{color:var(--expert)!important;border-color:var(--expert)!important}.tag.wd{color:#a86400;border:1px solid #a86400}.tag.miss{color:var(--miss);border:1px solid var(--miss)}.tag.xtra{color:var(--claude);border:1px solid var(--claude)}
+.tag.by{color:var(--soft);border:1px solid var(--rule)}
+.ln .jl{font-size:11.5px;color:var(--soft);margin-top:3px}.ln .jl i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{background:var(--diffC);text-decoration:none;border-radius:3px}
+.help{font-size:11.5px;color:var(--soft);padding:6px 12px;border-top:1px solid var(--rule)}
+@media (max-width:1180px){.cards{grid-template-columns:repeat(3,1fr)}.card .v{font-size:17px}}
+@media (max-width:860px){html,body{height:auto;overflow:visible}body{display:block}#hdr{display:none}.app{display:flex;flex-direction:column}.app>aside{max-height:none}.list{flex:none;height:30vh;min-height:160px}.app>main{height:74vh;min-height:360px}section.side{min-height:60vh}.upper{max-height:none}.tx{overflow:visible;flex:none}#splitL,#splitR,#splitH{display:none}}
+.stage{touch-action:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>Bounding Box Bonanza</h1>
+  <span id="hdr">every page: the expert's lines, Claude's lines, words and boxes, and the volunteers' boxes</span>
+  <button class="guide" id="guideBtn" title="how to use this page (?)">? Guide</button>
+  <button class="theme" id="theme" title="light / dark">◐</button>
+</header>
+<div class="app">
+  <aside>
+    <div class="f">
+      <input type="search" id="q" placeholder="Search words or page id…">
+      <div class="row">
+        <select id="coll"><option value="">All collections</option></select>
+      </div>
+      <select id="sort">
+        <option value="order">Page order</option>
+        <option value="f1">Line score (lowest first)</option>
+        <option value="words">Words right (lowest first)</option>
+        <option value="vgap">Claude vs best volunteer (Claude behind first)</option>
+      </select>
+      <label><input type="checkbox" id="vonly"> only pages volunteers boxed</label>
+      <div class="pnav"><span class="n" id="count"></span><span class="navg"><button class="btn" id="prev" title="previous page (←)">‹</button>
+        <span id="pos"></span><button class="btn" id="next" title="next page (→)">›</button></span></div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="help">Tips and keys: press <b>?</b> for the guide</div>
+  </aside>
+  <div class="split" id="splitL" title="drag to resize · double-click to reset"></div>
+  <main>
+    <div class="bar" id="bar">
+      <span class="grp"><span class="gl">Lines</span>
+        <span class="chip" data-l="expert"><span class="sw" style="background:var(--expert)"></span>Expert lines <b class="cnt" id="nexp"></b></span>
+        <span class="chip" data-l="claude"><span class="sw" style="background:var(--claude)"></span>Claude lines <b class="cnt" id="ncl"></b></span></span>
+      <span class="grp"><span class="gl">Compare</span>
+        <span class="chip" data-l="found"><span class="sw pair"></span>Found <b class="cnt" id="nfound"></b></span>
+        <span class="chip" data-l="miss"><span class="sw thick" style="background:var(--expert)"></span>Missed <b class="cnt" id="nmiss"></b></span>
+        <span class="chip" data-l="xtra"><span class="sw thick" style="background:var(--claude)"></span>Extra <b class="cnt" id="nxtra"></b></span></span>
+      <span class="grp"><span class="gl">Boxes</span>
+        <span class="chip" data-l="cbox"><span class="sw box" style="border-color:var(--claude)"></span>Claude's boxes</span></span>
+      <span class="grp"><span class="gl">Volunteers</span>
+        <span class="chip" data-l="best"><span class="sw box" style="border-color:var(--best)"></span>Best</span>
+        <span class="chip" data-l="cons"><span class="sw box" style="border-color:var(--cons)"></span>Consensus</span>
+        <span class="chip" data-l="typ"><span class="sw box" style="border-color:var(--typ)"></span>Typical</span>
+        <span class="chip" data-l="one"><span class="sw box" style="border-color:var(--one)"></span>Any one</span>
+        <span class="vstep" id="vstep"><button class="btn" id="vprev" title="previous volunteer ([)">‹</button><span id="vlab"></span><button class="btn" id="vnext" title="next volunteer (])">›</button></span></span>
+      <button class="btn reset" id="reset" title="back to the start: expert and Claude lines, missed and extra highlighted">Reset</button>
+    </div>
+    <div class="stage" id="stage"><div class="notice" id="notice"></div><div class="tip" id="tip"></div>
+      <div class="zoomc" id="zoomc"><button id="zi" title="zoom in (+, double-click, pinch or ⌘/Ctrl + scroll)">+</button><button id="zo" title="zoom out (−)">−</button>
+        <button id="fit" title="whole page (F)">Fit</button><button id="fitw" title="fill the width, for reading (W)">Width</button></div><div class="canvas" id="canvas"><img id="img" alt=""><svg id="svg"></svg></div><div class="empty" id="empty">No page matches the filters.</div></div>
+  </main>
+  <div class="split" id="splitR" title="drag to resize · double-click to reset"></div>
+  <section class="side" id="side">
+    <div class="upper" id="upper">
+      <div class="head"><h2 id="title"></h2><div class="sub" id="sub"></div></div>
+      <div class="cards" id="cards"></div>
+      <div class="boxcmp" id="boxcmp"></div>
+    </div>
+    <div class="hsplit" id="splitH" title="drag to resize · double-click to reset"></div>
+    <div class="tx" id="tx"></div>
+  </section>
+</div>
+<div class="modal" id="guide" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="sheet">
+    <div class="top"><h2 id="gTitle">Welcome to Bounding Box Bonanza</h2>
+      <p id="gIntro">Handwritten pages, each with the expert's answer key and what Claude found, and on many of them the volunteers' boxes.</p></div>
+    <div class="body">
+      <div class="steps">
+        <div class="step"><span class="num">1</span><div class="ill"><div class="ill-list"><i></i><i class="on"></i><i></i><i></i></div></div>
+          <b>Pick a page</b><span>The list on the left has every page and its score. Search, filter or sort to find the hardest pages.
+          <kbd>←</kbd> <kbd>→</kbd> flip pages.</span></div>
+        <div class="step"><span class="num">2</span><div class="ill"><div class="ill-views"><i class="on"></i><i></i><i></i></div></div>
+          <b>Choose what to show</b><span>One row of switches above the page: the expert's lines, Claude's lines, the <b>found</b>,
+          <b>missed</b> or <b>extra</b> lines, Claude's boxes, the volunteers. Turn on any mix; <b>Reset</b> goes back to the start.</span></div>
+        <div class="step"><span class="num">3</span><div class="ill"><div class="ill-card"><i></i><div></div></div></div>
+          <b>Click a line with a badge</b><span>Missed and extra lines carry the judge's badge. Click one to see a close-up
+          and the judge's reason, in the right panel.</span></div>
+      </div>
+      <div class="whos"><b>Who's who.</b> <span><b style="color:var(--expert)">Expert</b> = the answer key: a person who drew a line under every
+        line of writing and typed it.</span> <span><b style="color:var(--claude)">Claude</b> = the AI being tested (it never saw the answer key).</span>
+        <span><b style="color:var(--best)">Volunteers</b> = people on Zooniverse who drew boxes by hand.</span> <span><b>Judge</b> = a second AI that looks
+        where Claude and the expert disagree and says why; it never changes Claude's answers, and the scores here don't use it.</span></div>
+      <details class="more"><summary>Scores and keys</summary>
+        <div class="scores">
+          <div><b>Found</b>: of the expert's lines, how many Claude also drew. <b>Match</b>: of Claude's lines, how many the expert also drew.<br>
+            <b>Line score</b> (out of 100) combines the two: high only when both are.
+            <span class="pill" style="background:#0a7d0a">95+</span> <span class="pill" style="background:#a86400">85+</span> <span class="pill" style="background:#c62828">lower</span></div>
+          <div><b>Words</b><br>Of the words the expert typed on the page, how many Claude also read.</div>
+          <div><b>Letters</b><br>On the lines both have, how many of the expert's letters Claude got right.</div>
+        </div>
+        <div class="kbd" style="margin-top:10px"><span>scroll or drag: move</span><span>pinch or ⌘/Ctrl + scroll: zoom</span><span>double-click: zoom in</span>
+          <span><kbd>W</kbd>fill width</span><span><kbd>F</kbd>whole page</span><span><kbd>←</kbd><kbd>→</kbd>pages</span>
+          <span><kbd>1</kbd>–<kbd>0</kbd>switches</span><span><kbd>[</kbd><kbd>]</kbd>volunteers</span><span><kbd>Esc</kbd>close</span><span><kbd>?</kbd>this guide</span></div>
+        <div id="gmodel" style="color:var(--soft);font-size:12px;margin-top:8px"></div>
+      </details>
+    </div>
+    <div class="foot"><span class="hint">Press <kbd>?</kbd> any time to see this again</span><button class="go" id="gClose">Start exploring →</button></div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+const P = (window.BBB && window.BBB.pages) || [];
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+               set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const LAYERS = ["expert","claude","found","miss","xtra","cbox","best","cons","typ","one"];   // keys 1..9, 0
+const VOL = ["best","cons","typ","one"];
+const START = {expert:true, claude:true, found:false, miss:true, xtra:true, cbox:false, best:false, cons:false, typ:false, one:false};
+let on = {...START};   // every visit starts here: the expert's and Claude's lines, missed and extra highlighted
+let view = [], cur = -1, page = null, tf = {x:0, y:0, s:1}, vk = 0;
+
+// ---------- filters & list
+const colls = [...new Set(P.map(p => p.coll))].sort();
+colls.forEach(c => $("coll").insertAdjacentHTML("beforeend", `<option>${esc(c)}</option>`));
+const META = (window.BBB && window.BBB.meta) || {};
+{ const nv = P.filter(x => x.vol).length;
+  $("gIntro").textContent = `${P.length} handwritten pages, each with the expert's answer key and what Claude found; on ${nv} of them, the volunteers' boxes too.`; }
+const MNAME = {"claude-opus-5-5": "Claude Opus 5.5", "claude-fable-5-2": "Claude Fable 5.2", "claude-sonnet-5-5": "Claude Sonnet 5.5"};
+$("hdr").innerHTML = `Can an AI do the volunteers' job? <b style="color:#f3eee2">Claude</b>, an AI, finds and reads the handwritten lines on ${P.length} pages an expert has already transcribed.`;
+$("hdr").title = `${P.length} pages · ${P.reduce((a,p)=>a+p.s.expert,0).toLocaleString()} expert lines · ${P.filter(p=>p.vol).length} pages boxed by volunteers`;
+const EFF = ({xhigh: "extra-high", max: "max", high: "high", medium: "medium"})[META.effort] || META.effort;
+if (META.model) $("gmodel").textContent = `(Claude here is ${MNAME[META.model] || META.model} at ${EFF} effort, that is, set to think longer before answering; the judge is Claude Opus 5.5.)`;
+const VIC = `<svg class="vic" width="15" height="11" viewBox="0 0 15 11" role="img" aria-label="volunteers boxed this page"><title>volunteers boxed this page</title><circle cx="4.5" cy="3" r="2.3" fill="currentColor"/><circle cx="10.5" cy="3" r="2.3" fill="currentColor"/><path d="M0.5 10.5c0-2.7 1.8-4.2 4-4.2s4 1.5 4 4.2zM6.5 10.5c0-2.7 1.8-4.2 4-4.2s4 1.5 4 4.2z" fill="currentColor"/></svg>`;
+const pillCol = v => v >= 95 ? "#0a7d0a" : v >= 85 ? "#a86400" : "#c62828";
+function applyFilters(keepId){
+  const q = $("q").value.trim().toLowerCase(), c = $("coll").value, vo = $("vonly").checked;
+  view = P.filter(p => (!c || p.coll === c) && (!vo || p.vol) &&
+    (!q || p.id.includes(q) || String(p.ref).toLowerCase().includes(q) ||
+     p.expert.some(l => l.t.toLowerCase().includes(q)) || p.claude.some(l => l.t.toLowerCase().includes(q))));
+  const k = $("sort").value;
+  const f1 = p => { const r = p.s.matched / Math.max(p.s.expert, 1), q = p.s.matched / Math.max(p.s.claude, 1); return r + q ? 2 * r * q / (r + q) : 0; };
+  const gap = p => p.vol ? f1of(...p.vol.ls.claude) - f1of(...p.vol.ls.att[p.vol.best]) : 1e9;
+  const key = {f1: p => f1(p), found: p => p.s.found, extra: p => -(p.s.claude - p.s.matched), vgap: gap,
+               words: p => wordsLetters(p.s).wp, letters: p => wordsLetters(p.s).lp}[k];
+  if (key) view.sort((a,b) => key(a) - key(b));
+  $("count").textContent = `${view.length} page${view.length === 1 ? "" : "s"}`;
+  const grouped = k === "order" && !q, per = {};
+  view.forEach(p => per[p.coll] = (per[p.coll] || 0) + 1);
+  let last = null, html = "";
+  view.forEach((p,i) => { const v = 100 * f1(p), w = wordsLetters(p.s);
+    if (grouped && p.coll !== last){ last = p.coll; html += `<div class="gh">${esc(p.coll)}<span>${per[p.coll]} pages</span></div>`; }
+    html += `<div class="item" data-i="${i}" tabindex="0" role="button"><b>${esc(grouped ? p.ref : p.coll)}</b><span class="pill" style="background:${pillCol(v)}" title="line score (out of 100)">${v.toFixed(0)}</span>
+    <small>${grouped ? "" : esc(p.ref) + " · "}${p.s.matched} of ${p.s.expert} lines · ${w.wp.toFixed(0)}% of words${p.vol ? VIC : ""}</small></div>`; });
+  $("list").innerHTML = html;
+  $("empty").style.display = view.length ? "none" : "grid";
+  const at = keepId ? view.findIndex(p => p.id === keepId) : -1;
+  show(at >= 0 ? at : 0);
+}
+["q","coll","sort","vonly"].forEach(id => $(id).addEventListener("input", () => applyFilters(page && page.id)));
+// after picking from a menu, give the keyboard back to the page (so ← → flip pages)
+["coll","sort","vonly"].forEach(id => $(id).addEventListener("change", () => $(id).blur()));
+$("q").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === "Escape"){ if (e.key === "Escape"){ $("q").value = ""; applyFilters(page && page.id); } $("q").blur(); } });
+$("list").addEventListener("click", e => { const it = e.target.closest(".item"); if (it) show(+it.dataset.i); });
+
+// ---------- partners: lines on the same writing that did not pair up (e.g. Claude drew one long line, the expert a short
+// one; or Claude split a line in two). Same writing = both ends of the shorter line lie within 0.6 line gaps of the longer.
+function partners(p){
+  if (p._mp) return;
+  const ys = p.expert.map(l => (l.p[1] + l.p[3]) / 2).sort((a,b) => a - b), d = [];
+  for (let i = 1; i < ys.length; i++) if (ys[i] - ys[i-1] > 5) d.push(ys[i] - ys[i-1]);
+  d.sort((a,b) => a - b); const gap = d.length ? d[d.length >> 1] : 60;
+  const sd = (x, y, q) => { const [a,b,c,e] = q, dx = c - a, dy = e - b, L = dx * dx + dy * dy;
+    const t = L ? Math.max(0, Math.min(1, ((x - a) * dx + (y - b) * dy) / L)) : 0; return Math.hypot(x - a - t * dx, y - b - t * dy); };
+  const len = q => Math.hypot(q[2] - q[0], q[3] - q[1]);
+  const same = (u, v) => { const [s1, s2] = len(u) <= len(v) ? [u, v] : [v, u];
+    return Math.max(sd(s1[0], s1[1], s2), sd(s1[2], s1[3], s2)) < 0.6 * gap; };
+  p._mp = {}; p._cp = {};
+  p.expert.forEach((e,i) => { if (e.m < 0) p.claude.forEach((c,j) => { if (c.m !== i && same(e.p, c.p)) (p._mp[i] = p._mp[i] || []).push(j); }); });
+  p.claude.forEach((c,j) => { if (c.m < 0) p.expert.forEach((e,i) => { if (e.m !== j && same(e.p, c.p)) (p._cp[j] = p._cp[j] || []).push(i); }); });
+}
+const linked = r => { const k = +r.slice(1); return r[0] === "e" ? (page._mp[k] || []).map(j => "c" + j) : (page._cp[k] || []).map(i => "e" + i); };
+
+// ---------- drawing
+const line = (l, cls, r) => `<line class="${cls}" data-r="${r}" x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}"/>`;
+const poly = (b, cls, r) => `<polygon class="${cls}" ${r ? `data-r="${r}"` : ""} points="${b.join(",")}"/>`;
+function pageGap(p){ if (p._gap) return p._gap;
+  const ys = p.expert.map(l => (l.p[1] + l.p[3]) / 2).sort((a, b) => a - b), d = [];
+  for (let i = 1; i < ys.length; i++) if (ys[i] - ys[i-1] > 5) d.push(ys[i] - ys[i-1]);
+  d.sort((a, b) => a - b); return (p._gap = d.length ? d[d.length >> 1] : 60); }
+function draw(){
+  if (!page) return;
+  const p = page; let s = "";
+  const V = p.vol;
+  const vset = (boxes, hit, cls) => boxes.map(b => poly(b, cls)).join("");
+  if (V){
+    if (on.typ) s += vset(V.all[V.typical], V.am[V.typical], "vt");
+    if (on.one) s += vset(V.all[vk] || [], V.am[vk] || "", "vo");
+    if (on.cons) s += vset(V.consensus, V.cm, "vc");
+    if (on.best) s += vset(V.all[V.best], V.am[V.best], "vb");
+    const tag = vk === V.best ? " · best" : vk === V.typical ? " · typical" : "";
+    $("vlab").textContent = `volunteer ${vk + 1} of ${V.n}${tag}`;
+  }
+  $("vstep").classList.toggle("hide", !(on.one && V));
+  if (on.cbox) s += p.claude.map((l,j) => l.b ? poly(l.b, "cb", "c" + j) : "").join("");
+  if (on.expert) s += p.expert.map((l,i) => line(l.p, "ex", "e" + i)).join("");
+  if (on.claude) s += p.claude.map((l,j) => line(l.p, "cl", "c" + j)).join("");
+  if (on.found) s += (on.expert ? "" : p.expert.map((l,i) => l.m >= 0 ? line(l.p, "ex", "e" + i) : "").join(""))
+                  + (on.claude ? "" : p.claude.map((l,j) => l.m >= 0 ? line(l.p, "cl", "c" + j) : "").join(""));
+  const ms = p.expert.map((l,i) => [l,i]).filter(([l]) => l.m < 0);
+  const xs = p.claude.map((l,j) => [l,j]).filter(([l]) => l.m < 0);
+  const endOf = q => q[2] >= q[0] ? [q[2], q[3]] : [q[0], q[1]];
+  const gap = pageGap(p), placed = [];
+  const spot = (x, y) => { let n = 0; for (const [px, py] of placed) if (Math.abs(px - x) < 1.5 * gap && Math.abs(py - y) < 0.7 * gap) n++; placed.push([x, y]); return n; };
+  const one = (kind, l, r) => { const [a, b, c, d] = l.p, cat = (kind === "misses" ? l.k : l.j) || "unknown";
+    if (cat === "print") return `<line class="pr" data-r="${r}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+    const [ex, ey] = endOf(l.p);
+    return `<line class="xc" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/><line class="${kind === "misses" ? "mi" : "xj"}" data-r="${r}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>` +
+      badge(kind, cat, ex, ey, spot(ex, ey)); };
+  if (on.miss) s += ms.map(([l,i]) => one("misses", l, "e" + i)).join("");
+  if (on.xtra) s += xs.map(([l,j]) => one("extras", l, "c" + j)).join("");
+  // hover areas on top, the missed and extra lines last so they win where lines overlap
+  const hit = (q, r) => `<line class="hit" data-r="${r}" x1="${q[0]}" y1="${q[1]}" x2="${q[2]}" y2="${q[3]}"/>`;
+  if (on.expert) s += p.expert.map((l,i) => hit(l.p, "e" + i)).join("");
+  if (on.claude) s += p.claude.map((l,j) => hit(l.p, "c" + j)).join("");
+  if (on.found) s += p.expert.map((l,i) => l.m >= 0 ? hit(l.p, "e" + i) : "").join("") + p.claude.map((l,j) => l.m >= 0 ? hit(l.p, "c" + j) : "").join("");
+  if (on.miss) s += ms.map(([l,i]) => hit(l.p, "e" + i)).join("");
+  if (on.xtra) s += xs.map(([l,j]) => hit(l.p, "c" + j)).join("");
+  $("svg").innerHTML = s;
+  // the judged missed and extra lines in reading order, for ‹ › in their card (printed text is skipped: it isn't handwriting)
+  const G = groupsShown();
+  dlist = [...(G.M ? ms.filter(([l]) => l.k !== "print").map(([l,i]) => ["e" + i, l.p[1] + l.p[3]]) : []),
+           ...(G.X ? xs.filter(([l]) => l.j !== "print").map(([l,j]) => ["c" + j, l.p[1] + l.p[3]]) : [])]
+    .sort((a, b) => a[1] - b[1]).map(x => x[0]);
+  // say so, instead of jumping away or showing an empty page
+  const anyV = VOL.some(L => on[L]);
+  let note = "";
+  if (anyV && !V) note = `Volunteers didn't box this page (they boxed ${P.filter(x => x.vol).length} of ${P.length} pages).<br><button class="btn" id="nextVol">Go to the next page they boxed →</button>`;
+  else if (!on.expert && !on.claude && !on.found){
+    if (on.miss && !on.xtra && !ms.length) note = `No missed lines: Claude found all ${p.expert.length} of the expert's lines on this page.`;
+    else if (on.xtra && !on.miss && !xs.length) note = `No extra lines: every line Claude drew on this page is also the expert's.`;
+    else if (on.miss && on.xtra && !ms.length && !xs.length) note = `No missed or extra lines on this page.`; }
+  $("notice").innerHTML = note; $("notice").classList.toggle("show", !!note);
+  legend(p, ms, xs);
+  const TIP = {cbox: "Claude's tight box around each line's ink", best: "the volunteer who scores highest on this page, picked afterwards with the answer key (a best case)",
+    cons: "boxes at least half the volunteers agree on, combined", typ: "the volunteer with the middle score on this page, among those who boxed at least half as many lines as the expert drew",
+    one: "step through every volunteer with ‹ › or [ ]",
+    expert: "every line the expert drew (blue)", claude: "every line Claude drew (orange)",
+    found: "lines that pair up: the expert's (blue) and Claude's (orange)",
+    miss: "the expert's lines no Claude line pairs with: thick, with the judge's badge", xtra: "Claude's lines no expert line pairs with: thick, with the judge's badge"};
+  document.querySelectorAll(".chip").forEach(ch => {
+    const L = ch.dataset.l, na = VOL.includes(L) && !p.vol;
+    ch.classList.toggle("off", !on[L]); ch.classList.toggle("on", !!on[L] && !na); ch.classList.toggle("na", na);
+    ch.title = na ? "volunteers didn't box this page" : (TIP[L] || "");
+    ch.tabIndex = 0; ch.setAttribute("role", "button"); ch.setAttribute("aria-pressed", String(!!on[L] && !na));
+  });
+}
+const SHORT = {extras: {real: "real handwriting the expert didn't mark", diff: "same writing, split or joined differently", print: "printed text, not handwriting",
+                        none: "no writing here: Claude's mistake", unknown: "no answer"},
+               misses: {missed: "clear handwriting Claude missed", faint: "faint or tiny handwriting Claude missed", diff: "same writing, split or joined differently",
+                        print: "printed text, not handwriting", none: "no writing here: the expert's line is a slip", unknown: "no answer"}};
+const XCAT = SHORT.extras, MCAT = SHORT.misses;
+const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
+const BADGE = {extras: {real: ["ok","✓"], diff: ["diff","≈"], print: ["print","P"], none: ["bad","✕"], unknown: ["unk","?"]},
+               misses: {missed: ["bad","✕"], faint: ["bad","✕"], diff: ["diff","≈"], print: ["print","P"], none: ["ok","✓"], unknown: ["unk","?"]}};
+const badge = (kind, cat, x, y, n) => { const [c, t] = BADGE[kind][cat || "unknown"];
+  return `<g transform="translate(${x} ${y})"><g class="bdg ${c}"><circle cx="${13 + 21 * (n || 0)}" cy="-13" r="9"/><text x="${13 + 21 * (n || 0)}" y="-13">${t}</text></g></g>`; };
+const bk = (kind, cat) => { const [c, t] = BADGE[kind][cat || "unknown"]; return `<span class="bk ${c}">${t}</span>`; };
+let dlist = [], di = -1;
+// the Layers row is the legend (counts on the Missed and Extra chips); the badge key sits above the rows in the right panel
+function legend(p, ms, xs){ $("nexp").textContent = p.expert.length; $("ncl").textContent = p.claude.length;
+  $("nfound").textContent = p.s.matched; $("nmiss").textContent = ms.length; $("nxtra").textContent = xs.length; }
+// which groups the list shows: whatever is drawn (all three when no line switch is on)
+function groupsShown(){
+  let F = on.found || on.expert || on.claude, M = on.miss || on.expert, X = on.xtra || on.claude;
+  if (!F && !M && !X) F = M = X = true;
+  return {F, M, X};
+}
+function badgeKey(p){            // only the badges this page has
+  const cats = [...p.expert.filter(l => l.m < 0).map(l => ["misses", l.k]), ...p.claude.filter(l => l.m < 0).map(l => ["extras", l.j])].filter(([, c]) => c);
+  const has = c => cats.some(([k, x]) => BADGE[k][x][0] === c);
+  const bits = [has("ok") && `<span class="bk ok">✓</span>judge sides with Claude`, has("bad") && `<span class="bk bad">✕</span>Claude's mistake`,
+                has("diff") && `<span class="bk diff">≈</span>split or joined differently`, has("print") && `<i class="prsw"></i>printed, not handwriting`, has("unk") && `<span class="bk unk">?</span>no answer`].filter(Boolean);
+  return bits.length ? `<div class="dkey bkey">${bits.join(" ")}</div>` : "";
+}
+$("reset").addEventListener("click", () => { on = {...START}; draw(); volPanel(); animate(); refit(); });
+$("notice").addEventListener("mousedown", e => e.stopPropagation());
+$("notice").addEventListener("click", e => { if (e.target.id !== "nextVol") return;
+  let i = view.findIndex((x, n) => n > cur && x.vol); if (i < 0) i = view.findIndex(x => x.vol); if (i >= 0) show(i); });
+const openGuide = () => { $("guide").classList.add("open"); document.querySelector("#guide .sheet").scrollTop = 0; $("gClose").focus({preventScroll: true}); };
+const closeGuide = () => { $("guide").classList.remove("open"); store.set("bbb.guide1", true); };
+$("guideBtn").onclick = openGuide; $("gClose").onclick = closeGuide;
+$("guide").addEventListener("click", e => { if (e.target.id === "guide") closeGuide(); });
+$("bar").addEventListener("click", e => { const ch = e.target.closest(".chip"); if (!ch) return;
+  if (ch.classList.contains("na")) return;
+  on[ch.dataset.l] = !on[ch.dataset.l]; draw(); volPanel(); });
+
+// ---------- diff (letters) for the transcription panel
+function diff(a, b){
+  const n = a.length, m = b.length;
+  if (n * m > 60000) return [esc(a), esc(b)];
+  const D = Array.from({length: n + 1}, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+    D[i][j] = a[i] === b[j] ? D[i+1][j+1] + 1 : Math.max(D[i+1][j], D[i][j+1]);
+  let i = 0, j = 0, A = "", B = "";
+  const flush = (s, tag) => s ? `<${tag}>${esc(s)}</${tag}>` : "";
+  let da = "", db = "";
+  while (i < n || j < m){
+    if (i < n && j < m && a[i] === b[j]){ A += flush(da,"del"); B += flush(db,"ins"); da = db = ""; A += esc(a[i]); B += esc(b[j]); i++; j++; }
+    else if (j < m && (i === n || D[i][j+1] >= D[i+1][j])){ db += b[j++]; }
+    else { da += a[i++]; }
+  }
+  return [A + flush(da,"del"), B + flush(db,"ins")];
+}
+
+// ---------- side panel
+function f1of(m, d, e){ const r = m / Math.max(e, 1), q = m / Math.max(d, 1); return r + q ? 100 * 2 * r * q / (r + q) : 0; }
+function lsbar(label, x, color, bold){          // x = [matched, drawn, expert]
+  const [m, d, e] = x, v = f1of(m, d, e);
+  return `<div class="br" title="line score ${v.toFixed(0)}: ${m} of the expert's ${e} lines found, ${d - m} extra"><span class="who" style="${bold ? "font-weight:600;" : ""}color:${color}">${label}</span>
+    <span class="tr"><span class="fl" style="display:block;width:${Math.max(0, Math.min(100, v))}%;background:${color}"></span></span>
+    <span class="nv">${v.toFixed(0)}</span></div>`;
+}
+const normT = t => String(t).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/<[^>]+>|\[[^\]]*\]/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
+function wordsLetters(s){       // words: of the expert's words on the page, how many Claude's reading also has;
+  const wr = Math.min(s.cw, s.gw), lr = Math.max(0, s.cl - s.ce);   // letters: on the lines both have, letters that needed no fixing
+  return {wr, wn: s.gw, wp: 100 * wr / Math.max(s.gw, 1), lr, ln: s.cl, lp: 100 * lr / Math.max(s.cl, 1)};
+}
+function panel(){
+  const p = page, s = p.s;
+  $("title").textContent = p.coll;
+  $("sub").textContent = `${p.ref} · page ${p.id}`;
+  const score = f1of(s.matched, s.claude, s.expert), w = wordsLetters(s);
+  const bar = v => `<div class="bar2"><i style="width:${Math.max(0, Math.min(100, v))}%;background:${pillCol(v)}"></i></div>`;
+  const pct = (a, b) => `${Math.round(100 * a / Math.max(b, 1))}%`;
+  const xs = p.claude.filter(l => l.m < 0), mdiff = p.expert.filter(l => l.m < 0 && l.k === "diff").length;
+  const why = score < 85 && xs.filter(l => l.j === "diff").length + mdiff >= (xs.length + s.expert - s.matched) / 2 && w.wp >= 85
+    ? `<p class="lsnote">The low line score comes mostly from lines split or joined differently, not from missed words.</p>` : "";
+  $("cards").innerHTML =
+    `<div class="card sc" title="The line score combines found and match into one number out of 100: it is high only when both are high.">
+       <span class="k">Found</span><span><b>${s.matched}</b> of the expert's <b>${s.expert}</b> lines <small>${pct(s.matched, s.expert)}</small></span>
+       <span class="k">Match</span><span><b>${s.matched}</b> of Claude's <b>${s.claude}</b> lines <small>${pct(s.matched, s.claude)}</small></span>
+       <span class="k">Line score</span><span><b class="big">${score.toFixed(0)}</b><small> / 100 · combines the two: high only if both are</small></span>
+       <span></span>${bar(score)}</div>
+     <div class="card sc" title="Words: of the words the expert typed on this page, how many Claude also read. Letters: on the lines both have, the share of the expert's letters Claude got right.">
+       <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> read right <small>${pct(w.wr, w.wn)}</small></span>
+       <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the lines both have</small></span></div>${why}`;
+  let bc = "";
+  if (p.vol){
+    const V = p.vol, L = V.ls, sc = x => f1of(...x).toFixed(0);
+    const open = store.get("bbb.volOpen", false) || VOL.some(L => on[L]);
+    const sideways = p.expert.some(l => { const a = Math.abs(Math.atan2(l.p[3] - l.p[1], l.p[2] - l.p[0])); return a > Math.PI / 4 && a < 3 * Math.PI / 4; });
+    bc = `<div class="vrow"><span>vs ${V.n} volunteers (line score):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
+        <span>typical <b>${sc(L.att[V.typical])}</b></span><span>consensus <b>${sc(L.consensus)}</b></span><button class="lnk" id="vmore">${open ? "less" : "more"}</button></div>
+      <div class="vdet ${open ? "" : "hide"}">` + lsbar("Claude", L.claude, "var(--claude)", true) + lsbar("Best volunteer", L.att[V.best], "var(--best)")
+      + lsbar("Typical volunteer", L.att[V.typical], "var(--typ)") + lsbar("Consensus", L.consensus, "var(--cons)")
+      + (on.one && vk !== V.best && vk !== V.typical ? lsbar(`Volunteer ${vk + 1}`, L.att[vk], "var(--one)") : "")
+      + `<p class="lsnote">Best = whoever scored highest on this page (picked afterwards with the answer key).</p>`
+      + (sideways ? `<p class="lsnote">This page has sideways writing; boxes around it don't turn into lines well, so volunteer scores here are less reliable.</p>` : "") + `</div>`;
+  }
+  $("boxcmp").innerHTML = bc; $("boxcmp").classList.toggle("hide", !bc);
+  // which groups to list: the categories that are switched on (all three when none is)
+  const { F: gF, M: gM, X: gX } = groupsShown();
+  const ymid = l => l.p[1] + l.p[3];
+  const found = p.expert.map((l,i) => [l,i]).filter(([l]) => l.m >= 0).sort((a,b) => ymid(a[0]) - ymid(b[0]));
+  const missed = p.expert.map((l,i) => [l,i]).filter(([l]) => l.m < 0).sort((a,b) => (a[0].k === "print") - (b[0].k === "print") || ymid(a[0]) - ymid(b[0]));
+  const extras = p.claude.map((l,j) => [l,j]).filter(([l]) => l.m < 0).sort((a,b) => (a[0].j === "print") - (b[0].j === "print") || ymid(a[0]) - ymid(b[0]));
+  const judgeLine = (kind, cat) => cat ? `<div class="jl">${cat === "print" ? `<i class="prsw" style="margin-left:0"></i>` : bk(kind, cat)}judge: ${esc(SHORT[kind][cat])}</div>` : "";
+  const prRow = (r, who, t) => `<div class="ln prt" data-r="${r}" tabindex="0" role="button"><span class="tag prt">printed</span><div class="${who === "expert" ? "e" : "c"}"><span class="who">${who}</span>${esc(t)}</div></div>`;
+  const head = (id, name, n, what) => `<h3 class="gh3" id="g-${id}">${name} · ${n} <span>${what}</span></h3>`;
+  const groups = [[gF, "found", "Found", found.length], [gM, "missed", "Missed", missed.length], [gX, "extra", "Extra", extras.length]].filter(g => g[0]);
+  let h = groups.length > 1 ? `<div class="gidx">Jump to: ${groups.map(([, id, name, n]) => `<button class="lnk" data-go="${id}">${name} (${n})</button>`).join(" ")}</div>` : "";
+  if (gF){
+    h += head("found", "Found", found.length, "lines that pair up") + `<div class="dkey">where the words differ: <del>blue</del> = the expert's letters · <ins>orange</ins> = Claude's</div>`;
+    for (const [e, i] of found){
+      const c = p.claude[e.m], how = c.by === "side" ? "found by the sideways look" : c.by === "kraken" ? "found by the Kraken check" : "";
+      if (normT(e.t) === normT(c.t))
+        h += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div><span class="who both">both</span>${esc(e.t)}</div></div>`;
+      else { const [A, B] = diff(e.t, c.t);
+        h += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div class="e"><span class="who">expert</span>${A}</div><div class="c"><span class="who">Claude</span>${B}</div></div>`; }
+    }
+  }
+  if ((gM && missed.length) || (gX && extras.length)) h += `<div style="margin-top:12px">${badgeKey(p)}</div>`;
+  if (gM){
+    h += head("missed", "Missed", missed.length, "the expert's lines with no Claude partner");
+    if (!missed.length) h += `<p class="lsnote">None: Claude found every line the expert drew.</p>`;
+    for (const [e, i] of missed)
+      h += e.k === "print" ? prRow("e" + i, "expert", e.t) : `<div class="ln" data-r="e${i}" tabindex="0" role="button"><span class="tag miss">missed</span><div class="e"><span class="who">expert</span>${esc(e.t)}</div>${judgeLine("misses", e.k)}</div>`;
+  }
+  if (gX){
+    h += head("extra", "Extra", extras.length, "Claude's lines with no expert partner");
+    if (!extras.length) h += `<p class="lsnote">None: every line Claude drew is also the expert's.</p>`;
+    for (const [l, j] of extras)
+      h += l.j === "print" ? prRow("c" + j, "Claude", l.t) : `<div class="ln" data-r="c${j}" tabindex="0" role="button"><span class="tag xtra">extra</span><div class="c"><span class="who">Claude</span>${esc(l.t)}</div>${judgeLine("extras", l.j)}</div>`;
+  }
+  $("tx").innerHTML = h; $("tx").scrollTop = 0;
+}
+$("boxcmp").addEventListener("click", e => { if (e.target.id !== "vmore") return;
+  const d = $("boxcmp").querySelector(".vdet"); d.classList.toggle("hide"); e.target.textContent = d.classList.contains("hide") ? "more" : "less";
+  store.set("bbb.volOpen", !d.classList.contains("hide")); });
+
+// ---------- the judge's card for a missed or extra line: it opens inside the line's row in the right panel
+const contains = (big, small) => { const B = new Set(normT(big).split(" ")); const S = normT(small).split(" ").filter(Boolean); return S.length && S.every(x => B.has(x)); };
+// the other side's lines running alongside segment q (overlapping along it, within one line gap); if none, the closest one
+function nearby(q, lines, gap){
+  const [a, b, c, e] = q, L = Math.hypot(c - a, e - b) || 1, ux = (c - a) / L, uy = (e - b) / L, out = [];
+  const sd = (x, y, o) => { const [p0, p1, p2, p3] = o, dx = p2 - p0, dy = p3 - p1, l2 = dx * dx + dy * dy;
+    const t = l2 ? Math.max(0, Math.min(1, ((x - p0) * dx + (y - p1) * dy) / l2)) : 0; return Math.hypot(x - p0 - t * dx, y - p1 - t * dy); };
+  lines.forEach(l => { const o = l.p, t0 = Math.min((o[0] - a) * ux + (o[1] - b) * uy, (o[2] - a) * ux + (o[3] - b) * uy),
+      t1 = Math.max((o[0] - a) * ux + (o[1] - b) * uy, (o[2] - a) * ux + (o[3] - b) * uy);
+    const mx = (o[0] + o[2]) / 2 - a, my = (o[1] + o[3]) / 2 - b;
+    if (Math.min(t1, L) - Math.max(t0, 0) > 0.1 * Math.min(L, (t1 - t0) || 1) && Math.abs(mx * uy - my * ux) < gap) out.push([t0, l]); });
+  if (!out.length && lines.length){ const pts = [[a, b], [c, e], [(a + c) / 2, (b + e) / 2]];
+    let best = null, bd = Infinity; lines.forEach(l => { const d = pts.reduce((s, [x, y]) => s + sd(x, y, l.p), 0); if (d < bd){ bd = d; best = l; } }); return [best]; }
+  return out.sort((x, y) => x[0] - y[0]).map(x => x[1]);
+}
+function cardHTML(r){
+  const k = +r.slice(1), isE = r[0] === "e", L = isE ? page.expert[k] : page.claude[k], kind = isE ? "misses" : "extras";
+  const cat = (isE ? L.k : L.j) || "unknown";
+  const img = isE ? L.ki : L.ji, why = isE ? L.kr : L.jr;
+  // the other side's line on the same writing, if it has one
+  const words = t => `<span class="q">“${esc(t)}”</span>`, none = `<span class="nol">no line here</span>`;
+  const same = isE ? (page._mp[k] || []).map(j => page.claude[j].t) : (page._cp[k] || []).map(i => page.expert[i].t);
+  // when the judge says the other side has this writing but no line covers the same stretch, show its lines nearby
+  const near = !same.length && (cat === "diff" || cat === "none") ? nearby(L.p, isE ? page.claude : page.expert, pageGap(page)).map(l => l.t) : [];
+  const otherSays = same.length ? same.map(words).join(" ") : near.length ? near.map(words).join(" ") + ` <span class="nol">(nearby)</span>` : none;
+  const expertSays = isE ? words(L.t) : otherSays, claudeSays = isE ? otherSays : words(L.t);
+  // the judge's own words, unchanged; its colour words get their colour (in its pictures, as here: blue = expert, orange = Claude;
+  // in its pictures of missed lines the expert's line is red)
+  const gloss = t => esc(t).replace(/\bblue\b/gi, m => `<b style="color:var(--expert)">${m}</b>`).replace(/\borange\b/gi, m => `<b style="color:var(--claude)">${m}</b>`)
+                           .replace(/\bred\b/gi, m => `<b style="color:#c62828">${m}</b>`);
+  const n = dlist.indexOf(r);
+  return `<div class="jx">
+    <div class="jh"><b>${isE ? "Missed line: no Claude line pairs with the expert's" : "Extra line: no expert line pairs with Claude's"}</b>
+      ${n >= 0 && dlist.length > 1 ? `<span class="nav"><button class="btn jp" title="previous missed or extra line">‹</button>${n + 1} of ${dlist.length}<button class="btn jn" title="next missed or extra line">›</button></span>` : `<span class="nav"></span>`}
+      <button class="x jc" title="close (Esc)">×</button></div>
+    ${img ? `<figure><img src="${img}" alt="close-up of this spot"><figcaption><i style="background:var(--expert)"></i>the expert's lines <i style="background:var(--claude)"></i>Claude's lines</figcaption></figure>` : ""}
+    <div class="sides"><span class="lab" style="color:var(--expert)">Expert</span><div>${expertSays}</div>
+      <span class="lab" style="color:var(--claude)">Claude</span><div>${claudeSays}</div></div>
+    <div class="verdict"><span class="lab">Judge decided</span><div>${cat === "print" ? `<i class="prsw" style="margin-left:0"></i>` : bk(kind, cat)}<b>${cap1(SHORT[kind][cat])}</b></div>
+      ${why ? `<span class="lab">Because</span><div class="because">“${gloss(why)}”${/\bred\b/i.test(why) ? ` <small>(in the judge's picture, red is the expert's line)</small>` : ""}</div>` : ""}</div>
+  </div>`;
+}
+function closeCard(){ document.querySelectorAll("#tx .jx").forEach(x => x.remove()); document.querySelectorAll("#tx .ln.open").forEach(x => x.classList.remove("open")); }
+function card(r){
+  const k = +r.slice(1), L = r[0] === "e" ? page.expert[k] : page.claude[k];
+  closeCard();
+  const row = document.querySelector(`#tx .ln[data-r="${r}"]`);
+  if (!row || L.m >= 0) return false;                       // matched lines: nothing to judge
+  row.insertAdjacentHTML("beforeend", cardHTML(r)); row.classList.add("open");
+  di = dlist.indexOf(r);
+  reveal($("tx"), row, true);
+  if (matchMedia("(max-width:860px)").matches) row.scrollIntoView({behavior: "smooth", block: "start"});
+  return true;
+}
+// the instant label next to the mouse: what this line is, its words, and what a click does
+function tipHTML(r){
+  const k = +r.slice(1), isE = r[0] === "e", L = isE ? page.expert[k] : page.claude[k], cut = t => esc(t.length > 70 ? t.slice(0, 68) + "…" : t);
+  if (L.m >= 0){ const O = isE ? page.claude[L.m] : page.expert[L.m];
+    return `<b style="color:var(--${isE ? "expert" : "claude"})">${isE ? "Expert" : "Claude"}:</b> “${cut(L.t)}”` + (normT(L.t) !== normT(O.t) ? `<br><b style="color:var(--${isE ? "claude" : "expert"})">${isE ? "Claude" : "Expert"}:</b> “${cut(O.t)}”` : ""); }
+  const kind = isE ? "misses" : "extras", cat = (isE ? L.k : L.j) || "unknown";
+  return `<b>${isE ? "Missed line" : "Extra line"}</b> · ${isE ? "expert" : "Claude"}: “${cut(L.t)}”<small>judge: ${SHORT[kind][cat]} · click for details</small>`;
+}
+$("svg").addEventListener("mousemove", e => { const el = e.target.closest("[data-r]"), t = $("tip");
+  if (!el || drag && drag.moved){ t.classList.remove("show"); return; }
+  if (t.dataset.r !== el.dataset.r){ t.innerHTML = tipHTML(el.dataset.r); t.dataset.r = el.dataset.r; }
+  const st = $("stage").getBoundingClientRect(), x = e.clientX - st.left, y = e.clientY - st.top;
+  t.classList.add("show"); const w = t.offsetWidth, h = t.offsetHeight;
+  t.style.left = Math.min(x + 14, st.width - w - 8) + "px"; t.style.top = (y + 18 + h > st.height ? y - h - 12 : y + 18) + "px"; });
+$("svg").addEventListener("mouseleave", () => $("tip").classList.remove("show"));
+$("stage").addEventListener("wheel", () => $("tip").classList.remove("show"), {passive: true});
+let downAt = null;
+$("stage").addEventListener("mousedown", e => { downAt = [e.clientX, e.clientY]; });
+$("svg").addEventListener("click", e => { const el = e.target.closest("[data-r]"); if (!el) return;
+  if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return;   // that was a drag
+  const r = el.dataset.r; hot([r, ...linked(r)], true); $("tip").classList.remove("show");
+  if (!card(r)){ const row = document.querySelector(`#tx .ln[data-r="${r}"], #tx .ln[data-c="${r}"]`); if (row){ closeCard(); reveal($("tx"), row, true); } } });
+
+// scroll only the given panel (scrollIntoView would also scroll the whole window and push the header away)
+function reveal(box, el, smooth){
+  const b = box.getBoundingClientRect(), r = el.getBoundingClientRect();
+  let d = 0;
+  if (r.top < b.top) d = r.top - b.top - 6; else if (r.bottom > b.bottom) d = r.bottom - b.bottom + 6;
+  if (d) box.scrollBy({top: d, behavior: smooth ? "smooth" : "auto"});
+}
+
+// ---------- resizable panels (remembered per browser)
+const sizes = store.get("bbb.sizes", {});
+function setSize(k, v){ if (v == null) document.documentElement.style.removeProperty(k); else document.documentElement.style.setProperty(k, v + "px"); }
+Object.entries(sizes).forEach(([k, v]) => setSize(k, v));
+function dragger(el, kind, compute){
+  el.addEventListener("mousedown", e => { e.preventDefault(); el.classList.add("on"); document.body.classList.add("dragging", kind);
+    const move = ev => { const [k, v] = compute(ev); sizes[k] = Math.round(v); setSize(k, sizes[k]); };
+    const up = () => { window.removeEventListener("mousemove", move); window.removeEventListener("mouseup", up);
+      el.classList.remove("on"); document.body.classList.remove("dragging", kind); store.set("bbb.sizes", sizes); };
+    window.addEventListener("mousemove", move); window.addEventListener("mouseup", up); });
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+dragger($("splitL"), "col", ev => ["--lw", clamp(ev.clientX, 180, Math.min(560, innerWidth * .4))]);
+dragger($("splitR"), "col", ev => ["--rw", clamp(innerWidth - ev.clientX, 280, Math.min(820, innerWidth * .55))]);
+dragger($("splitH"), "row", ev => {
+  const r = $("side").getBoundingClientRect(), want = ev.clientY - r.top;
+  const vd = $("boxcmp").querySelector(".vd");
+  if (vd && !vd.open && want > $("upper").scrollHeight - 4){ vd.open = true; store.set("bbb.volOpen", true); }   // dragging down shows more
+  if (vd && vd.open && want < $("upper").scrollHeight - vd.scrollHeight + 30){ vd.open = false; store.set("bbb.volOpen", false); }  // and up folds it
+  requestAnimationFrame(() => { $("upper").scrollTop = $("upper").scrollHeight; });   // keep what's next to the handle in view
+  return ["--uh", clamp(want, 90, Math.min($("upper").scrollHeight, r.height - 140))]; });
+[["splitL", "--lw"], ["splitR", "--rw"], ["splitH", "--uh"]].forEach(([id, k]) =>
+  $(id).addEventListener("dblclick", () => { delete sizes[k]; setSize(k, null); store.set("bbb.sizes", sizes); }));
+
+// ---------- highlight & locate
+function hot(refs, scrollRow){
+  document.querySelectorAll(".hot").forEach(x => x.classList.remove("hot"));
+  if (!refs) return;
+  for (const r of refs){
+    document.querySelectorAll(`#svg [data-r="${r}"]`).forEach(x => x.classList.add("hot"));
+    const row = document.querySelector(`.ln[data-r="${r}"], .ln[data-c="${r}"]`);
+    if (row){ row.classList.add("hot"); if (scrollRow) reveal($("tx"), row, true); }
+  }
+}
+function locate(r){
+  const p = page, k = +r.slice(1), L = r[0] === "e" ? p.expert[k] : p.claude[k];
+  const xs = [L.p[0], L.p[2]], ys = [L.p[1], L.p[3]];
+  if (L.b) for (let t = 0; t < 8; t += 2){ xs.push(L.b[t]); ys.push(L.b[t+1]); }
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const st = $("stage").getBoundingClientRect(), pad = 80;
+  const s = Math.min(st.width / (x1 - x0 + 2 * pad), st.height / (y1 - y0 + 6 * pad), 3);
+  tf.s = s; tf.x = st.width / 2 - s * (x0 + x1) / 2; tf.y = st.height / 2 - s * (y0 + y1) / 2; fitted = false; apply();
+}
+$("tx").addEventListener("click", e => {
+  const go = e.target.closest("[data-go]");
+  if (go){ const h = document.getElementById("g-" + go.dataset.go); if (h) reveal($("tx"), h, true); return; }
+  const jx = e.target.closest(".jx");
+  if (jx){                                                  // buttons inside an open card
+    if (e.target.closest(".jc")) closeCard(); else if (e.target.closest(".jp")) stepDiff(-1); else if (e.target.closest(".jn")) stepDiff(1);
+    return; }
+  const row = e.target.closest(".ln"); if (!row) return;
+  const refs = [row.dataset.r, row.dataset.c].filter(Boolean); hot([...refs, ...linked(row.dataset.r)]); locate(row.dataset.c || row.dataset.r);
+  if (!row.dataset.c){ const r = row.dataset.r, L = r[0] === "e" ? page.expert[+r.slice(1)] : page.claude[+r.slice(1)];
+    if (row.classList.contains("open")) closeCard(); else card(r); } else closeCard(); });
+$("tx").addEventListener("mouseover", e => { const row = e.target.closest(".ln"); if (!row) return;
+  const refs = [row.dataset.r, row.dataset.c].filter(Boolean); hot([...refs, ...linked(row.dataset.r)]); });
+$("svg").addEventListener("mouseover", e => { const el = e.target.closest("[data-r]"); if (!el) return;
+  const r = el.dataset.r, k = +r.slice(1), refs = [r];
+  if (r[0] === "e" && page.expert[k].m >= 0) refs.push("c" + page.expert[k].m);
+  if (r[0] === "c" && page.claude[k].m >= 0) refs.push("e" + page.claude[k].m);
+  refs.push(...linked(r));
+  hot(refs, true); });
+
+// ---------- pan & zoom
+let fitted = true, fitMode = store.get("bbb.fitMode", "width");
+// back to the reader's choice (Fit = whole page, Width = fill the width; width unless they pressed Fit), even after zooming
+const refit = () => (store.get("bbb.fitMode", "width") === "page" ? fit : fitWidth)();
+function apply(){ $("canvas").style.transform = `translate(${tf.x}px,${tf.y}px) scale(${tf.s})`;
+  $("svg").style.setProperty("--k", (1 / tf.s).toFixed(4)); }
+function fit(){
+  if (!page) return; const st = $("stage").getBoundingClientRect();
+  if (st.width < 30 || st.height < 30) return;      // stage not laid out yet
+  fitted = true; fitMode = "page"; store.set("bbb.fitMode", "page");
+  const H = st.height - 28;
+  tf.s = Math.min((st.width - 28) / page.w, H / page.h);
+  tf.x = (st.width - page.w * tf.s) / 2; tf.y = Math.max(14, (H - page.h * tf.s) / 2); apply();
+}
+function fitWidth(){            // fill the width (for reading lines), top of the page first
+  if (!page) return; const st = $("stage").getBoundingClientRect();
+  if (st.width < 30) return;
+  fitted = true; fitMode = "width"; store.set("bbb.fitMode", "width");
+  tf.s = (st.width - 40) / page.w; tf.x = 20;
+  const h = page.h * tf.s;
+  tf.y = h + 40 <= st.height ? (st.height - h) / 2 : 20;      // short (landscape) pages are centred, tall ones start at the top
+  apply();
+}
+function animate(){ const c = $("canvas"); c.classList.add("anim"); clearTimeout(animate.t); animate.t = setTimeout(() => c.classList.remove("anim"), 300); }
+function zoom(f, cx, cy){
+  const st = $("stage").getBoundingClientRect();
+  cx = cx == null ? st.width / 2 : cx; cy = cy == null ? st.height / 2 : cy;
+  const s = Math.max(0.03, Math.min(6, tf.s * f)), k = s / tf.s;
+  tf.x = cx - (cx - tf.x) * k; tf.y = cy - (cy - tf.y) * k; tf.s = s; fitted = false; fitMode = null; apply();
+}
+$("stage").addEventListener("wheel", e => { e.preventDefault(); if (!page) return; const r = $("stage").getBoundingClientRect();
+  if (e.ctrlKey || e.metaKey){ zoom(Math.exp(-e.deltaY * (e.ctrlKey && !e.metaKey ? 0.01 : 0.0015)), e.clientX - r.left, e.clientY - r.top); return; }
+  // plain scroll moves the page, like a document; it can't be pushed out of sight
+  const w = page.w * tf.s, h = page.h * tf.s;
+  tf.x = w < r.width ? tf.x - e.deltaX : clamp(tf.x - e.deltaX, r.width - w - 40, 40);
+  tf.y = h < r.height ? tf.y - e.deltaY : clamp(tf.y - e.deltaY, r.height - h - 40, 40);
+  fitted = false; apply(); }, {passive:false});
+let drag = null;
+$("stage").addEventListener("mousedown", e => { if (e.button) return; drag = {x: e.clientX - tf.x, y: e.clientY - tf.y, moved: false}; $("stage").classList.add("drag"); });
+window.addEventListener("mousemove", e => { if (!drag) return; tf.x = e.clientX - drag.x; tf.y = e.clientY - drag.y; drag.moved = true; fitted = false; apply(); });
+window.addEventListener("mouseup", () => { drag = null; $("stage").classList.remove("drag"); });
+let tp = null;                                                // touch: one finger pans, two fingers pinch to zoom
+const tpStart = e => { const t = e.touches;
+  tp = t.length === 1 ? {x: t[0].clientX - tf.x, y: t[0].clientY - tf.y}
+     : t.length === 2 ? {d: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY)} : null; };
+$("stage").addEventListener("touchstart", e => { if (e.target.closest(".bar,.zoomc,.notice")) { tp = null; return; } tpStart(e); }, {passive: true});
+$("stage").addEventListener("touchmove", e => { if (!tp || !page) return; e.preventDefault(); const t = e.touches;
+  if (t.length === 1 && tp.x != null){ tf.x = t[0].clientX - tp.x; tf.y = t[0].clientY - tp.y; fitted = false; apply(); }
+  else if (t.length === 2 && tp.d){ const r = $("stage").getBoundingClientRect(), d = Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    zoom(d / tp.d, (t[0].clientX + t[1].clientX) / 2 - r.left, (t[0].clientY + t[1].clientY) / 2 - r.top); tp = {d}; } }, {passive: false});
+$("stage").addEventListener("touchend", tpStart, {passive: true});
+$("zi").onclick = () => { animate(); zoom(1.35); }; $("zo").onclick = () => { animate(); zoom(0.74); };
+$("fit").onclick = () => { animate(); fit(); }; $("fitw").onclick = () => { animate(); fitWidth(); };
+$("zoomc").addEventListener("mousedown", e => e.stopPropagation());
+$("zoomc").addEventListener("dblclick", e => e.stopPropagation());
+$("stage").addEventListener("dblclick", e => { if (e.target.closest(".bar,.zoomc,.notice")) return;
+  const r = $("stage").getBoundingClientRect(); animate(); zoom(2, e.clientX - r.left, e.clientY - r.top); });
+$("bar").addEventListener("mousedown", e => e.stopPropagation());
+
+// ---------- page switching
+function show(i){
+  if (!view.length){ page = null; $("svg").innerHTML = ""; $("img").removeAttribute("src");
+    $("title").textContent = "No page matches the filters"; ["sub", "cards", "boxcmp", "tx"].forEach(id => $(id).innerHTML = "");
+    ["nexp", "ncl", "nfound", "nmiss", "nxtra"].forEach(id => $(id).textContent = ""); return; }
+  cur = Math.max(0, Math.min(view.length - 1, i)); page = view[cur];
+  vk = 0; di = -1;
+  if (page.vol){ for (let k = 0; k < page.vol.n; k++) if (k !== page.vol.best && k !== page.vol.typical){ vk = k; break; } }
+  document.querySelectorAll(".item.on").forEach(x => x.classList.remove("on"));
+  const it = document.querySelector(`.item[data-i="${cur}"]`); if (it){ it.classList.add("on"); reveal($("list"), it); }
+  $("pos").textContent = `${cur + 1} / ${view.length}`;
+  const img = $("img"); img.classList.remove("loaded"); img.onload = () => img.classList.add("loaded");
+  img.width = page.w; img.height = page.h; img.src = page.img;
+  const svg = $("svg"); svg.setAttribute("viewBox", `0 0 ${page.w} ${page.h}`); svg.setAttribute("width", page.w); svg.setAttribute("height", page.h);
+  partners(page); closeCard(); draw(); panel(); $("upper").scrollTop = 0; refit();
+  try { history.replaceState(null, "", "#" + page.id); } catch (e) {}
+}
+$("prev").onclick = () => show(cur - 1); $("next").onclick = () => show(cur + 1);
+function stepDiff(d){ if (!dlist.length) return; di = (di + d + dlist.length) % dlist.length; const r = dlist[di];
+  hot([r, ...linked(r)], true); locate(r); card(r); }
+// keyboard: anything that acts like a button can be reached with Tab and pressed with Enter or Space
+document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target && e.target.matches && e.target.matches("[role=button]")){ e.preventDefault(); e.target.click(); } });
+function stepVol(d){ if (!page || !page.vol) return; vk = (vk + d + page.vol.n) % page.vol.n; draw(); volPanel(); }
+function volPanel(){ const t = $("tx").scrollTop; panel(); $("tx").scrollTop = t; }
+$("vprev").onclick = () => stepVol(-1); $("vnext").onclick = () => stepVol(1);
+window.addEventListener("keydown", e => {
+  if (e.target && e.target.matches && e.target.matches("input[type=search],select")) return;
+  if (e.key === "?" ){ openGuide(); return; }
+  if (e.key === "Escape"){ closeGuide(); closeCard(); return; }
+  if ($("guide").classList.contains("open")) return;
+  if (e.key === "ArrowRight" || e.key === "j") show(cur + 1);
+  else if (e.key === "ArrowLeft" || e.key === "k") show(cur - 1);
+  else if (e.key === "f" || e.key === "F"){ animate(); fit(); }
+  else if (e.key === "w" || e.key === "W"){ animate(); fitWidth(); }
+  else if (e.key === "+" || e.key === "=") zoom(1.25);
+  else if (e.key === "-") zoom(0.8);
+  else if (e.key === "[") stepVol(-1);
+  else if (e.key === "]") stepVol(1);
+  else if (/^[0-9]$/.test(e.key)){ const L = LAYERS[e.key === "0" ? 9 : +e.key - 1];
+    if (VOL.includes(L) && page && !page.vol) return;
+    on[L] = !on[L]; draw(); volPanel(); }
+});
+// refit whenever the page area changes size (legend lines added/removed, window resized), unless the user zoomed or panned
+try { new ResizeObserver(() => { if (fitted) refit(); }).observe($("stage")); } catch (e) { window.addEventListener("resize", fit); }
+
+// ---------- theme
+$("theme").onclick = () => { const r = document.documentElement, dark = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  r.dataset.theme = dark ? "light" : "dark"; store.set("bbb.theme", r.dataset.theme); };
+const th = store.get("bbb.theme", null); if (th) document.documentElement.dataset.theme = th;
+
+const start = location.hash.slice(1);
+applyFilters(start || null);
+window.addEventListener("hashchange", () => { const id = location.hash.slice(1), i = view.findIndex(p => p.id === id);
+  if (i >= 0 && i !== cur) show(i); });
+if (!store.get("bbb.guide1", false)) openGuide();
+})();
+</script>
+</body>
+</html>
