@@ -3,8 +3,8 @@
 On **903 handwritten manuscript pages** from the Zooniverse project
 [Bounding Box Bonanza](https://www.zooniverse.org/projects/blicksam/bounding-box-bonanza), Claude, used out of the box
 with no training and no example pages, is given the volunteers' job: **find every line of handwriting, read its words
-and draw a tight box around it**. An expert who transcribed every page line by line is the answer key; the volunteers'
-own boxes are the comparison.
+and put a box around it**. An expert who transcribed every page line by line is the answer key; the volunteers' own
+boxes are the comparison.
 
 <p align="center">
 <a href="https://vedpiyush93-stack.github.io/BBB/"><b>Website</b></a> ·
@@ -12,26 +12,30 @@ own boxes are the comparison.
 <a href="https://vedpiyush93-stack.github.io/BBB/slides/"><b>See the slides</b></a>
 </p>
 
-![The method on one page: Kraken's rough lines, the page cut into strips, Claude's reading of a strip, the strips put back together, the sideways look, and the final boxes](docs/assets/method.jpg)
+![The method on one page: Kraken's lines and outlines, the page with Kraken's numbered lines that Claude reads, Claude's lines and words, and the boxes](docs/assets/method.jpg)
 
 ## The method in brief
 
-1. A free line finder (Kraken) gives the usual gap between lines; the page is cut into overlapping strips of about 10 lines.
-2. Claude reads each strip: where every line runs, and its words.
-3. Two extra looks: writing turned sideways, and a close-up wherever Kraken saw a line Claude didn't report.
-4. The lines are merged, and plain image processing (no AI) draws a tight box around each line's own ink.
+1. **Kraken finds the lines.** A free line finder that can't read marks every line of writing and draws an outline
+   around it.
+2. **Claude reads the page, in one call.** It sees the page with Kraken's lines numbered in red and writes out every
+   line's words, saying which red line(s) each sits on.
+3. **Boxes, no AI.** Each box is the smallest rectangle around Kraken's outline of a line; boxes that overlap meet
+   halfway.
 
 ## Results on 791 held-out pages
 
 | | |
 |---|---|
-| Found (recall) | 92.8% of the expert's lines |
-| Match (precision) | 92.3% of Claude's lines |
-| Line score (F1) | 92.6 |
-| Words | 94% of the expert's words |
+| Found (recall) | 90.5% of the expert's lines |
+| Match (precision) | 94.6% of Claude's lines |
+| Line score (F1) | 92.5 |
+| Words | 94.0% of the expert's words (3.8 letter errors per 100) |
+| Boxes | 82% of the expert's lines sit inside one box; 86% of boxes hold exactly one line |
 
-Against the volunteers, on the 271 held-out pages they boxed (each box scored as the line along its bottom edge, with
-the same F1): Claude 95.0 · best volunteer on each page 95.1 · typical volunteer 92.0 · volunteers' consensus 83.4.
+Against the volunteers, on the 271 held-out pages they boxed (each box scored as the line along its bottom
+edge, with the same F1): Claude 94.1 · best volunteer on each page 95.1 · typical volunteer 92.0 ·
+volunteers' consensus 83.4.
 
 ## Work in progress
 

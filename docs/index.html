@@ -88,14 +88,14 @@ code{font:13.5px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--tr
 <p class="eyebrow">Zooniverse project “Bounding Box Bonanza” · Claude, out of the box</p>
 <h1>Can Claude do the volunteers’ job?</h1>
 <p class="lede">Out of the box, with no training and no example pages, Claude is asked to find every line of <b>handwriting</b>
-on <b>903 manuscript pages</b>, read its words and draw a tight box around it: the job Zooniverse volunteers (members of
+on <b>903 manuscript pages</b>, read its words and put a box around it: the job Zooniverse volunteers (members of
 the public who help researchers) do by hand. An expert who transcribed every page line by line is the answer key; the
 volunteers' own boxes are the comparison.</p>
 <div class="cta"><a class="btn primary" href="viewer/">Browse all 903 pages →</a><a class="btn" href="slides/">See the slides</a></div>
 </div>
 <figure class="shot"><img src="assets/example.jpg" alt="A postcard with the expert's lines in blue and Claude's lines in orange" width="560" height="800">
 <figcaption><span class="k" style="background:var(--expert)"></span>the expert’s lines &nbsp;<span class="k" style="background:var(--claude)"></span>Claude’s lines.
-On this postcard Claude found 25 of the expert’s 27 lines.</figcaption></figure>
+On this postcard Claude found 23 of the expert’s 27 lines.</figcaption></figure>
 </div>
 
 <section>
@@ -104,23 +104,23 @@ On this postcard Claude found 25 of the expert’s 27 lines.</figcaption></figur
 pages); the five choices that looked at more pages are disclosed in the full write-up (to be released). A Claude line and an expert line
 match when each is the other’s closest line.</p>
 <div class="stats">
-<div class="stat"><div class="l">Found</div><div class="v">92.8%</div><div class="d">17,873 of the expert’s 19,263 lines</div></div>
-<div class="stat"><div class="l">Match</div><div class="v">92.3%</div><div class="d">17,873 of Claude’s 19,356 lines</div></div>
-<div class="stat"><div class="l">Line score</div><div class="v">92.6</div><div class="d">the two combined, out of 100</div></div>
+<div class="stat"><div class="l">Found</div><div class="v">90.5%</div><div class="d">17,426 of the expert’s 19,263 lines</div></div>
+<div class="stat"><div class="l">Match</div><div class="v">94.6%</div><div class="d">17,426 of Claude’s 18,430 lines</div></div>
+<div class="stat"><div class="l">Line score</div><div class="v">92.5</div><div class="d">the two combined, out of 100</div></div>
 <div class="stat"><div class="l">Words</div><div class="v">94%</div><div class="d">of the expert’s words read by Claude</div></div>
 </div>
 <div class="note">Many disagreements are not Claude’s mistakes. A separate judge (Claude Opus 5.5, used only to evaluate) looked at
-each one: 745 of Claude’s 1,483 extra lines are real handwriting the expert didn’t mark, and of the expert’s
-1,390 lines Claude didn’t pair with, 707 are the same writing split or joined differently. Handwriting Claude truly
-missed: <b>372 of 19,263 lines</b>. Counting the judge’s verdicts, the line score is <b>95.6</b>
-(95.3 if some doubtful “no writing” verdicts are counted as misses instead).</div>
+each one: 251 of Claude’s 1,004 extra lines are real handwriting the expert didn’t mark, and of the expert’s
+1,837 lines Claude didn’t pair with, 831 are the same writing split or joined differently. Handwriting Claude truly
+missed: <b>575 of 19,263 lines</b>. Counting the judge’s verdicts, the line score is <b>94.5</b>
+(94.2 if some doubtful “no writing” verdicts are counted as misses instead).</div>
 </section>
 
 <section>
 <h2>Claude and the volunteers</h2>
 <p class="sub">On the 271 held-out pages that volunteers boxed. Each volunteer box becomes the line along its bottom edge and is
 scored exactly like Claude’s lines (line score out of 100).</p>
-<div class="vrow"><div class="vl"><b>Claude</b><span></span></div><div class="vt"><div class="vb claude" style="width:95.0%"></div></div><div class="vn">95.0</div></div><div class="vrow"><div class="vl"><b>Best volunteer on each page</b><span>picked afterwards with the answer key</span></div><div class="vt"><div class="vb best" style="width:95.1%"></div></div><div class="vn">95.1</div></div><div class="vrow"><div class="vl"><b>Typical volunteer</b><span>the middle score</span></div><div class="vt"><div class="vb typ" style="width:92.0%"></div></div><div class="vn">92.0</div></div><div class="vrow"><div class="vl"><b>Volunteers' consensus</b><span>boxes at least half the volunteers agree on</span></div><div class="vt"><div class="vb cons" style="width:83.4%"></div></div><div class="vn">83.4</div></div>
+<div class="vrow"><div class="vl"><b>Claude</b><span></span></div><div class="vt"><div class="vb claude" style="width:94.1%"></div></div><div class="vn">94.1</div></div><div class="vrow"><div class="vl"><b>Best volunteer on each page</b><span>picked afterwards with the answer key</span></div><div class="vt"><div class="vb best" style="width:95.1%"></div></div><div class="vn">95.1</div></div><div class="vrow"><div class="vl"><b>Typical volunteer</b><span>the middle score</span></div><div class="vt"><div class="vb typ" style="width:92.0%"></div></div><div class="vn">92.0</div></div><div class="vrow"><div class="vl"><b>Volunteers' consensus</b><span>boxes at least half the volunteers agree on</span></div><div class="vt"><div class="vb cons" style="width:83.4%"></div></div><div class="vn">83.4</div></div>
 </section>
 
 <section id="look">
@@ -129,18 +129,18 @@ scored exactly like Claude’s lines (line score out of 100).</p>
 <div class="cards">
 <a class="card" href="viewer/"><b>The page browser</b><p>All 903 pages with the expert’s lines and Claude’s lines and boxes, and the volunteers’ boxes on the 319 pages they boxed. Click any disagreement to see the judge’s close-up and reason.</p><span class="go">Open the browser →</span></a>
 <div class="card"><b>Coming later</b><p>The code, the notebook with every step and prompt, and the scripts to reproduce everything, once the work has been reviewed with the project team.</p></div>
-<a class="card" href="slides/"><b>The slides</b><p>The story in 32 slides: one example page followed from the scan to the final boxes, then the scores and the volunteers.</p><span class="go">See the slides →</span></a>
+<a class="card" href="slides/"><b>The slides</b><p>The story in 29 slides: one example page followed from the scan to the final boxes, then the scores and the volunteers.</p><span class="go">See the slides →</span></a>
 </div>
 </section>
 
 <section>
 <h2>How it works</h2>
 <p class="sub">Each step is either Claude reading (<span class="tag ai">Claude</span>), plain Python (<span class="tag py">Python</span>) or Kraken, a free
-line-finding program that cannot read (<span class="tag kr">Kraken</span>). The final run uses Claude Fable 5.2 at extra-high effort, chosen on the tuning pages.</p>
-<ol class="steps"><li><span class="num">1</span><div><div class="sh"><b>Find rough lines</b><span class="tag kr">Kraken</span></div><p>Rough lines: their usual gap sizes the strips, and they mark places to double-check.</p><p class="by">Kraken (a free line-finding model; it can&#x27;t read)</p></div></li><li><span class="num">2</span><div><div class="sh"><b>Cut into strips</b><span class="tag py">Python</span></div><p>Overlapping strip images, at most about 10 lines each.</p><p class="by">Python: NumPy arithmetic, Pillow crops</p></div></li><li><span class="num">3</span><div><div class="sh"><b>Read each strip</b><span class="tag ai">Claude</span></div><p>For each line: two points under it (an underline) and its words.</p><p class="by">Claude Fable 5.2, extra-high effort</p></div></li><li><span class="num">4</span><div><div class="sh"><b>Put the strips back together</b><span class="tag py">Python</span></div><p>The page&#x27;s lines (page pixels); a line two strips both saw is kept once.</p><p class="by">Python: NumPy</p></div></li><li><span class="num">5</span><div><div class="sh"><b>Sideways look</b><span class="tag ai">Claude</span></div><p>Lines and words for writing on its side.</p><p class="by">Claude Fable 5.2, extra-high effort (1 call to find the blocks, 1 per block to read it) + Pillow to turn blocks upright</p></div></li><li><span class="num">6</span><div><div class="sh"><b>Kraken check</b><span class="tag ai">Claude</span></div><p>For each spot: its words, or &quot;nothing here&quot; (kept only if Claude reads a word).</p><p class="by">Python finds Kraken lines no Claude line covers and draws close-ups (Pillow); Claude Fable 5.2, extra-high effort answers</p></div></li><li><span class="num">7</span><div><div class="sh"><b>Merge the looks</b><span class="tag py">Python</span></div><p>The final lines and words (lines.csv): a sideways-look line replaces the strips&#x27; pieces of the same writing; any other repeat of a kept line is dropped.</p><p class="by">Python: NumPy</p></div></li><li><span class="num">8</span><div><div class="sh"><b>Boxes from the ink</b><span class="tag py">Python</span></div><p>One tight box per line that owns some ink, tilted with it, never overlapping (boxes_tight.csv).</p><p class="by">Python image processing: NumPy, SciPy (ndimage), Pillow</p></div></li></ol>
+line-finding program that cannot read (<span class="tag kr">Kraken</span>). Claude is asked once per page (Claude Fable 5.2 at extra-high effort).</p>
+<ol class="steps"><li><span class="num">1</span><div><div class="sh"><b>Kraken finds the lines</b><span class="tag kr">Kraken</span></div><p>For every line of writing: a line along the bottom of it, and an outline hugging it; numbered top to bottom.</p><p class="by">Kraken (a free, off-the-shelf line finder; it can&#x27;t read)</p></div></li><li><span class="num">2</span><div><div class="sh"><b>Claude reads the page</b><span class="tag ai">Claude</span></div><p>Every line of writing: its words, which red line(s) it sits on (its own two ends where none fits); red lines with no writing are dropped.</p><p class="by">Claude Fable 5.2, extra-high effort: ONE call per page</p></div></li><li><span class="num">3</span><div><div class="sh"><b>Boxes from Kraken&#x27;s outlines</b><span class="tag py">Python</span></div><p>One box per line: the smallest rectangle around its outline, tilted with the line; stacked boxes that overlap meet halfway (boxes.csv).</p><p class="by">Python: NumPy geometry (no image processing)</p></div></li></ol>
 <h2 style="font-size:26px;margin-top:30px">How it is scored</h2>
 <p class="sub">Evaluation only: the expert’s lines and the volunteers’ boxes never enter the method.</p>
-<ol class="steps"><li><span class="num e">E1</span><div><div class="sh"><b>Score against the expert</b><span class="tag py">Python</span></div><p>Found, match, line score; words and letters right.</p><p class="by">Python: NumPy</p></div></li><li><span class="num e">E2</span><div><div class="sh"><b>The judge</b><span class="tag ai">Claude</span></div><p>A verdict, handwritten or printed, and a reason.</p><p class="by">Claude Opus 5.5, high effort</p></div></li><li><span class="num e">E3</span><div><div class="sh"><b>The volunteers</b><span class="tag py">Python</span></div><p>One line per box (its bottom edge), scored like Claude; best, typical and consensus.</p><p class="by">Python: NumPy</p></div></li></ol>
+<ol class="steps"><li><span class="num e">E1</span><div><div class="sh"><b>Score against the expert</b><span class="tag py">Python</span></div><p>Found, match, line score; words and letters right.</p><p class="by">Python: NumPy</p></div></li><li><span class="num e">E2</span><div><div class="sh"><b>The judge</b><span class="tag ai">Claude</span></div><p>A verdict, handwritten or printed, and a reason.</p><p class="by">Claude Opus 5.5, high effort</p></div></li><li><span class="num e">E3</span><div><div class="sh"><b>Box checks</b><span class="tag py">Python</span></div><p>Is each expert line inside one box; does each box hold one line; overlaps.</p><p class="by">Python: NumPy geometry</p></div></li><li><span class="num e">E4</span><div><div class="sh"><b>The volunteers</b><span class="tag py">Python</span></div><p>One line per box (its bottom edge), scored like Claude; best, typical and consensus.</p><p class="by">Python: NumPy</p></div></li></ol>
 </section>
 
 <section>
@@ -149,10 +149,10 @@ line-finding program that cannot read (<span class="tag kr">Kraken</span>). The 
 <div class="rule"><b>No peeking</b><p>The expert’s answer key and the volunteers’ boxes are used only to score. No example pages, no learned shifts,
 no clean-up rules taken from them.</p></div>
 <div class="rule"><b>Checked by a poison test</b><p>The whole method is rebuilt with the answer key and the volunteers replaced by traps that crash
-when read, and only the page images, Kraken’s lines and the saved replies allowed: lines and boxes come out identical on
-903 of 903 pages, and all 4,792 prompts are the ones sent.</p></div>
+when read, and only the page images, Kraken’s lines and outlines and the saved replies allowed: lines and boxes come out identical on
+903 of 903 pages, and all 903 prompts are the ones sent.</p></div>
 <div class="rule"><b>Held-out pages</b><p>Every idea was tried first on 82 tuning pages; every number above is on the other
-791 pages. Five choices that looked at more pages are disclosed in the full write-up (to be released).</p></div>
+791 pages. Three choices that looked at more pages are disclosed in the full write-up (to be released).</p></div>
 </div>
 </section>
 

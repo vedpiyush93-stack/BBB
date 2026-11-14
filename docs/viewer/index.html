@@ -496,7 +496,7 @@ function draw(){
     else if (on.miss && on.xtra && !ms.length && !xs.length) note = `No missed or extra lines on this page.`; }
   $("notice").innerHTML = note; $("notice").classList.toggle("show", !!note);
   legend(p, ms, xs);
-  const TIP = {cbox: "Claude's tight box around each line's ink", best: "the volunteer who scores highest on this page, picked afterwards with the answer key (a best case)",
+  const TIP = {cbox: "a box around each of Claude's lines: the rectangle around Kraken's outline of it", best: "the volunteer who scores highest on this page, picked afterwards with the answer key (a best case)",
     cons: "boxes at least half the volunteers agree on, combined", typ: "the volunteer with the middle score on this page, among those who boxed at least half as many lines as the expert drew",
     one: "step through every volunteer with ‹ › or [ ]",
     expert: "every line the expert drew (blue)", claude: "every line Claude drew (orange)",
@@ -627,7 +627,7 @@ function panel(){
   if (gF){
     h += head("found", "Found", found.length, "lines that pair up") + `<div class="dkey">where the words differ: <del>blue</del> = the expert's letters · <ins>orange</ins> = Claude's</div>`;
     for (const [e, i] of found){
-      const c = p.claude[e.m], how = c.by === "side" ? "found by the sideways look" : c.by === "kraken" ? "found by the Kraken check" : "";
+      const c = p.claude[e.m], how = c.by === "claude" ? "Claude placed this line itself (no Kraken line fitted it)" : "";
       if (normT(e.t) === normT(c.t))
         h += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div><span class="who both">both</span>${esc(e.t)}</div></div>`;
       else { const [A, B] = diff(e.t, c.t);
