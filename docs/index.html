@@ -129,15 +129,15 @@ scored exactly like Claude’s lines (line score out of 100).</p>
 <div class="cards">
 <a class="card" href="viewer/"><b>The page browser</b><p>All 903 pages with the expert’s lines and Claude’s lines and boxes, and the volunteers’ boxes on the 319 pages they boxed. Click any disagreement to see the judge’s close-up and reason.</p><span class="go">Open the browser →</span></a>
 <div class="card"><b>Coming later</b><p>The code, the notebook with every step and prompt, and the scripts to reproduce everything, once the work has been reviewed with the project team.</p></div>
-<a class="card" href="slides/"><b>The slides</b><p>The story in 30 slides: one example page followed from the scan to the final boxes, then the scores and the volunteers.</p><span class="go">See the slides →</span></a>
+<a class="card" href="slides/"><b>The slides</b><p>The story in 32 slides: one example page followed from the scan to the final boxes, then the scores and the volunteers.</p><span class="go">See the slides →</span></a>
 </div>
 </section>
 
 <section>
 <h2>How it works</h2>
 <p class="sub">Each step is either Claude reading (<span class="tag ai">Claude</span>), plain Python (<span class="tag py">Python</span>) or Kraken, a free
-line-finding program that cannot read (<span class="tag kr">Kraken</span>). Claude is asked once per page (Claude Fable 5.2 at extra-high effort).</p>
-<ol class="steps"><li><span class="num">1</span><div><div class="sh"><b>Kraken finds the lines</b><span class="tag kr">Kraken</span></div><p>For every line of writing: a line along the bottom of it, and an outline hugging it; numbered top to bottom.</p><p class="by">Kraken (a free, off-the-shelf line finder; it can&#x27;t read)</p></div></li><li><span class="num">2</span><div><div class="sh"><b>Claude reads the page</b><span class="tag ai">Claude</span></div><p>Every line of writing: its words, which red line(s) it sits on (its own two ends where none fits); red lines with no writing are dropped.</p><p class="by">Claude Fable 5.2, extra-high effort: ONE call per page</p></div></li><li><span class="num">3</span><div><div class="sh"><b>Boxes from Kraken&#x27;s outlines</b><span class="tag py">Python</span></div><p>One box per line: the smallest rectangle around its outline, tilted with the line; stacked boxes that overlap meet halfway (boxes.csv).</p><p class="by">Python: NumPy geometry (no image processing)</p></div></li></ol>
+line-finding program that cannot read (<span class="tag kr">Kraken</span>). Claude is asked twice per page: once to read it, once to check the boxes (Claude Fable 5.2 at extra-high effort).</p>
+<ol class="steps"><li><span class="num">1</span><div><div class="sh"><b>Kraken finds the lines</b><span class="tag kr">Kraken</span></div><p>For every line of writing: a line along the bottom of it, and an outline hugging it; numbered top to bottom.</p><p class="by">Kraken (a free, off-the-shelf line finder; it can&#x27;t read)</p></div></li><li><span class="num">2</span><div><div class="sh"><b>Claude reads the page</b><span class="tag ai">Claude</span></div><p>Every line of writing: its words, which red line(s) it sits on (its own two ends where none fits); red lines with no writing are dropped.</p><p class="by">Claude Fable 5.2, extra-high effort: ONE call per page</p></div></li><li><span class="num">3</span><div><div class="sh"><b>Boxes from Kraken&#x27;s outlines</b><span class="tag py">Python</span></div><p>One box per line: the smallest rectangle around its outline, tilted with the line; stacked boxes that overlap meet halfway.</p><p class="by">Python: NumPy geometry (no image processing)</p></div></li><li><span class="num">4</span><div><div class="sh"><b>Claude checks the boxes</b><span class="tag ai">Claude</span></div><p>A corrected box for each box that is clearly wrong (it cuts off part of its line, takes in another line, or holds no writing); then overlapping boxes meet halfway again (boxes.csv).</p><p class="by">Claude Fable 5.2, extra-high effort: ONE more call per page</p></div></li></ol>
 <h2 style="font-size:26px;margin-top:30px">How it is scored</h2>
 <p class="sub">Evaluation only: the expert’s lines and the volunteers’ boxes never enter the method.</p>
 <ol class="steps"><li><span class="num e">E1</span><div><div class="sh"><b>Score against the expert</b><span class="tag py">Python</span></div><p>Found, match, line score; words and letters right.</p><p class="by">Python: NumPy</p></div></li><li><span class="num e">E2</span><div><div class="sh"><b>The judge</b><span class="tag ai">Claude</span></div><p>A verdict, handwritten or printed, and a reason.</p><p class="by">Claude Opus 5.5, high effort</p></div></li><li><span class="num e">E3</span><div><div class="sh"><b>Box checks</b><span class="tag py">Python</span></div><p>Is each expert line inside one box; does each box hold one line; overlaps.</p><p class="by">Python: NumPy geometry</p></div></li><li><span class="num e">E4</span><div><div class="sh"><b>The volunteers</b><span class="tag py">Python</span></div><p>One line per box (its bottom edge), scored like Claude; best, typical and consensus.</p><p class="by">Python: NumPy</p></div></li></ol>
@@ -150,9 +150,9 @@ line-finding program that cannot read (<span class="tag kr">Kraken</span>). Clau
 no clean-up rules taken from them.</p></div>
 <div class="rule"><b>Checked by a poison test</b><p>The whole method is rebuilt with the answer key and the volunteers replaced by traps that crash
 when read, and only the page images, Kraken’s lines and outlines and the saved replies allowed: lines and boxes come out identical on
-903 of 903 pages, and all 903 prompts are the ones sent.</p></div>
+903 of 903 pages, and all 1,806 prompts are the ones sent.</p></div>
 <div class="rule"><b>Held-out pages</b><p>Every idea was tried first on 82 tuning pages; every number above is on the other
-791 pages. Three choices that looked at more pages are disclosed in the full write-up (to be released).</p></div>
+791 pages. Four choices that looked at more pages are disclosed in the full write-up (to be released).</p></div>
 </div>
 </section>
 

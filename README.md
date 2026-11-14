@@ -20,8 +20,9 @@ boxes are the comparison.
    around it.
 2. **Claude reads the page, in one call.** It sees the page with Kraken's lines numbered in red and writes out every
    line's words, saying which red line(s) each sits on.
-3. **Boxes, no AI.** Each box is the smallest rectangle around Kraken's outline of a line; boxes that overlap meet
-   halfway.
+3. **Boxes.** Each box is the smallest rectangle around Kraken's outline of a line; boxes that overlap meet halfway.
+4. **Claude checks the boxes, in a second call.** It sees the boxes drawn and numbered and corrects only the ones that
+   are clearly wrong (for example a box that cuts off the last words of a line).
 
 Kraken alone scores 80.7 (line score) and can't read; with Claude's one answer per page, which drops Kraken's junk
 lines, joins its broken pieces, splits lines that run across two pieces of writing, adds the lines it missed and reads
@@ -35,7 +36,7 @@ every word, the score is 92.5.
 | Match (precision) | 94.6% of Claude's lines |
 | Line score (F1) | 92.5 |
 | Words | 94.0% of the expert's words (3.8 letter errors per 100) |
-| Boxes | 82% of the expert's lines sit inside one box; 86% of boxes hold exactly one line |
+| Boxes | 86% of the expert's lines sit inside one box; 88% of boxes hold exactly one line |
 
 Against the volunteers, on the 271 held-out pages they boxed (each box scored as the line along its bottom
 edge, with the same F1): Claude 94.1 · best volunteer on each page 95.1 · typical volunteer 92.0 ·
