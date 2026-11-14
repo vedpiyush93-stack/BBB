@@ -35,7 +35,7 @@ every word, the score is 92.5.
 | Found (recall) | 90.5% of the expert's lines |
 | Match (precision) | 94.6% of Claude's lines |
 | Line score (F1) | 92.5 |
-| Words | 94.0% of the expert's words (3.8 letter errors per 100) |
+| Words and letters (on the matched lines) | 94.1% of the expert's words, 3.8 letter errors per 100 (counted on the matched lines only; missed and extra lines are already in found and match) |
 | Boxes | 86% of the expert's lines sit inside one box; 88% of boxes hold exactly one line |
 
 Against the volunteers, on the 271 held-out pages they boxed (each box scored as the line along its bottom

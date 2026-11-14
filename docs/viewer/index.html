@@ -347,8 +347,9 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
           <div><b>Found</b>: of the expert's lines, how many Claude also drew. <b>Match</b>: of Claude's lines, how many the expert also drew.<br>
             <b>Line score</b> (out of 100) combines the two: high only when both are.
             <span class="pill" style="background:#0a7d0a">95+</span> <span class="pill" style="background:#a86400">85+</span> <span class="pill" style="background:#c62828">lower</span></div>
-          <div><b>Words</b><br>Of the words the expert typed on the page, how many Claude also read.</div>
-          <div><b>Letters</b><br>On the lines both have, how many of the expert's letters Claude got right.</div>
+          <div><b>Words</b><br>On the matched lines, how many of the expert's words Claude also read.</div>
+          <div><b>Letters</b><br>On the matched lines, how many of the expert's letters Claude got right.<br>
+            <small>Missed and extra lines are left out of both: Found and Match already count them.</small></div>
         </div>
         <div class="kbd" style="margin-top:10px"><span>scroll or drag: move</span><span>pinch or ⌘/Ctrl + scroll: zoom</span><span>double-click: zoom in</span>
           <span><kbd>W</kbd>fill width</span><span><kbd>F</kbd>whole page</span><span><kbd>←</kbd><kbd>→</kbd>pages</span>
@@ -576,8 +577,8 @@ function lsbar(label, x, color, bold){          // x = [matched, drawn, expert]
     <span class="nv">${v.toFixed(0)}</span></div>`;
 }
 const normT = t => String(t).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/<[^>]+>|\[[^\]]*\]/g, " ").replace(/[^a-z0-9]+/g, " ").trim();
-function wordsLetters(s){       // words: of the expert's words on the page, how many Claude's reading also has;
-  const wr = Math.min(s.cw, s.gw), lr = Math.max(0, s.cl - s.ce);   // letters: on the lines both have, letters that needed no fixing
+function wordsLetters(s){       // on the matched lines: the expert's words Claude's partner line also has,
+  const wr = Math.min(s.cw, s.gw), lr = Math.max(0, s.cl - s.ce);   // and the letters that needed no fixing
   return {wr, wn: s.gw, wp: 100 * wr / Math.max(s.gw, 1), lr, ln: s.cl, lp: 100 * lr / Math.max(s.cl, 1)};
 }
 function panel(){
@@ -596,9 +597,9 @@ function panel(){
        <span class="k">Match</span><span><b>${s.matched}</b> of Claude's <b>${s.claude}</b> lines <small>${pct(s.matched, s.claude)}</small></span>
        <span class="k">Line score</span><span><b class="big">${score.toFixed(0)}</b><small> / 100 · combines the two: high only if both are</small></span>
        <span></span>${bar(score)}</div>
-     <div class="card sc" title="Words: of the words the expert typed on this page, how many Claude also read. Letters: on the lines both have, the share of the expert's letters Claude got right.">
-       <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> read right <small>${pct(w.wr, w.wn)}</small></span>
-       <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the lines both have</small></span></div>${why}`;
+     <div class="card sc" title="Words and letters are counted on the matched lines only: each Claude line against the expert line it pairs with. Missed and extra lines are already counted by Found and Match.">
+       <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> read right <small>${pct(w.wr, w.wn)} · on the matched lines</small></span>
+       <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the matched lines</small></span></div>${why}`;
   let bc = "";
   if (p.vol){
     const V = p.vol, L = V.ls, sc = x => f1of(...x).toFixed(0);

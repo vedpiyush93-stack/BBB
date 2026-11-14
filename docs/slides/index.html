@@ -613,13 +613,13 @@ body.present .wrap.on { display: block; }
 <div class="card rise" style="--i:2"><p class="biglabel">Found</p><p class="big" data-num="headline.found_round" data-fmt="{}%">90%</p><p class="bigsub"><span data-num="headline.matched">17,426</span> of the expert’s <span data-num="headline.expert">19,263</span> lines</p></div>
 <div class="card rise" style="--i:3"><p class="biglabel">Match</p><p class="big" data-num="headline.match_round" data-fmt="{}%">95%</p><p class="bigsub"><span data-num="headline.matched">17,426</span> of Claude’s <span data-num="headline.claude">18,430</span> lines</p></div>
 <div class="card rise" style="--i:4"><p class="biglabel">Line score</p><p class="big" data-num="headline.f1">92.5</p><p class="bigsub"><span data-num="headline.judged_f1">94.5</span> counting the judge’s verdicts</p></div>
-<div class="card rise" style="--i:5"><p class="biglabel">Words</p><p class="big" data-num="headline.words_pct" data-fmt="{}%">94%</p><p class="bigsub">of the expert’s words, read by Claude</p></div>
+<div class="card rise" style="--i:5"><p class="biglabel">Words</p><p class="big" data-num="headline.words_pct" data-fmt="{}%">94%</p><p class="bigsub">of the expert’s words, on the matched lines</p></div>
 </div>
 <p class="lede rise" style="--i:6"><b style="color:var(--ink)" data-num="headline.perfect_pct" data-fmt="{}%">49%</b> of the pages are perfect: every line found, nothing extra.</p>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> The headline. Claude finds 90 of every 100 lines the expert marked, and 95 of every 100 lines it draws are also in the answer key. Together that is a line score of 92.5; counting the judge’s verdicts, 94.5. It reads 94% of the expert’s words. Pages that come out perfect: 49%.</div>
+<div class="notes"><b>Notes</b> The headline. Claude finds 90 of every 100 lines the expert marked, and 95 of every 100 lines it draws are also in the answer key. Together that is a line score of 92.5; counting the judge’s verdicts, 94.5. On the matched lines it reads 94% of the expert’s words, with 3.8 letter errors per 100 (words and letters are counted on the matched lines only; missed and extra lines are already in the line score). Pages that come out perfect: 49%.</div>
 <div class="wrap" id="s23" data-n="23"><div class="num">23 / 32</div><section id="volline">
 <div style="display:flex;flex-direction:column;gap:28px">
 <div class="head">
@@ -739,7 +739,7 @@ body.present .wrap.on { display: block; }
 <p>+ Claude joins Kraken’s pieces</p><p style="text-align:right" data-num="kvc.stages.2.f1">90.1</p>
 <p>+ Claude splits and fixes</p><p style="text-align:right" data-num="kvc.stages.3.f1">90.4</p>
 <p>+ Claude adds missed lines</p><p style="text-align:right"><b class="orange" data-num="kvc.stages.4.f1">92.5</b></p>
-<p>+ Claude reads every word</p><p style="text-align:right"><b class="orange"><span data-num="kvc.words" data-fmt="{:.0f}">94</span>%</b></p>
+<p>+ Claude reads every word <span style="font-size:0.7em;opacity:.75">(words on the matched lines)</span></p><p style="text-align:right"><b class="orange"><span data-num="kvc.words" data-fmt="{:.0f}">94</span>%</b></p>
 </div>
 <p class="note" style="margin-top:6px">Every word is Claude’s: Kraken can’t read.</p>
 </div>
@@ -810,7 +810,7 @@ body.present .wrap.on { display: block; }
 <h2 class="rise" style="--i:1;font-size:76px;max-width:1560px" data-num="bottom.title">Straight out of the box, Claude does the volunteers’ job better than a typical volunteer, close to the best one on each page.</h2>
 <div class="rise" style="--i:2;display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;border-top:2px solid #3A4560;padding-top:32px">
 <div><p class="factnum" style="color:var(--goldlight)" data-num="headline.found_round" data-fmt="{}%">90%</p><p class="facttext" style="color:var(--lightsoft)">of the expert’s lines found</p></div>
-<div><p class="factnum" style="color:var(--goldlight)" data-num="headline.words_pct" data-fmt="{}%">94%</p><p class="facttext" style="color:var(--lightsoft)">of the expert’s words read</p></div>
+<div><p class="factnum" style="color:var(--goldlight)" data-num="headline.words_pct" data-fmt="{}%">94%</p><p class="facttext" style="color:var(--lightsoft)">of the expert’s words read, on the matched lines</p></div>
 <div><p class="factnum" style="color:var(--goldlight)" data-num="headline.truly_short">3 in 100</p><p class="facttext" style="color:var(--lightsoft)">lines of handwriting truly missed, by the judge</p></div>
 </div>
 <p class="lede rise" style="--i:3">Two Claude calls per page, one to read and one to check the boxes, with a free line finder as its guide. Still hard: writing that runs sideways (Claude has <span data-num="headline.sideways.matched">161</span> of the expert’s <span data-num="headline.sideways.expert">257</span> such lines), and pages the expert treated inconsistently, like tables and scraps at a book’s fold.</p>
