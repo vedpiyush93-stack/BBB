@@ -23,6 +23,10 @@ boxes are the comparison.
 3. **Boxes, no AI.** Each box is the smallest rectangle around Kraken's outline of a line; boxes that overlap meet
    halfway.
 
+Kraken alone scores 80.7 (line score) and can't read; with Claude's one answer per page, which drops Kraken's junk
+lines, joins its broken pieces, splits lines that run across two pieces of writing, adds the lines it missed and reads
+every word, the score is 92.5.
+
 ## Results on 791 held-out pages
 
 | | |

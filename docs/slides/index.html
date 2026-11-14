@@ -136,10 +136,10 @@ body.present .wrap { display: none; margin: 0; position: fixed; left: 50%; top: 
 body.present .wrap.on { display: block; }
 </style></head>
 <body>
-<div class="top"><b>Can an AI do the volunteers’ job?</b><span>29 slides · ↓ ↑ next / previous · P present · N notes</span></div>
+<div class="top"><b>Can an AI do the volunteers’ job?</b><span>30 slides · ↓ ↑ next / previous · P present · N notes</span></div>
 
 <div class="part">The question: can Claude, straight out of the box, do what Zooniverse volunteers do?</div>
-<div class="wrap" id="s1" data-n="1"><div class="num">1 / 29</div><section id="cover" class="dark" data-transition="fade">
+<div class="wrap" id="s1" data-n="1"><div class="num">1 / 30</div><section id="cover" class="dark" data-transition="fade">
 <div style="display:grid;grid-template-columns:1fr 560px;gap:96px;height:824px;align-items:center">
 <div style="display:flex;flex-direction:column;gap:36px">
 <p class="eyebrow rise" style="--i:0">A test on the Zooniverse project Bounding Box Bonanza</p>
@@ -153,7 +153,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The question in one line: can an AI do what Zooniverse volunteers (members of the public who help researchers) do, drawing a box around every line of handwriting, with no training at all? On the right is the end result for one page, the page we will follow through every step.</div>
-<div class="wrap" id="s2" data-n="2"><div class="num">2 / 29</div><section id="job">
+<div class="wrap" id="s2" data-n="2"><div class="num">2 / 30</div><section id="job">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/12_vol_best.jpg" alt="A handwritten letter with a purple box drawn around each line by a volunteer" style="width:560px;height:800px">
@@ -169,7 +169,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> On the left: one real page as a volunteer boxed it, one box per line. That is the job. An expert had already transcribed all 903 pages line by line, which gives us an answer key to score against.</div>
-<div class="wrap" id="s3" data-n="3"><div class="num">3 / 29</div><section id="cast">
+<div class="wrap" id="s3" data-n="3"><div class="num">3 / 30</div><section id="cast">
 <div style="display:flex;flex-direction:column;gap:40px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Who’s who</p>
@@ -186,7 +186,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Keep the colours in mind for the rest of the talk: in every picture of a page, blue is the expert, orange is Claude and teal is Kraken, the free line finder that helps in step 1. The one exception is the picture Claude itself is given in step 2, where Kraken’s lines are drawn in red; it is flagged there. The judge never changes Claude’s answers; it only explains the disagreements.</div><div class="part">How it works: one real page followed from scan to boxes in three steps (Kraken finds the lines, Claude reads the page in one call, boxes from Kraken’s outlines), each marked LLM, Python or the Kraken model, with what goes in and what comes out.</div>
-<div class="wrap" id="s4" data-n="4"><div class="num">4 / 29</div><section id="s-how" class="dark" data-transition="fade">
+<div class="wrap" id="s4" data-n="4"><div class="num">4 / 30</div><section id="s-how" class="dark" data-transition="fade">
 <div style="display:grid;grid-template-columns:1fr 520px;gap:96px;height:824px;align-items:center">
 <div style="display:flex;flex-direction:column;gap:32px">
 <p class="divnum rise" style="--i:0">1</p>
@@ -200,7 +200,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> We now follow one page through the whole method. It is a soldier’s postcard from 1919: ordinary handwriting, a postmark, a printed line and an address written sideways, so it shows most of what the method has to deal with. The method has three steps, and only one of them asks Claude anything: one call per page.</div>
-<div class="wrap" id="s5" data-n="5"><div class="num">5 / 29</div><section id="pipeline">
+<div class="wrap" id="s5" data-n="5"><div class="num">5 / 30</div><section id="pipeline">
 <div style="display:flex;flex-direction:column;gap:34px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The whole method, in order</p>
@@ -229,7 +229,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The whole method on one slide, three steps. Step 1 is Kraken, a small free model that finds lines of writing but cannot read: for each line it gives a line along the bottom and an outline around the letters. Step 2 is the only time Claude is asked anything: one call per page, where it gets the page and a copy with Kraken’s lines drawn in red, and lists every line’s words and which red line it sits on; we will see the exact question and its raw answer. Step 3 is plain Python geometry: a box around Kraken’s outline of each line. Each output feeds the next step. Below the line, the steps that check the result; they are not part of the method.</div>
-<div class="wrap" id="s6" data-n="6"><div class="num">6 / 29</div><section id="page">
+<div class="wrap" id="s6" data-n="6"><div class="num">6 / 30</div><section id="page">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/01_page.jpg" alt="The scan of a 1919 postcard" style="width:560px;height:800px">
@@ -244,7 +244,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> This is the raw scan the method starts from. The expert marked 27 lines on it, including the sideways address and printed words in the postmark. Claude never sees the expert’s lines.</div>
-<div class="wrap" id="s7" data-n="7"><div class="num">7 / 29</div><section id="kraken">
+<div class="wrap" id="s7" data-n="7"><div class="num">7 / 30</div><section id="kraken">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/02_kraken.jpg" alt="The postcard with a shaded teal outline around each line of writing Kraken found, and a teal line along the bottom of each" style="width:560px;height:800px">
@@ -262,7 +262,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Kraken is a free, open-source line finder, used here with its own standard model: nothing was trained on this project. It cannot read. For each line of writing it sees, it gives two things: a line along the bottom of the writing, and an outline hugging the letters (shaded). Its lines are a good guide but not the answer: on this postcard 3 of them sit on no writing, some lines of writing are broken into pieces, and it found nothing on the address written up the side. Claude sorts that out in step 2, and the outlines come back in step 3, for the boxes.</div>
-<div class="wrap" id="s8" data-n="8"><div class="num">8 / 29</div><section id="read">
+<div class="wrap" id="s8" data-n="8"><div class="num">8 / 30</div><section id="read">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/03_read_input.jpg" alt="The postcard as Claude gets it the second time: Kraken’s lines drawn in red, each numbered at its left end" style="width:560px;height:800px">
@@ -286,7 +286,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> This is the heart of the method, and the only time Claude is asked anything: one call per page. Claude gets two pictures, the plain scan and this copy with Kraken’s lines drawn in red and numbered (red here is just how the lines are drawn for Claude), plus a prompt written once from the project’s own task: no examples, nothing from the answer key. Two bits of wording carried over from earlier rounds are disclosed at the end. On the slide are the prompt’s own words, cut short; the full prompt is in the prompts folder and in the notebook. Kraken’s lines are only a guide: Claude is told that some sit on no writing, some lines have none, and some come in pieces.</div>
-<div class="wrap" id="s9" data-n="9"><div class="num">9 / 29</div><section id="readout">
+<div class="wrap" id="s9" data-n="9"><div class="num">9 / 30</div><section id="readout">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/04_read_lines.jpg" alt="The postcard with an orange line under every line of writing Claude listed, including the address written up the side" style="width:560px;height:800px">
@@ -312,7 +312,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Claude’s raw reply is a list with one entry per line of writing: the words, exactly as written, and the numbers of the red lines it sits on. Where no red line fits, as for the address written up the side, Claude gives the line’s two ends itself, in pixels. At the end it lists the red lines with no writing under them. Plain Python turns that into lines: a line on one red line takes that red line’s position; a line on several red lines (Kraken broke it up) runs from the first piece to the last; a line with its own ends keeps them. On this postcard: 27 lines, in one call of 175 seconds.</div>
-<div class="wrap" id="s10" data-n="10"><div class="num">10 / 29</div><section id="boxes">
+<div class="wrap" id="s10" data-n="10"><div class="num">10 / 30</div><section id="boxes">
 <div style="display:flex;flex-direction:column;gap:20px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Step 3 of 3</p>
@@ -329,7 +329,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The boxes need no AI and no image processing of our own. For each line, take Kraken’s outline of it (all the pieces, if Kraken broke the line up), measure every point of the outline along the line and across it, and the box runs from the smallest to the largest of each: the smallest rectangle around the outline, tilted with the line. Where two boxes stacked one above the other overlap, because tall letters and tails reach into the next line, the upper box’s bottom and the lower box’s top both move to the middle of the overlap, so they just meet; on this card 11 boxes moved. Boxes side by side are left alone. A line Claude placed itself has no outline, so it gets a box along its line with the page’s usual height.</div>
-<div class="wrap" id="s11" data-n="11"><div class="num">11 / 29</div><section id="result" data-transition="fade">
+<div class="wrap" id="s11" data-n="11"><div class="num">11 / 30</div><section id="result" data-transition="fade">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/09_boxes.jpg" alt="The postcard with an orange box around every line Claude found" style="width:560px;height:800px">
@@ -344,7 +344,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The finished page: the same thing a volunteer produces, made with no training and no examples, in one Claude call. Of the expert’s 27 lines, Claude has 23. Next we look at how that is counted, and at the lines where Claude and the expert disagree.</div><div class="part">How we score it: matching lines, found and match, the judge for disagreements, and checks of the boxes.</div>
-<div class="wrap" id="s12" data-n="12"><div class="num">12 / 29</div><section id="s-score" class="dark" data-transition="fade">
+<div class="wrap" id="s12" data-n="12"><div class="num">12 / 30</div><section id="s-score" class="dark" data-transition="fade">
 <div style="display:grid;grid-template-columns:1fr 520px;gap:96px;height:824px;align-items:center">
 <div style="display:flex;flex-direction:column;gap:32px">
 <p class="divnum rise" style="--i:0">2</p>
@@ -358,7 +358,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Now the scoring. On the right, the expert’s lines in blue and Claude’s in orange, on the same page. Thin pairs are lines both drew; thick ones are where they disagree.</div>
-<div class="wrap" id="s13" data-n="13"><div class="num">13 / 29</div><section id="match">
+<div class="wrap" id="s13" data-n="13"><div class="num">13 / 30</div><section id="match">
 <div style="display:flex;flex-direction:column;gap:48px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Matching</p>
@@ -398,7 +398,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Scoring is simple matching. Every expert line points at the nearest Claude line, and every Claude line at the nearest expert line. A pair that points at each other is a match. What is left over is a miss on the expert’s side or an extra on Claude’s side.</div>
-<div class="wrap" id="s14" data-n="14"><div class="num">14 / 29</div><section id="fractions">
+<div class="wrap" id="s14" data-n="14"><div class="num">14 / 30</div><section id="fractions">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/10_compare.jpg" alt="The postcard: thin blue and orange pairs where both drew a line, thick blue where Claude missed, thick orange where Claude drew an extra line" style="width:560px;height:800px">
@@ -417,7 +417,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Two questions, two numbers. Found: of the expert’s lines, how many did Claude also draw? Here 23 of 27. Match: of Claude’s lines, how many are also the expert’s? Here 23 of 27. The line score combines them; it is only high when both are. The disagreements on this page are not all what they seem, which brings us to the judge.</div>
-<div class="wrap" id="s15" data-n="15"><div class="num">15 / 29</div><section id="judgeask">
+<div class="wrap" id="s15" data-n="15"><div class="num">15 / 30</div><section id="judgeask">
 <div style="display:flex;flex-direction:column;gap:26px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Checking it · the judge</p>
@@ -441,7 +441,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The judge is an LLM step used only for checking. It gets a close-up of each disagreement, with the line in question in orange and the expert’s lines in blue (for a missed line: the expert’s line in red and Claude’s in orange), with no names, and a neutral question; it is never told which line is Claude’s and which is the expert’s. It answers in a fixed format: what is under the line, handwritten or printed, and a short reason. Python turns that into the plain categories we report. A second, matching question covers the expert’s lines that Claude did not pair with. The full prompts are in the prompts folder and the notebook.</div>
-<div class="wrap" id="s16" data-n="16"><div class="num">16 / 29</div><section id="judge">
+<div class="wrap" id="s16" data-n="16"><div class="num">16 / 30</div><section id="judge">
 <div style="display:flex;flex-direction:column;gap:32px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The judge</p>
@@ -477,7 +477,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> For every line where Claude and the expert disagree, a second AI, Claude Opus 5.5, a different model from the one that read the pages, gets a close-up and a neutral question: what is under this line? Three real verdicts: handwriting the expert never marked (Claude was right), the same writing split differently (nobody really wrong), and a line Claude truly missed. The judge only explains; it never changes Claude’s answers. Its reasons are quoted exactly; when it says “red” it means the expert’s line, which is red in its own close-ups of missed lines.</div>
-<div class="wrap" id="s17" data-n="17"><div class="num">17 / 29</div><section id="tally">
+<div class="wrap" id="s17" data-n="17"><div class="num">17 / 30</div><section id="tally">
 <div style="display:flex;flex-direction:column;gap:38px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">What the judge found · <span data-num="headline.pages">791</span> held-out pages (kept aside for the results)</p>
@@ -513,7 +513,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Across all 791 held-out pages. Claude’s extra lines are mainly of two kinds: real handwriting the expert simply didn’t mark, and the same writing split or joined differently (one line instead of two, or the other way round). On the other side, many “misses” are the same kind of split. Lines of handwriting Claude truly missed (493 clear plus 82 faint) are about 3 in 100 expert lines. Lines the judge gave no answer for: 0 extra and 10 missed. A caution: in some “no writing” verdicts Claude’s line sits on the writing and the expert’s line just below it; counting those as misses instead would make the judged line score 94.2 rather than 94.5 (shown in the notebook).</div>
-<div class="wrap" id="s18" data-n="18"><div class="num">18 / 29</div><section id="boxcheck">
+<div class="wrap" id="s18" data-n="18"><div class="num">18 / 30</div><section id="boxcheck">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
 <img src="img/14_boxcheck.jpg" alt="The postcard with Claude’s orange boxes and the expert’s lines coloured: green inside one box, amber split between boxes, red in no box" style="width:560px;height:800px">
@@ -538,8 +538,8 @@ body.present .wrap.on { display: block; }
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> The line score only looks at where the lines are. These checks look at the boxes themselves, against the expert’s lines (evaluation only). An expert line counts as inside one box when at least 80% of its writing lies in a single box; “split” when the best box holds only part of it. A box holds a line when at least half of that line is inside it, and it reaches into a neighbour when it also takes in a fifth or more of a second line. On the picture, this postcard: 17 of the expert’s 27 lines lie inside one box. The last number compares Claude’s boxes with the volunteers’ consensus boxes on the pages they boxed: each box is paired with the one it overlaps most, and the overlap is the area they share divided by the area either covers, so 100% means the very same box. The note at the bottom puts the volunteers’ own consensus boxes through the same checks, on the same pages, for reference.</div><div class="part">How well it works: the headline, the volunteers, the collections, how the method was chosen and the leakage check.</div>
-<div class="wrap" id="s19" data-n="19"><div class="num">19 / 29</div><section id="s-results" class="dark" data-transition="fade">
+<div class="notes"><b>Notes</b> The line score only looks at where the lines are. These checks look at the boxes themselves, against the expert’s lines (evaluation only). An expert line counts as inside one box when at least 80% of its writing lies in a single box; “split” when the best box holds only part of it. A box holds a line when at least half of that line is inside it, and it reaches into a neighbour when it also takes in a fifth or more of a second line. On the picture, this postcard: 17 of the expert’s 27 lines lie inside one box. The last number compares Claude’s boxes with the volunteers’ consensus boxes on the pages they boxed: each box is paired with the one it overlaps most, and the overlap is the area they share divided by the area either covers, so 100% means the very same box. The note at the bottom puts the volunteers’ own consensus boxes through the same checks, on the same pages, for reference.</div><div class="part">How well it works: the headline, the volunteers, the collections, what Claude adds to Kraken, how the method was chosen and the leakage check.</div>
+<div class="wrap" id="s19" data-n="19"><div class="num">19 / 30</div><section id="s-results" class="dark" data-transition="fade">
 <div style="display:grid;grid-template-columns:1fr 520px;gap:96px;height:824px;align-items:center">
 <div style="display:flex;flex-direction:column;gap:32px">
 <p class="divnum rise" style="--i:0">3</p>
@@ -553,7 +553,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Now the results. To keep ourselves honest, ideas and settings were tried first on 82 tuning pages; the numbers that follow are on the other 791 pages. Three design choices that looked at more than the tuning pages are disclosed at the end and in the notebook’s last section, and so is the fact that the judge, used only for checking, was developed on held-out pages of an earlier run.</div>
-<div class="wrap" id="s20" data-n="20"><div class="num">20 / 29</div><section id="headline">
+<div class="wrap" id="s20" data-n="20"><div class="num">20 / 30</div><section id="headline">
 <div style="display:flex;flex-direction:column;gap:48px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The headline · <span data-num="headline.pages">791</span> held-out pages</p>
@@ -570,7 +570,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The headline. Claude finds 90 of every 100 lines the expert marked, and 95 of every 100 lines it draws are also in the answer key. Together that is a line score of 92.5; counting the judge’s verdicts, 94.5. It reads 94% of the expert’s words. Pages that come out perfect: 49%.</div>
-<div class="wrap" id="s21" data-n="21"><div class="num">21 / 29</div><section id="volline">
+<div class="wrap" id="s21" data-n="21"><div class="num">21 / 30</div><section id="volline">
 <div style="display:flex;flex-direction:column;gap:28px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The volunteers · how they’re scored, part 1</p>
@@ -587,7 +587,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> To compare volunteers with Claude fairly, they must be scored the same way. The expert drew lines, the volunteers drew boxes, so each box becomes the line along its bottom edge, where an underline would go, tilted with the box. Those lines are then matched to the expert’s lines with exactly the same rule as Claude’s. Every volunteer on every page ends up with a found, a match and a line score.</div>
-<div class="wrap" id="s22" data-n="22"><div class="num">22 / 29</div><section id="volpick">
+<div class="wrap" id="s22" data-n="22"><div class="num">22 / 30</div><section id="volpick">
 <div style="display:flex;flex-direction:column;gap:26px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The volunteers · how they’re scored, part 2 · one page, <span data-num="vol_page.volunteers">25</span> volunteers</p>
@@ -606,7 +606,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Every dot is one volunteer’s line score on this page. 14 volunteers stopped early, drawing nothing or a single box, which is why they sit at the bottom. The best volunteer is simply the highest dot, and you could only pick it after scoring everyone against the answer key, so it is a ceiling. For the typical volunteer we first leave out anyone who drew fewer boxes than half the expert’s lines, here fewer than 9.5, then take the middle score of the 11 who remain: 82. Counting the early stoppers would make “typical” look far worse than a volunteer who actually does the task.</div>
-<div class="wrap" id="s23" data-n="23"><div class="num">23 / 29</div><section id="consensus">
+<div class="wrap" id="s23" data-n="23"><div class="num">23 / 30</div><section id="consensus">
 <div style="display:flex;flex-direction:column;gap:24px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The volunteers · how they’re scored, part 3</p>
@@ -623,7 +623,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The consensus combines everyone without the answer key. Step one, pile up all the boxes. Step two, link any two boxes from different volunteers that mostly overlap, meaning their shared area is at least half of their combined area; boxes linked in a chain form a group, ideally one group per line of writing. Step three, the vote: a group survives if at least half of the volunteers who drew anything have a box in it, here 10 of 19, and becomes one box with the median position, size and tilt. Volunteers who stopped after one box still count as voters, so a line needs most of the volunteers who kept going to agree on it.</div>
-<div class="wrap" id="s24" data-n="24"><div class="num">24 / 29</div><section id="volunteers">
+<div class="wrap" id="s24" data-n="24"><div class="num">24 / 30</div><section id="volunteers">
 <div style="display:flex;flex-direction:column;gap:28px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Claude vs the volunteers · one page, <span data-num="vol_page.volunteers">25</span> volunteers</p>
@@ -640,7 +640,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Each volunteer box counts as the line along its bottom edge, scored exactly like Claude’s lines. On this page, 25 volunteers boxed it. Claude scores 100, the best volunteer 100, a typical volunteer 82 (some lines split into extra boxes) and the consensus 85 (it lost lines because many volunteers stopped after a box or two). Across all 271 held-out pages volunteers boxed: Claude 94.1, the best volunteer on each page 95.1 (a volunteer you could only pick with the answer key in hand), the typical volunteer 92.0, the consensus 83.4.</div>
-<div class="wrap" id="s25" data-n="25"><div class="num">25 / 29</div><section id="collections">
+<div class="wrap" id="s25" data-n="25"><div class="num">25 / 30</div><section id="collections">
 <div style="display:flex;flex-direction:column;gap:40px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">By collection · line score on its held-out pages, best first</p>
@@ -658,7 +658,37 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> Each collection with a typical page from it (the page whose own line score is closest to the collection’s middle score), best collection first. Clean letters and diaries tend to come close to perfect. The medical recipe books (old hands, faded ink, ink showing through from the back, scraps of the facing page at the fold) and the mixed miscellaneous pages tend to be the hardest.</div>
-<div class="wrap" id="s26" data-n="26"><div class="num">26 / 29</div><section id="chosen">
+<div class="wrap" id="s26" data-n="26"><div class="num">26 / 30</div><section id="adds">
+<div style="display:flex;flex-direction:column;gap:26px">
+<div class="head">
+<p class="eyebrow rise" style="--i:0">What Claude adds to Kraken · <span data-num="kvc.pages">791</span> held-out pages</p>
+<h2 class="rise" style="--i:1">Kraken alone <span data-num="kvc.kraken_f1">80.7</span> → with Claude <span data-num="kvc.final_f1">92.5</span></h2>
+</div>
+<div style="display:grid;grid-template-columns:640px 1fr;gap:40px;align-items:start">
+<div class="card rise" style="--i:2;gap:10px;padding:28px">
+<p class="cardtitle">Line score, one Claude decision at a time</p>
+<div style="display:grid;grid-template-columns:1fr 110px;gap:12px 18px;align-items:baseline;font-size:26px">
+<p><span class="kind ml" style="font-size:20px">Kraken</span> alone: lines, no words</p><p style="text-align:right"><b data-num="kvc.stages.0.f1">80.7</b></p>
+<p>+ Claude drops the junk</p><p style="text-align:right" data-num="kvc.stages.1.f1">81.9</p>
+<p>+ Claude joins Kraken’s pieces</p><p style="text-align:right" data-num="kvc.stages.2.f1">90.1</p>
+<p>+ Claude splits and fixes</p><p style="text-align:right" data-num="kvc.stages.3.f1">90.4</p>
+<p>+ Claude adds missed lines</p><p style="text-align:right"><b class="orange" data-num="kvc.stages.4.f1">92.5</b></p>
+<p>+ Claude reads every word</p><p style="text-align:right"><b class="orange"><span data-num="kvc.words" data-fmt="{:.0f}">94</span>%</b></p>
+</div>
+<p class="note" style="margin-top:6px">Every word is Claude’s: Kraken can’t read.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<img class="rise" style="--i:3;width:880px;height:262px;object-fit:contain;border-radius:12px;background:var(--card)" src="img/15_kvc_joined.jpg" alt="Kraken broke one line of writing into three pieces; Claude joined them into one line, as the expert has it">
+<p class="note rise" style="--i:3">Kraken’s pieces → one line: <span data-num="kvc.kinds.joined.count">2,391</span> such lines, the expert agrees with <span data-num="kvc.kinds.joined.share">95</span>%.</p>
+<img class="rise" style="--i:4;width:880px;height:222px;object-fit:contain;border-radius:12px;background:var(--card)" src="img/15_kvc_added.jpg" alt="No Kraken line on this line of writing; Claude added it and read it">
+<p class="note rise" style="--i:4">No Kraken line: Claude adds it and reads it: <span data-num="kvc.kinds.added.count">1,156</span> lines, the expert agrees with <span data-num="kvc.kinds.added.share">81</span>%.</p>
+</div>
+</div>
+</div>
+
+</section></div>
+<div class="notes"><b>Notes</b> Kraken, the free line finder, can’t read, and on its own many of its lines are junk (stains, ruled lines, folds) or pieces of one line. Scored on its own it gets 80.7. Claude’s one answer per page turns those red lines into lines of writing. Dropping the junk: 993 red lines, 84% of them really junk. Joining Kraken’s pieces is the biggest single gain: 2,391 lines. Splitting a red line that runs across two pieces of writing: 431. Adding lines Kraken missed: 1,156. Together that is 92.5, and every word on the page is Claude’s reading. The examples were picked automatically: the longest of their kind on the held-out pages that the expert agrees with. More examples, and the full table, are in the notebook’s Part 4.</div>
+<div class="wrap" id="s27" data-n="27"><div class="num">27 / 30</div><section id="chosen">
 <div style="display:flex;flex-direction:column;gap:30px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">How the method was chosen · only on the <span data-num="chosen.pages">82</span> tuning pages</p>
@@ -691,7 +721,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> How we got here, all on the 82 tuning pages, never the held-out ones. The earlier method cut each page into overlapping strips, read each strip, put the strips back together, took a sideways look and a Kraken check, and drew boxes from the ink: eight steps and about 5.2 Claude calls per page. Letting Claude read the whole page with Kraken’s lines as a guide scored the same (94.3 against 93.9) with one call per page and nothing to cut up or put back together. Claude alone on the whole page, without Kraken’s lines, missed more lines (91.3). For the boxes, rectangles around Kraken’s outlines that meet halfway hold one line more often and reach into neighbours less than the earlier ink boxes, with no image processing of our own and no extra call. Two ways with a second Claude call were tried and not adopted: Claude correcting the boxes, and Claude drawing the boxes itself.</div>
-<div class="wrap" id="s27" data-n="27"><div class="num">27 / 29</div><section id="leakage">
+<div class="wrap" id="s28" data-n="28"><div class="num">28 / 30</div><section id="leakage">
 <div style="display:flex;flex-direction:column;gap:36px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The poison test</p>
@@ -708,7 +738,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> The worry with any AI test is that answers leak in. So we rebuilt the entire method with the answer key and the volunteers’ boxes replaced by stand-ins that crash the moment anything reads them, and with every picture sent to Claude drawn afresh. Nothing crashed, every prompt came out byte for byte the same as the one sent, and the lines and boxes were identical on every page. Three design choices are disclosed in the notebook’s last section: A, the “[illegible]” convention, carried over from an earlier round; B, general prompt wording from an early review of mistakes on all pages; C, the switch to this method itself, which came after the earlier method’s held-out results were known, and was prompted by its mistakes in putting strips back together, counted on held-out pages. Everything in the new method was then decided on the tuning pages only. Also disclosed: the judge, used only for checking, was developed on held-out pages of the earlier method’s first run.</div><div class="part">The bottom line, and where to see every page.</div>
-<div class="wrap" id="s28" data-n="28"><div class="num">28 / 29</div><section id="bottom" class="dark" data-transition="fade">
+<div class="wrap" id="s29" data-n="29"><div class="num">29 / 30</div><section id="bottom" class="dark" data-transition="fade">
 <div style="display:flex;flex-direction:column;gap:40px;height:824px;justify-content:center">
 <p class="eyebrow rise" style="--i:0">The bottom line</p>
 <h2 class="rise" style="--i:1;font-size:76px;max-width:1560px" data-num="bottom.title">Straight out of the box, Claude does the volunteers’ job better than a typical volunteer, close to the best one on each page.</h2>
@@ -722,7 +752,7 @@ body.present .wrap.on { display: block; }
 
 </section></div>
 <div class="notes"><b>Notes</b> No training, no examples, no answer key in the method, and one Claude call per page: Claude finds 90 of every 100 lines, reads 94% of the words, and truly misses about 3 in 100 lines of handwriting, by the judge’s reading. On the 271 pages volunteers boxed, its line score is 94.1 against 95.1 for the best volunteer on each page, a volunteer you could only pick in hindsight, and 92.0 for a typical one. What remains hard is writing that runs sideways, and pages where even the expert was inconsistent.</div>
-<div class="wrap" id="s29" data-n="29"><div class="num">29 / 29</div><section id="viewer">
+<div class="wrap" id="s30" data-n="30"><div class="num">30 / 30</div><section id="viewer">
 <div style="display:flex;flex-direction:column;gap:32px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">See for yourself</p>
