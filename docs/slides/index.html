@@ -594,13 +594,13 @@ body.present .wrap.on { display: block; }
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Across all 791 held-out pages. Half of Claude’s extra lines are real handwriting the expert simply didn’t mark, and most of the rest is the same writing drawn as one line instead of two. On the other side, half of the “misses” are the same kind of split. Lines of handwriting Claude truly missed (338 clear plus 34 faint) are about 2 in every 100 expert lines. One extra line got no answer from the judge. A caution: in some “no writing” verdicts Claude’s line sits on the writing and the expert’s line just below it; counting those as misses instead would make the judged line score 95.3 rather than 95.6 (notebook 3.4).</div><div class="part">How well it works: the headline, the volunteers, the collections and the leakage check.</div>
+<div class="notes"><b>Notes</b> Across all 791 held-out pages. Half of Claude’s extra lines are real handwriting the expert simply didn’t mark, and most of the rest is the same writing drawn as one line instead of two. On the other side, half of the “misses” are the same kind of split. Lines of handwriting Claude truly missed (338 clear plus 34 faint) are about 2 in every 100 expert lines. One extra line got no answer from the judge. A caution: in some “no writing” verdicts Claude’s line sits on the writing and the expert’s line just below it; counting those as misses instead would make the judged line score 95.3 rather than 95.6 (shown in the notebook).</div><div class="part">How well it works: the headline, the volunteers, the collections and the leakage check.</div>
 <div class="wrap" id="s23" data-n="23"><div class="num">23 / 32</div><section id="s-results" class="dark" data-transition="fade">
 <div style="display:grid;grid-template-columns:1fr 520px;gap:96px;height:824px;align-items:center">
 <div style="display:flex;flex-direction:column;gap:32px">
 <p class="divnum rise" style="--i:0">3</p>
 <h1 class="rise" style="--i:1">How well it works</h1>
-<p class="lede rise" style="--i:2">Measured on 791 held-out pages, kept aside for the results. Ideas were tried first on 82 other pages, the tuning pages; five exceptions are disclosed in the notebook (3.8).</p>
+<p class="lede rise" style="--i:2">Measured on 791 held-out pages, kept aside for the results. Ideas were tried first on 82 other pages, the tuning pages; five exceptions are disclosed in the notebook.</p>
 </div>
 <div class="stage fade" style="--i:3;height:780px;box-shadow:0 30px 60px rgba(0,0,0,.45)">
 <img src="img/12_vol_claude.jpg" alt="A handwritten letter with an orange box around every line" style="width:500px;height:760px">
@@ -608,7 +608,7 @@ body.present .wrap.on { display: block; }
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Now the results. To keep ourselves honest, ideas and settings were tried first on 82 tuning pages; the numbers that follow are on the other 791 pages. Five design choices that were made after seeing more than the tuning pages are disclosed in the notebook, section 3.8, and so is the fact that the judge, used only for checking, was developed on held-out pages of the first run.</div>
+<div class="notes"><b>Notes</b> Now the results. To keep ourselves honest, ideas and settings were tried first on 82 tuning pages; the numbers that follow are on the other 791 pages. Five design choices that were made after seeing more than the tuning pages are disclosed in the notebook’s last section, and so is the fact that the judge, used only for checking, was developed on held-out pages of the first run.</div>
 <div class="wrap" id="s24" data-n="24"><div class="num">24 / 32</div><section id="headline">
 <div style="display:flex;flex-direction:column;gap:48px">
 <div class="head">
@@ -724,12 +724,12 @@ body.present .wrap.on { display: block; }
 <div class="card rise" style="--i:3;flex-direction:row;align-items:center;gap:28px"><div class="badge" style="background:var(--good);width:64px;height:64px;border-radius:32px"><span style="font-size:40px;font-weight:700;color:#FBF8F1">✓</span></div><p style="font-size:32px">We rebuilt the method with the answer key and the volunteers’ boxes booby-trapped: no trap went off.</p></div>
 <div class="card rise" style="--i:4;flex-direction:row;align-items:center;gap:28px"><div class="badge" style="background:var(--good);width:64px;height:64px;border-radius:32px"><span style="font-size:40px;font-weight:700;color:#FBF8F1">✓</span></div><p style="font-size:32px">All <b>4,792</b> prompts came out identical, and so did the lines and boxes on all <b>903</b> pages.</p></div>
 <div class="card rise" style="--i:5;flex-direction:row;align-items:center;gap:28px"><div class="badge" style="background:var(--good);width:64px;height:64px;border-radius:32px"><span style="font-size:40px;font-weight:700;color:#FBF8F1">✓</span></div><p style="font-size:32px">None of the expert’s <b>15,062</b> transcribed phrases (4 words or longer) appears in any prompt.</p></div>
-<div class="card rise" style="--i:6;flex-direction:row;align-items:center;gap:28px"><div class="badge" style="background:var(--ink);width:64px;height:64px;border-radius:32px;flex:none">i</div><p style="font-size:28px"><b>Disclosed:</b> five design choices looked at more than the tuning pages, such as prompt wording from an early review of mistakes on all pages, and the sideways fix our example postcard prompted. None puts the answer key or the volunteers into the method (notebook 3.8).</p></div>
+<div class="card rise" style="--i:6;flex-direction:row;align-items:center;gap:28px"><div class="badge" style="background:var(--ink);width:64px;height:64px;border-radius:32px;flex:none">i</div><p style="font-size:28px"><b>Disclosed:</b> five design choices looked at more than the tuning pages, such as prompt wording from an early review of mistakes on all pages, and the sideways fix our example postcard prompted. None puts the answer key or the volunteers into the method (listed in the notebook).</p></div>
 </div>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> The worry with any AI test is that answers leak in. So we rebuilt the entire method with the answer key and the volunteers’ boxes replaced by stand-ins that crash the moment anything reads them. Nothing crashed, every prompt came out byte-for-byte the same, and the lines and boxes were identical on every page. Two separate Claude agents, given the code but not our conclusions, found no path from the answer key into the method, and this test was re-run after the last fixes. Five design choices are disclosed in the notebook, section 3.8.</div><div class="part">The bottom line, and where to see every page.</div>
+<div class="notes"><b>Notes</b> The worry with any AI test is that answers leak in. So we rebuilt the entire method with the answer key and the volunteers’ boxes replaced by stand-ins that crash the moment anything reads them. Nothing crashed, every prompt came out byte-for-byte the same, and the lines and boxes were identical on every page. Two separate Claude agents, given the code but not our conclusions, found no path from the answer key into the method, and this test was re-run after the last fixes. Five design choices are disclosed in the notebook’s last section.</div><div class="part">The bottom line, and where to see every page.</div>
 <div class="wrap" id="s31" data-n="31"><div class="num">31 / 32</div><section id="bottom" class="dark" data-transition="fade">
 <div style="display:flex;flex-direction:column;gap:56px;height:824px;justify-content:center">
 <p class="eyebrow rise" style="--i:0">The bottom line</p>
@@ -753,11 +753,11 @@ body.present .wrap.on { display: block; }
 <div class="paperframe fade" style="--i:2;height:580px;box-shadow:0 24px 48px rgba(29,36,51,.18)">
 <img src="img/14_viewer.jpg" alt="The page browser: a list of pages, the postcard with blue and orange lines, and the judge’s card for an extra line" style="width:1664px;height:580px;object-fit:contain">
 </div>
-<p class="note rise" style="--i:3">The page browser (on the project’s website) shows all 903 pages: the expert’s and Claude’s lines, the boxes, the volunteers, and the judge’s card for every disagreement. The full story is in the notebook.</p>
+<p class="note rise" style="--i:3">The page browser (on the project’s website) shows all 903 pages: the expert’s and Claude’s lines, the boxes, the volunteers, and the judge’s card for every disagreement. The notebook follows one page through every step.</p>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Everything in this talk can be checked page by page in the browser: pick any of the 903 pages, switch the expert’s and Claude’s lines on and off, and click any missed or extra line to see the judge’s close-up and reason. The notebook has every step, prompt and number in detail.</div>
+<div class="notes"><b>Notes</b> Everything in this talk can be checked page by page in the browser: pick any of the 903 pages, switch the expert’s and Claude’s lines on and off, and click any missed or extra line to see the judge’s close-up and reason. The notebook follows one page through every step, with every prompt, raw reply and number.</div>
 <script>
 const wraps = [...document.querySelectorAll('.wrap')];
 let cur = 0;
