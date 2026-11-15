@@ -371,14 +371,14 @@ body.present .wrap.on { display: block; }
 <p class="biglabel">On the <span data-num="kvc.box_check.pages">791</span> held-out pages</p>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
 <div style="display:flex;gap:18px;align-items:baseline"><p class="factnum" style="font-size:64px" data-num="kvc.box_check.changed_pct" data-fmt="{}%">23%</p><p class="facttext" style="font-size:26px">of the boxes got a new one (<span data-num="kvc.box_check.boxes_changed">4,180</span> of <span data-num="kvc.box_check.boxes">18,430</span>)</p></div>
-<div style="display:flex;gap:18px;align-items:baseline"><p class="factnum" style="font-size:64px;color:var(--good)" data-num="kvc.box_check.rescued">1,056</p><p class="facttext" style="font-size:26px">of the expert’s lines inside one box now, not before</p></div>
-<div style="display:flex;gap:18px;align-items:baseline"><p class="factnum" style="font-size:64px;color:var(--bad)" data-num="kvc.box_check.worse">255</p><p class="facttext" style="font-size:26px">the other way round: in one box before, not now</p></div>
+<div style="display:flex;gap:18px;align-items:baseline"><p class="factnum" style="font-size:64px;color:var(--good)" data-num="kvc.box_check.rescued">1,102</p><p class="facttext" style="font-size:26px">of the expert’s lines inside one box now, not before</p></div>
+<div style="display:flex;gap:18px;align-items:baseline"><p class="factnum" style="font-size:64px;color:var(--bad)" data-num="kvc.box_check.worse">280</p><p class="facttext" style="font-size:26px">the other way round: in one box before, not now</p></div>
 </div>
 </div>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Claude’s raw reply (234 seconds on this card) lists only the boxes it thinks are clearly wrong, each with a new upright box in pixels (or “none” for a box with no writing). Plain Python puts each new box in place of the old one, then, as in step 3, stacked boxes that overlap meet halfway. Here, the box for like the States here. Got stopped before the line’s end, because Kraken’s outline did; Claude’s new box takes the whole line in. On this card Claude gave 16 new boxes and left 11 as they were. On the 791 held-out pages it gave a new box for 4,180 of 18,430 boxes. Scored against the answer key afterwards (evaluation only): 1,056 of the expert’s lines that were cut off or in no box are now inside one box, and 255 went the other way. Green = better, red = worse.</div>
+<div class="notes"><b>Notes</b> Claude’s raw reply (234 seconds on this card) lists only the boxes it thinks are clearly wrong, each with a new upright box in pixels (or “none” for a box with no writing). Plain Python puts each new box in place of the old one, then, as in step 3, stacked boxes that overlap meet halfway. Here, the box for like the States here. Got stopped before the line’s end, because Kraken’s outline did; Claude’s new box takes the whole line in. On this card Claude gave 16 new boxes and left 11 as they were. On the 791 held-out pages it gave a new box for 4,180 of 18,430 boxes. Scored against the answer key afterwards (evaluation only): 1,102 of the expert’s lines that were not inside one box (partly outside, divided or in no box) are now inside one box, and 280 went the other way. Green = better, red = worse.</div>
 <div class="wrap" id="s13" data-n="13"><div class="num">13 / 32</div><section id="result" data-transition="fade">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
