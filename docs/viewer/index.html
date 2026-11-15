@@ -303,7 +303,7 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
       <span class="grp"><span class="gl">Volunteers</span>
         <span class="chip" data-l="best"><span class="sw box" style="border-color:var(--best)"></span>Best</span>
         <span class="chip" data-l="cons"><span class="sw box" style="border-color:var(--cons)"></span>Consensus</span>
-        <span class="chip" data-l="typ"><span class="sw box" style="border-color:var(--typ)"></span>Typical</span>
+        <span class="chip" data-l="typ"><span class="sw box" style="border-color:var(--typ)"></span>Median</span>
         <span class="chip" data-l="one"><span class="sw box" style="border-color:var(--one)"></span>Any one</span>
         <span class="vstep" id="vstep"><button class="btn" id="vprev" title="previous volunteer ([)">‹</button><span id="vlab"></span><button class="btn" id="vnext" title="next volunteer (])">›</button></span></span>
       <button class="btn reset" id="reset" title="back to the start: expert and Claude lines, missed and extra highlighted">Reset</button>
@@ -457,7 +457,7 @@ function draw(){
     if (on.one) s += vset(V.all[vk] || [], V.am[vk] || "", "vo");
     if (on.cons) s += vset(V.consensus, V.cm, "vc");
     if (on.best && V.best !== undefined) s += vset(V.all[V.best], V.am[V.best], "vb");
-    const tag = vk === V.best ? " · best" : vk === V.typical ? " · typical" : "";
+    const tag = vk === V.best ? " · best" : vk === V.typical ? " · median" : "";
     $("vlab").textContent = `volunteer ${vk + 1} of ${V.n}${tag}`;
   }
   $("vstep").classList.toggle("hide", !(on.one && V));
@@ -613,9 +613,9 @@ function panel(){
     const sideways = p.expert.some(l => { const a = Math.abs(Math.atan2(l.p[3] - l.p[1], l.p[2] - l.p[0])); return a > Math.PI / 4 && a < 3 * Math.PI / 4; });
     bc = !L ? `<div class="vrow"><span>${V.n} volunteers boxed this page (their scores were not computed for this page)</span></div>` :
       `<div class="vrow"><span>vs ${V.n} volunteers (line score):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
-        <span>typical <b>${sc(L.att[V.typical])}</b></span><span>consensus <b>${sc(L.consensus)}</b></span><button class="lnk" id="vmore">${open ? "less" : "more"}</button></div>
+        <span>median <b>${sc(L.att[V.typical])}</b></span><span>consensus <b>${sc(L.consensus)}</b></span><button class="lnk" id="vmore">${open ? "less" : "more"}</button></div>
       <div class="vdet ${open ? "" : "hide"}">` + lsbar("Claude", L.claude, "var(--claude)", true) + lsbar("Best volunteer", L.att[V.best], "var(--best)")
-      + lsbar("Typical volunteer", L.att[V.typical], "var(--typ)") + lsbar("Consensus", L.consensus, "var(--cons)")
+      + lsbar("Median volunteer", L.att[V.typical], "var(--typ)") + lsbar("Consensus", L.consensus, "var(--cons)")
       + (on.one && vk !== V.best && vk !== V.typical ? lsbar(`Volunteer ${vk + 1}`, L.att[vk], "var(--one)") : "")
       + `<p class="lsnote">Best = whoever scored highest on this page (picked afterwards with the answer key).</p>`
       + (sideways ? `<p class="lsnote">This page has sideways writing; a box's bottom edge says little about sideways lines, so volunteer scores here are less reliable.</p>` : "") + `</div>`;

@@ -642,21 +642,21 @@ body.present .wrap.on { display: block; }
 <div style="display:flex;flex-direction:column;gap:26px">
 <div class="head">
 <p class="eyebrow rise" style="--i:0">The volunteers · how they’re scored, part 2 · one page, <span data-num="vol_page.volunteers">25</span> volunteers</p>
-<h2 class="rise" style="--i:1">Best and typical, from <span data-num="vol_page.volunteers">25</span> line scores</h2>
-<div class="chips rise" style="--i:1"><p class="kind py">Python</p><p class="io">in: <b>every volunteer’s line score on the page</b> → out: <b>the best one and the typical one</b></p></div>
+<h2 class="rise" style="--i:1">Best and median, from <span data-num="vol_page.volunteers">25</span> line scores</h2>
+<div class="chips rise" style="--i:1"><p class="kind py">Python</p><p class="io">in: <b>every volunteer’s line score on the page</b> → out: <b>the best one and the median one</b></p></div>
 </div>
 <div class="paperframe fade" style="--i:2;height:340px">
-<img src="img/23_vol_scores.png" alt="Dot chart of every volunteer’s line score on this page, from 0 to 100: top row, dark dots for those who boxed at least half the page, one purple (the best) and one brown (the typical); bottom row, hollow grey dots for those who stopped early" style="width:1664px;height:340px;object-fit:contain">
+<img src="img/23_vol_scores.png" alt="Dot chart of every volunteer’s line score on this page, from 0 to 100: top row, dark dots for those who boxed at least half the page, one purple (the best) and one brown (the median); bottom row, hollow grey dots for those who stopped early" style="width:1664px;height:340px;object-fit:contain">
 </div>
-<p class="note rise" style="--i:2"><b style="color:var(--ink)">Top row ●</b> the <span data-num="vol_scores.finished">11</span> who boxed at least half the page · <b style="color:var(--ink)">bottom row ○</b> the <span data-num="vol_scores.early">14</span> who stopped early · <b style="color:#5040B8">purple</b> the best · <b style="color:#8A520B">brown</b> the typical</p>
+<p class="note rise" style="--i:2"><b style="color:var(--ink)">Top row ●</b> the <span data-num="vol_scores.finished">11</span> who boxed at least half the page · <b style="color:var(--ink)">bottom row ○</b> the <span data-num="vol_scores.early">14</span> who stopped early · <b style="color:#5040B8">purple</b> the best · <b style="color:#8A520B">brown</b> the median</p>
 <div class="cards rise" style="--i:3;grid-template-columns:1fr 1fr;gap:40px">
 <div class="card" style="padding:22px 28px"><p class="cardtitle" style="color:#5040B8">Best = <span data-num="vol_scores.best">100</span></p><p class="cardtext">The top score of all <span data-num="vol_page.volunteers">25</span>. You can only pick it with the answer key in hand, so it is a ceiling, not a fair opponent.</p></div>
-<div class="card" style="padding:22px 28px"><p class="cardtitle" style="color:#8A520B">Typical = <span data-num="vol_scores.typical">100</span></p><p class="cardtext">Leave out those who drew fewer boxes than half the expert’s <span data-num="vol_page.expert">19</span> lines; the middle score of the other <span data-num="vol_scores.finished">11</span> is <span data-num="vol_scores.typical">100</span>.</p></div>
+<div class="card" style="padding:22px 28px"><p class="cardtitle" style="color:#8A520B">Median = <span data-num="vol_scores.typical">100</span></p><p class="cardtext">Leave out those who drew fewer boxes than half the expert’s <span data-num="vol_page.expert">19</span> lines; the middle score of the other <span data-num="vol_scores.finished">11</span> is <span data-num="vol_scores.typical">100</span>.</p></div>
 </div>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Every dot is one volunteer’s line score on this page. 14 volunteers stopped early, drawing nothing or a single box, which is why they sit at the bottom. The best volunteer is simply the highest dot, and you could only pick it after scoring everyone against the answer key, so it is a ceiling. For the typical volunteer we first leave out anyone who drew fewer boxes than half the expert’s lines, here fewer than 9.5, then take the middle score of the 11 who remain: 100. Counting the early stoppers would make “typical” look far worse than a volunteer who actually does the task.</div>
+<div class="notes"><b>Notes</b> Every dot is one volunteer’s line score on this page. 14 volunteers stopped early, drawing nothing or a single box, which is why they sit at the bottom. The best volunteer is simply the highest dot, and you could only pick it after scoring everyone against the answer key, so it is a ceiling. For the median volunteer we first leave out anyone who drew fewer boxes than half the expert’s lines, here fewer than 9.5, then take the middle score of the 11 who remain: 100. Counting the early stoppers would make “median” look far worse than a volunteer who actually does the task.</div>
 <div class="wrap" id="s25" data-n="25"><div class="num">25 / 32</div><section id="consensus">
 <div style="display:flex;flex-direction:column;gap:24px">
 <div class="head">
@@ -686,14 +686,14 @@ body.present .wrap.on { display: block; }
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
 <div class="rise" style="--i:2;display:flex;flex-direction:column;gap:8px"><div class="stage" style="height:280px"><img src="img/12_vol_claude.jpg" alt="Claude’s orange boxes on a letter" style="width:177px;height:266px"></div><p style="font-size:24px;display:flex;justify-content:space-between;gap:8px"><b class="orange">Claude</b> <b data-num="vol_page.claude.f1">100</b></p></div>
 <div class="rise" style="--i:3;display:flex;flex-direction:column;gap:8px"><div class="stage" style="height:280px"><img src="img/12_vol_best.jpg" alt="The best volunteer’s purple boxes" style="width:177px;height:266px"></div><p style="font-size:24px;display:flex;justify-content:space-between;gap:8px"><b style="color:#5040B8">Best</b> <b data-num="vol_page.best.f1">100</b></p></div>
-<div class="rise" style="--i:4;display:flex;flex-direction:column;gap:8px"><div class="stage" style="height:280px"><img src="img/12_vol_typical.jpg" alt="A typical volunteer’s brown boxes" style="width:177px;height:266px"></div><p style="font-size:24px;display:flex;justify-content:space-between;gap:8px"><b style="color:#8A520B">Typical</b> <b data-num="vol_page.typical.f1">100</b></p></div>
+<div class="rise" style="--i:4;display:flex;flex-direction:column;gap:8px"><div class="stage" style="height:280px"><img src="img/12_vol_typical.jpg" alt="The median volunteer’s brown boxes" style="width:177px;height:266px"></div><p style="font-size:24px;display:flex;justify-content:space-between;gap:8px"><b style="color:#8A520B">Typical</b> <b data-num="vol_page.typical.f1">100</b></p></div>
 <div class="rise" style="--i:5;display:flex;flex-direction:column;gap:8px"><div class="stage" style="height:280px"><img src="img/12_vol_consensus.jpg" alt="The volunteers’ combined grey boxes" style="width:177px;height:266px"></div><p style="font-size:24px;display:flex;justify-content:space-between;gap:8px"><b style="color:#52514E">Consensus</b> <b data-num="vol_page.consensus.f1">85</b></p></div>
 </div>
 </div>
 <div class="rise" style="--i:6;display:flex;flex-direction:column;gap:12px">
 <p class="jlab">All <span data-num="volunteers.pages">271</span> held-out pages they boxed</p>
 <div style="display:grid;grid-template-columns:1fr 100px 84px 104px 136px;gap:14px 12px;align-items:baseline;font-size:26px;border-top:2px solid var(--rule);padding-top:14px">
-<p></p><p style="font-weight:700;font-size:24px;color:var(--orange)">Claude</p><p style="font-weight:700;font-size:24px;color:#5040B8">Best</p><p style="font-weight:700;font-size:24px;color:#8A520B">Typical</p><p style="font-weight:700;font-size:24px;color:#52514E">Consensus</p>
+<p></p><p style="font-weight:700;font-size:24px;color:var(--orange)">Claude</p><p style="font-weight:700;font-size:24px;color:#5040B8">Best</p><p style="font-weight:700;font-size:24px;color:#8A520B">Median</p><p style="font-weight:700;font-size:24px;color:#52514E">Consensus</p>
 <p class="io" style="font-size:24px"><b>Line score</b></p><p><b data-num="volunteers.claude">95.8</b></p><p data-num="volunteers.best">95.6</p><p data-num="volunteers.typical">92.9</p><p data-num="volunteers.consensus">83.8</p>
 <p class="io" style="font-size:24px">expert lines inside one box</p><p><b data-num="volunteers.boxes.claude.in_one_pct" data-fmt="{}%">92%</b></p><p data-num="volunteers.boxes.best.in_one_pct" data-fmt="{}%">91%</p><p data-num="volunteers.boxes.typical.in_one_pct" data-fmt="{}%">87%</p><p data-num="volunteers.boxes.consensus.in_one_pct" data-fmt="{}%">76%</p>
 <p class="io" style="font-size:24px">boxes holding one line</p><p><b data-num="volunteers.boxes.claude.one_line_pct" data-fmt="{}%">90%</b></p><p data-num="volunteers.boxes.best.one_line_pct" data-fmt="{}%">92%</p><p data-num="volunteers.boxes.typical.one_line_pct" data-fmt="{}%">90%</p><p data-num="volunteers.boxes.consensus.one_line_pct" data-fmt="{}%">96%</p>
@@ -702,11 +702,11 @@ body.present .wrap.on { display: block; }
 </div>
 </div>
 </div>
-<p class="note rise" style="--i:7"><b style="color:#5040B8">Best</b>: the top scorer on each page, picked afterwards with the answer key · <b style="color:#8A520B">typical</b>: the middle score among those who boxed at least half the page · <b style="color:#52514E">consensus</b>: boxes at least half of those who drew any agree on.</p>
+<p class="note rise" style="--i:7"><b style="color:#5040B8">Best</b>: the top scorer on each page, picked afterwards with the answer key · <b style="color:#8A520B">median</b>: the one in the middle by line score, among those who boxed at least half the page · <b style="color:#52514E">consensus</b>: boxes at least half of those who drew any agree on.</p>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Each volunteer box counts as the line along its bottom edge, and every set of lines, Claude’s included, is paired with the expert’s by the same AI from positions only. On this page, 25 volunteers boxed it. Claude scores 100, the best volunteer 100, a typical volunteer 100 and the consensus 85 (it lost lines because many volunteers stopped after a box or two). Across all 271 held-out pages volunteers boxed: Claude 95.8, the best volunteer on each page 95.6 (a volunteer you could only pick with the answer key in hand), the typical volunteer 92.9, the consensus 83.8. The rows below the line score put everyone’s boxes through the same box checks as before, on the same pages: how many of the expert’s lines lie inside one box, how many boxes hold exactly one line, how many reach into a neighbour’s writing, and how many pairs of boxes overlap deeply (by more than a quarter of the gap between lines), per 100 boxes. No verdicts counted: the same pairing for Claude and the volunteers alike.</div>
+<div class="notes"><b>Notes</b> Each volunteer box counts as the line along its bottom edge, and every set of lines, Claude’s included, is paired with the expert’s by the same AI from positions only. On this page, 25 volunteers boxed it. Claude scores 100, the best volunteer 100, the median volunteer 100 and the consensus 85 (it lost lines because many volunteers stopped after a box or two). Across all 271 held-out pages volunteers boxed: Claude 95.8, the best volunteer on each page 95.6 (a volunteer you could only pick with the answer key in hand), the median volunteer 92.9, the consensus 83.8. The rows below the line score put everyone’s boxes through the same box checks as before, on the same pages: how many of the expert’s lines lie inside one box, how many boxes hold exactly one line, how many reach into a neighbour’s writing, and how many pairs of boxes overlap deeply (by more than a quarter of the gap between lines), per 100 boxes. No verdicts counted: the same pairing for Claude and the volunteers alike.</div>
 <div class="wrap" id="s27" data-n="27"><div class="num">27 / 32</div><section id="collections">
 <div style="display:flex;flex-direction:column;gap:40px">
 <div class="head">
@@ -815,7 +815,7 @@ body.present .wrap.on { display: block; }
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> No training, no examples, no answer key in the method, and two Claude calls per page (one reads the page, one checks the boxes): Claude finds 93 of every 100 lines, reads 94% of the words, and truly misses about 3 in 100 lines of handwriting, by the judge’s reading. On the 271 pages volunteers boxed, its line score is 95.8 against 95.6 for the best volunteer on each page, a volunteer you could only pick in hindsight, and 92.9 for a typical one. What remains hard is writing that runs sideways, and pages where even the expert was inconsistent.</div>
+<div class="notes"><b>Notes</b> No training, no examples, no answer key in the method, and two Claude calls per page (one reads the page, one checks the boxes): Claude finds 93 of every 100 lines, reads 94% of the words, and truly misses about 3 in 100 lines of handwriting, by the judge’s reading. On the 271 pages volunteers boxed, its line score is 95.8 against 95.6 for the best volunteer on each page, a volunteer you could only pick in hindsight, and 92.9 for the median one. What remains hard is writing that runs sideways, and pages where even the expert was inconsistent.</div>
 <div class="wrap" id="s32" data-n="32"><div class="num">32 / 32</div><section id="viewer">
 <div style="display:flex;flex-direction:column;gap:32px">
 <div class="head">
