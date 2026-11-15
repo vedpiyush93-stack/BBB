@@ -304,7 +304,7 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
         <span class="chip" data-l="best"><span class="sw box" style="border-color:var(--best)"></span>Best</span>
         <span class="chip" data-l="cons"><span class="sw box" style="border-color:var(--cons)"></span>Consensus</span>
         <span class="chip" data-l="typ"><span class="sw box" style="border-color:var(--typ)"></span>Median</span>
-        <span class="chip" data-l="one"><span class="sw box" style="border-color:var(--one)"></span>Any one</span>
+        <span class="chip" data-l="one"><span class="sw box" style="border-color:var(--one)"></span>One at a time</span>
         <span class="vstep" id="vstep"><button class="btn" id="vprev" title="previous volunteer ([)">‹</button><span id="vlab"></span><button class="btn" id="vnext" title="next volunteer (])">›</button></span></span>
       <button class="btn reset" id="reset" title="back to the start: expert and Claude lines, missed and extra highlighted">Reset</button>
     </div>
@@ -342,7 +342,7 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
       <div class="whos"><b>Who's who.</b> <span><b style="color:var(--expert)">Expert</b> = the answer key: a person who drew a line under every
         line of writing and typed it.</span> <span><b style="color:var(--claude)">Claude</b> = the AI being tested (it never saw the answer key).</span>
         <span><b style="color:var(--best)">Volunteers</b> = people on Zooniverse who drew boxes by hand.</span> <span><b>Judge</b> = a second AI that pairs the expert's and
-        Claude's lines by their words and says what is under every line left over; it never changes Claude's answers, and the scores here don't use it.</span></div>
+        Claude's lines by their words and says what is under every line left over; its pairs are what Found, Match and the line score count; it never changes Claude's answers.</span></div>
       <details class="more"><summary>Scores and keys</summary>
         <div class="scores">
           <div><b>Found</b>: of the expert's lines, how many Claude also drew. <b>Match</b>: of Claude's lines, how many the expert also drew.<br>
@@ -544,7 +544,7 @@ function badgeKey(p){            // only the badges this page has
                 has("diff") && `<span class="bk diff">≈</span>writing the other side already covers`, has("print") && `<i class="prsw"></i>printed, not handwriting`, has("unk") && `<span class="bk unk">?</span>no answer`].filter(Boolean);
   return bits.length ? `<div class="dkey bkey">${bits.join(" ")}</div>` : "";
 }
-$("reset").addEventListener("click", () => { on = {...START}; draw(); volPanel(); animate(); refit(); });
+$("reset").addEventListener("click", () => { unpin(); on = {...START}; draw(); volPanel(); animate(); refit(); });
 $("notice").addEventListener("mousedown", e => e.stopPropagation());
 $("notice").addEventListener("click", e => { if (e.target.id !== "nextVol") return;
   let i = view.findIndex((x, n) => n > cur && x.vol); if (i < 0) i = view.findIndex(x => x.vol); if (i >= 0) show(i); });
@@ -605,14 +605,17 @@ function panel(){
        <span></span>${bar(score)}</div>
      <div class="card sc" title="Words and letters are counted on the matched lines only: each Claude line against the expert line it pairs with. Missed and extra lines are already counted by Found and Match.">
        <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> words found <small>${pct(w.wr, w.wn)} · on the matched lines</small></span>
-       <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the matched lines</small></span></div>${why}`;
+       <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the matched lines</small></span></div>${p.bx ? `
+     <div class="card sc" title="The box checks: an expert line counts as inside one box when 80% or more of its writing is inside one box; a box holds a line when it has half or more of that line's writing.">
+       <span class="k">Boxes</span><span><b>${p.bx[0]}</b> of the expert's <b>${p.bx[1]}</b> lines inside one box <small>${pct(p.bx[0], p.bx[1])}</small></span>
+       <span class="k"></span><span><b>${p.bx[2]}</b> of Claude's <b>${p.bx[3]}</b> boxes hold one line <small>${pct(p.bx[2], p.bx[3])}</small></span></div>` : ""}${why}`;
   let bc = "";
   if (p.vol){
     const V = p.vol, L = V.ls || null, sc = x => f1of(...x).toFixed(0);
     const open = store.get("bbb.volOpen", false) || VOL.some(L => on[L]);
     const sideways = p.expert.some(l => { const a = Math.abs(Math.atan2(l.p[3] - l.p[1], l.p[2] - l.p[0])); return a > Math.PI / 4 && a < 3 * Math.PI / 4; });
     bc = !L ? `<div class="vrow"><span>${V.n} volunteers boxed this page (their scores were not computed for this page)</span></div>` :
-      `<div class="vrow"><span>vs ${V.n} volunteers (line score):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
+      `<div class="vrow"><span title="Here every set, Claude's too, is paired by the judge without its words, the way the volunteers' boxes must be; so Claude's number can differ a little from the line score above.">vs ${V.n} volunteers (line score, all paired without words):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
         <span>median <b>${sc(L.att[V.typical])}</b></span><span>consensus <b>${sc(L.consensus)}</b></span><button class="lnk" id="vmore">${open ? "less" : "more"}</button></div>
       <div class="vdet ${open ? "" : "hide"}">` + lsbar("Claude", L.claude, "var(--claude)", true) + lsbar("Best volunteer", L.att[V.best], "var(--best)")
       + lsbar("Median volunteer", L.att[V.typical], "var(--typ)") + lsbar("Consensus", L.consensus, "var(--cons)")
@@ -742,9 +745,11 @@ $("svg").addEventListener("mouseleave", () => $("tip").classList.remove("show"))
 $("stage").addEventListener("wheel", () => $("tip").classList.remove("show"), {passive: true});
 let downAt = null;
 $("stage").addEventListener("mousedown", e => { downAt = [e.clientX, e.clientY]; });
-$("svg").addEventListener("click", e => { const el = e.target.closest("[data-r]"); if (!el) return;
+$("stage").addEventListener("click", e => { const el = e.target.closest("[data-r]");
   if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 4) return;   // that was a drag
-  const r = el.dataset.r; hot([r, ...linked(r)], true); $("tip").classList.remove("show");
+  if (e.target.closest(".zoomc") || e.target.closest(".notice")) return;
+  if (!el){ unpin(); return; }                                                           // the background: nothing highlighted
+  const r = el.dataset.r; pinned = [r, ...linked(r)]; hot(pinned, true); $("tip").classList.remove("show");
   if (!card(r)){ const row = document.querySelector(`#tx .ln[data-r="${r}"], #tx .ln[data-c="${r}"]`); if (row){ closeCard(); reveal($("tx"), row, true); } } });
 
 // scroll only the given panel (scrollIntoView would also scroll the whole window and push the header away)
@@ -775,11 +780,13 @@ dragger($("splitH"), "row", ev => {
   if (vd && !vd.open && want > $("upper").scrollHeight - 4){ vd.open = true; store.set("bbb.volOpen", true); }   // dragging down shows more
   if (vd && vd.open && want < $("upper").scrollHeight - vd.scrollHeight + 30){ vd.open = false; store.set("bbb.volOpen", false); }  // and up folds it
   requestAnimationFrame(() => { $("upper").scrollTop = $("upper").scrollHeight; });   // keep what's next to the handle in view
-  return ["--uh", clamp(want, 90, Math.min($("upper").scrollHeight, r.height - 140))]; });
+  return ["--uh", clamp(want, 90, r.height - 120)]; });
 [["splitL", "--lw"], ["splitR", "--rw"], ["splitH", "--uh"]].forEach(([id, k]) =>
   $(id).addEventListener("dblclick", () => { delete sizes[k]; setSize(k, null); store.set("bbb.sizes", sizes); }));
 
 // ---------- highlight & locate
+let pinned = null;                      // the lines a click highlighted (hovering only shows lines while on them)
+function unpin(){ pinned = null; hot(null); closeCard(); }
 function hot(refs, scrollRow){
   document.querySelectorAll(".hot").forEach(x => x.classList.remove("hot"));
   if (!refs) return;
@@ -806,11 +813,13 @@ $("tx").addEventListener("click", e => {
     if (e.target.closest(".jc")) closeCard(); else if (e.target.closest(".jp")) stepDiff(-1); else if (e.target.closest(".jn")) stepDiff(1);
     return; }
   const row = e.target.closest(".ln"); if (!row) return;
-  const refs = [row.dataset.r, row.dataset.c].filter(Boolean); hot([...refs, ...linked(row.dataset.r)]); locate(row.dataset.c || row.dataset.r);
+  const refs = [row.dataset.r, row.dataset.c].filter(Boolean); pinned = [...refs, ...linked(row.dataset.r)]; hot(pinned); locate(row.dataset.c || row.dataset.r);
   if (!row.dataset.c){ const r = row.dataset.r, L = r[0] === "e" ? page.expert[+r.slice(1)] : page.claude[+r.slice(1)];
     if (row.classList.contains("open")) closeCard(); else card(r); } else closeCard(); });
 $("tx").addEventListener("mouseover", e => { const row = e.target.closest(".ln"); if (!row) return;
   const refs = [row.dataset.r, row.dataset.c].filter(Boolean); hot([...refs, ...linked(row.dataset.r)]); });
+$("tx").addEventListener("mouseleave", () => hot(pinned));
+$("svg").addEventListener("mouseout", e => { if (!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest("[data-r]")) hot(pinned); });
 $("svg").addEventListener("mouseover", e => { const el = e.target.closest("[data-r]"); if (!el) return;
   const r = el.dataset.r, k = +r.slice(1), refs = [r];
   if (r[0] === "e" && page.expert[k].m >= 0) refs.push("c" + page.expert[k].m);
@@ -870,7 +879,7 @@ $("stage").addEventListener("touchmove", e => { if (!tp || !page) return; e.prev
     zoom(d / tp.d, (t[0].clientX + t[1].clientX) / 2 - r.left, (t[0].clientY + t[1].clientY) / 2 - r.top); tp = {d}; } }, {passive: false});
 $("stage").addEventListener("touchend", tpStart, {passive: true});
 $("zi").onclick = () => { animate(); zoom(1.35); }; $("zo").onclick = () => { animate(); zoom(0.74); };
-$("fit").onclick = () => { animate(); fit(); }; $("fitw").onclick = () => { animate(); fitWidth(); };
+$("fit").onclick = () => { unpin(); animate(); fit(); }; $("fitw").onclick = () => { unpin(); animate(); fitWidth(); };
 $("zoomc").addEventListener("mousedown", e => e.stopPropagation());
 $("zoomc").addEventListener("dblclick", e => e.stopPropagation());
 $("stage").addEventListener("dblclick", e => { if (e.target.closest(".bar,.zoomc,.notice")) return;
@@ -891,7 +900,7 @@ function show(i){
   const img = $("img"); img.classList.remove("loaded"); img.onload = () => img.classList.add("loaded");
   img.width = page.w; img.height = page.h; img.src = page.img;
   const svg = $("svg"); svg.setAttribute("viewBox", `0 0 ${page.w} ${page.h}`); svg.setAttribute("width", page.w); svg.setAttribute("height", page.h);
-  partners(page); closeCard(); draw(); panel(); $("upper").scrollTop = 0; refit();
+  pinned = null; partners(page); closeCard(); draw(); panel(); $("upper").scrollTop = 0; refit();
   try { history.replaceState(null, "", "#" + page.id); } catch (e) {}
 }
 $("prev").onclick = () => show(cur - 1); $("next").onclick = () => show(cur + 1);
@@ -905,12 +914,12 @@ $("vprev").onclick = () => stepVol(-1); $("vnext").onclick = () => stepVol(1);
 window.addEventListener("keydown", e => {
   if (e.target && e.target.matches && e.target.matches("input[type=search],select")) return;
   if (e.key === "?" ){ openGuide(); return; }
-  if (e.key === "Escape"){ closeGuide(); closeCard(); return; }
+  if (e.key === "Escape"){ closeGuide(); unpin(); return; }
   if ($("guide").classList.contains("open")) return;
   if (e.key === "ArrowRight" || e.key === "j") show(cur + 1);
   else if (e.key === "ArrowLeft" || e.key === "k") show(cur - 1);
-  else if (e.key === "f" || e.key === "F"){ animate(); fit(); }
-  else if (e.key === "w" || e.key === "W"){ animate(); fitWidth(); }
+  else if (e.key === "f" || e.key === "F"){ unpin(); animate(); fit(); }
+  else if (e.key === "w" || e.key === "W"){ unpin(); animate(); fitWidth(); }
   else if (e.key === "+" || e.key === "=") zoom(1.25);
   else if (e.key === "-") zoom(0.8);
   else if (e.key === "[") stepVol(-1);
