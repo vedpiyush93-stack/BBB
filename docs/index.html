@@ -109,11 +109,11 @@ match when each is the other’s closest line.</p>
 <div class="stat"><div class="l">Line score</div><div class="v">92.5</div><div class="d">the two combined, out of 100</div></div>
 <div class="stat"><div class="l">Words</div><div class="v">94%</div><div class="d">of the expert’s words, on the matched lines (3.8 letter errors per 100)</div></div>
 </div>
-<div class="note">Many disagreements are not Claude’s mistakes. A separate judge (Claude Opus 5.5, used only to evaluate) looked at
-each one: 251 of Claude’s 1,004 extra lines are real handwriting the expert didn’t mark, and of the expert’s
-1,837 lines Claude didn’t pair with, 831 are the same writing split or joined differently. Handwriting Claude truly
-missed: <b>575 of 19,263 lines</b>. Counting the judge’s verdicts, the line score is <b>94.5</b>
-(94.2 if some doubtful “no writing” verdicts are counted as misses instead).</div>
+<div class="note">Many disagreements are not Claude’s mistakes. A separate judge (Claude Opus 5.5, used only to evaluate) pairs the
+lines by their words and looks at every line left over: 234 of Claude’s 1,004 extra lines are real handwriting
+the expert didn’t mark, and of the expert’s 1,837 lines Claude didn’t pair with, 1,107 are the same writing drawn a
+little apart, split or joined. Handwriting Claude truly missed: <b>560 of 19,263 lines</b>. Counting the judge, the line
+score is <b>96.1</b>.</div>
 </section>
 
 <section>
@@ -140,7 +140,7 @@ line-finding program that cannot read (<span class="tag kr">Kraken</span>). Clau
 <ol class="steps"><li><span class="num">1</span><div><div class="sh"><b>Kraken finds the lines</b><span class="tag kr">Kraken</span></div><p>For every line of writing: a line along the bottom of it, and an outline hugging it; numbered top to bottom.</p><p class="by">Kraken (a free, off-the-shelf line finder; it can&#x27;t read)</p></div></li><li><span class="num">2</span><div><div class="sh"><b>Claude reads the page</b><span class="tag ai">Claude</span></div><p>Every line of writing: its words, which red line(s) it sits on (its own two ends where none fits); red lines with no writing are dropped.</p><p class="by">Claude Fable 5.2, extra-high effort: ONE call per page</p></div></li><li><span class="num">3</span><div><div class="sh"><b>Boxes from Kraken&#x27;s outlines</b><span class="tag py">Python</span></div><p>One box per line: the smallest rectangle around its outline, tilted with the line; stacked boxes that overlap meet halfway.</p><p class="by">Python: NumPy geometry (no image processing)</p></div></li><li><span class="num">4</span><div><div class="sh"><b>Claude checks the boxes</b><span class="tag ai">Claude</span></div><p>A corrected box for each box that is clearly wrong (it cuts off part of its line, takes in another line, or holds no writing); then overlapping boxes meet halfway again (boxes.csv).</p><p class="by">Claude Fable 5.2, extra-high effort: ONE more call per page</p></div></li></ol>
 <h2 style="font-size:26px;margin-top:30px">How it is scored</h2>
 <p class="sub">Evaluation only: the expert’s lines and the volunteers’ boxes never enter the method.</p>
-<ol class="steps"><li><span class="num e">E1</span><div><div class="sh"><b>Score against the expert</b><span class="tag py">Python</span></div><p>Found, match, line score; words and letters right.</p><p class="by">Python: NumPy</p></div></li><li><span class="num e">E2</span><div><div class="sh"><b>The judge</b><span class="tag ai">Claude</span></div><p>A verdict, handwritten or printed, and a reason.</p><p class="by">Claude Opus 5.5, high effort</p></div></li><li><span class="num e">E3</span><div><div class="sh"><b>Box checks</b><span class="tag py">Python</span></div><p>Is each expert line inside one box; does each box hold one line; overlaps.</p><p class="by">Python: NumPy geometry</p></div></li><li><span class="num e">E4</span><div><div class="sh"><b>The volunteers</b><span class="tag py">Python</span></div><p>One line per box (its bottom edge), scored like Claude; best, typical and consensus.</p><p class="by">Python: NumPy</p></div></li></ol>
+<ol class="steps"><li><span class="num e">E1</span><div><div class="sh"><b>Score against the expert</b><span class="tag py">Python</span></div><p>Found, match, line score; words and letters right.</p><p class="by">Python: NumPy</p></div></li><li><span class="num e">E2</span><div><div class="sh"><b>The judge</b><span class="tag ai">Claude</span></div><p>The pairs, and for every line left over: a verdict, handwritten or printed, and a reason.</p><p class="by">Claude Opus 5.5, high effort</p></div></li><li><span class="num e">E3</span><div><div class="sh"><b>Box checks</b><span class="tag py">Python</span></div><p>Is each expert line inside one box; does each box hold one line; overlaps.</p><p class="by">Python: NumPy geometry</p></div></li><li><span class="num e">E4</span><div><div class="sh"><b>The volunteers</b><span class="tag py">Python</span></div><p>One line per box (its bottom edge), scored like Claude; best, typical and consensus.</p><p class="by">Python: NumPy</p></div></li></ol>
 </section>
 
 <section>

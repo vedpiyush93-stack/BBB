@@ -460,7 +460,7 @@ body.present .wrap.on { display: block; }
 <p class="biglabel">Match</p><p style="font-size:36px"><b data-num="page.matched">23</b> of Claude’s <b class="orange" data-num="page.claude">27</b> lines <span class="note">(<span data-num="page.match_pct" data-fmt="{}%">85%</span>)</span></p>
 </div>
 <div class="fact rise" style="--i:3"><p class="factnum" data-num="page.f1">85</p><p class="facttext"><b style="color:var(--ink)">line score</b>: the two in one number out of 100, high only when both are high</p></div>
-<p class="note rise" style="--i:4"><b class="blue"><span data-num="page.missed">4</span> missed</b>, by the judge’s reading: <span data-num="page.missed_says">printed text (3), the same writing, split or joined differently (1)</span>. <b class="orange"><span data-num="page.extra">4</span> extra</b>: <span data-num="page.extra_says">real handwriting the expert didn’t mark (2), printed text (1), the same writing, split or joined differently (1)</span>.</p>
+<p class="note rise" style="--i:4"><b class="blue"><span data-num="page.missed">4</span> missed</b>, by the judge’s reading: <span data-num="page.missed_says">printed text (2), the same writing, split or joined differently (2)</span>. <b class="orange"><span data-num="page.extra">4</span> extra</b>: <span data-num="page.extra_says">the same writing, split or joined differently (2), real handwriting the expert didn’t mark (2)</span>.</p>
 <p class="note rise" style="--i:5">Are those really mistakes? (Thick line = no partner on the other side.)</p>
 </div>
 </div>
@@ -472,25 +472,25 @@ body.present .wrap.on { display: block; }
 <div class="head">
 <p class="eyebrow rise" style="--i:0">Checking it · the judge</p>
 <h2 class="rise" style="--i:1">What the judge is asked, and what it answers</h2>
-<div class="chips rise" style="--i:1"><p class="kind llm">LLM · Claude Opus 5.5, high effort</p><p class="io">in: <b>a close-up of each disagreement + a neutral question</b> → out: <b>a verdict and a reason</b></p></div>
+<div class="chips rise" style="--i:1"><p class="kind llm">LLM · Claude Opus 5.5, high effort</p><p class="io">in: <b>the page with both sets of lines numbered, and their words</b> → out: <b>the pairs, and a verdict for every line left over</b></p></div>
 </div>
 <div style="display:grid;grid-template-columns:520px 1fr;gap:56px">
 <div class="rise" style="--i:2;display:flex;flex-direction:column;gap:12px">
 <div class="stage" style="height:400px"><img src="img/11_judge_sent.jpg" alt="The close-up the judge gets: an orange line under handwriting, blue lines under writing already marked" style="width:500px;height:390px"></div>
-<p class="note">The close-up it gets, exactly. It is never told who drew which line.</p>
+<p class="note">Part of the page it gets: both sets of lines, numbered (blue B…, orange O…). It is never told whose is whose.</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:16px">
 <p class="codelab rise" style="--i:3">The question (shortened):</p>
-<p class="note rise" style="--i:4">“An ORANGE line has been drawn under something; BLUE lines are under writing already marked. Is the orange line under writing no blue line marks, the same writing again, or nothing? Handwritten or printed? A reason in at most 12 words.”</p>
+<p class="note rise" style="--i:4">“Pair each blue line with the orange line that marks the same line of writing: the same words in the same place. For every line left unpaired: is it writing the other set doesn’t mark, the same writing drawn differently, or nothing? Handwritten or printed? A reason in at most 12 words.”</p>
 <p class="codelab rise" style="--i:5">Its raw answer:</p>
-<p class="code rise" style="--i:6" data-num="judgeask.answer">{"2": ["unmarked", "hand", "upside-down handwritten word with no blue line"]}</p>
-<p class="io rise" style="--i:7"><b>Python</b> turns that into “real handwriting the expert didn’t mark”. A second question does the same for the expert’s lines Claude didn’t pair with.</p>
+<p class="code rise" style="--i:6" data-num="judgeask.answer">{"O11": ["unmarked", "hand", "upside-down word NOTE left of Colombey line"]}</p>
+<p class="io rise" style="--i:7"><b>Python</b> counts its pairs as matched and turns each verdict into a plain category, here “real handwriting the expert didn’t mark”.</p>
 </div>
 </div>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> The judge is an LLM step used only for checking. It gets a close-up of each disagreement, with the line in question in orange and the expert’s lines in blue (for a missed line: the expert’s line in red and Claude’s in orange), with no names, and a neutral question; it is never told which line is Claude’s and which is the expert’s. It answers in a fixed format: what is under the line, handwritten or printed, and a short reason. Python turns that into the plain categories we report. A second, matching question covers the expert’s lines that Claude did not pair with. The full prompts are in the prompts folder and the notebook.</div>
+<div class="notes"><b>Notes</b> The judge is an LLM step used only for checking: one call per page. It sees the page with both sets of lines drawn and numbered, blue and orange, with every line’s ends and words, and is never told which set is Claude’s. It pairs the lines that mark the same writing, reading the words, so lines drawn a little apart or split in two still pair. For every line left over it says what is under it, handwritten or printed, and why. Python counts its pairs as matched and turns each verdict into the plain categories we report. The full prompt is in the prompts folder and the notebook.</div>
 <div class="wrap" id="s18" data-n="18"><div class="num">18 / 32</div><section id="judge">
 <div style="display:flex;flex-direction:column;gap:32px">
 <div class="head">
@@ -504,7 +504,7 @@ body.present .wrap.on { display: block; }
 <p class="jtext"><b class="blue">Expert</b> <span data-num="judge.0.expert">no line here</span></p>
 <p class="jtext"><b class="orange">Claude</b> <span data-num="judge.0.claude">“NOTE”</span></p>
 <div class="verdict"><div class="badge" style="background:var(--good)">✓</div><p class="vtext">Real handwriting the expert didn’t mark</p></div>
-<p class="jquote" data-num="judge.0.why">“upside-down handwritten word with no blue line”</p>
+<p class="jquote" data-num="judge.0.why">“upside-down word NOTE left of Colombey line”</p>
 </div>
 <div class="jcard rise" style="--i:3">
 <p class="jlab blue">Missed line</p>
@@ -512,21 +512,21 @@ body.present .wrap.on { display: block; }
 <p class="jtext"><b class="blue">Expert</b> <span data-num="judge.1.expert">“folks”</span></p>
 <p class="jtext"><b class="orange">Claude</b> <span data-num="judge.1.claude">“folks Your Harry”</span></p>
 <div class="verdict"><div class="badge" style="background:var(--diff)">≈</div><p class="vtext">Same writing, split or joined differently</p></div>
-<p class="jquote" data-num="judge.1.why">“orange line already covers "folks You"”</p>
+<p class="jquote" data-num="judge.1.why">“'folks' joined with 'Your Harry' in O22”</p>
 </div>
 <div class="jcard rise" style="--i:4">
 <p class="jlab blue">Missed line</p>
 <div class="stage" style="height:230px"><img src="img/11_judge_3.jpg" alt="Close-up: a line of handwriting with a blue line under it and no orange line" style="width:480px;height:225px"></div>
-<p class="jtext"><b class="blue">Expert</b> <span data-num="judge.2.expert">“re and”</span></p>
+<p class="jtext"><b class="blue">Expert</b> <span data-num="judge.2.expert">“[check mark]”</span></p>
 <p class="jtext"><b class="orange">Claude</b> <span data-num="judge.2.claude">no line here</span></p>
 <div class="verdict"><div class="badge" style="background:var(--bad)">✕</div><p class="vtext">Clear handwriting Claude missed</p></div>
-<p class="jquote" data-num="judge.2.why">“handwritten line "re and", not covered”</p>
+<p class="jquote" data-num="judge.2.why">“large check mark low in Rose column”</p>
 </div>
 </div>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> For every line where Claude and the expert disagree, a second AI, Claude Opus 5.5, a different model from the one that read the pages, gets a close-up and a neutral question: what is under this line? Three real verdicts: handwriting the expert never marked (Claude was right), the same writing split differently (nobody really wrong), and a line Claude truly missed. The judge only explains; it never changes Claude’s answers. Its reasons are quoted exactly; when it says “red” it means the expert’s line, which is red in its own close-ups of missed lines.</div>
+<div class="notes"><b>Notes</b> For every line where Claude and the expert disagree, a second AI, Claude Opus 5.5, a different model from the one that read the pages, explains what happened. It sees the whole page with both sets of lines numbered, blue B and orange O, and their words, and pairs the lines that mark the same writing. Three real verdicts: handwriting the expert never marked (Claude was right), the same writing drawn apart or split (nobody really wrong), and a line Claude truly missed. The judge only explains; it never changes Claude’s answers. Its reasons are quoted exactly; its B and O are its own numbering of the two sets.</div>
 <div class="wrap" id="s19" data-n="19"><div class="num">19 / 32</div><section id="tally">
 <div style="display:flex;flex-direction:column;gap:38px">
 <div class="head">
@@ -536,33 +536,33 @@ body.present .wrap.on { display: block; }
 <div class="rise" style="--i:2;display:flex;flex-direction:column;gap:14px">
 <p style="font-size:28px"><b class="orange">Claude’s <span data-num="headline.n_extra">1,004</span> extra lines</b></p>
 <div class="bar">
-<div class="seg" data-flex="headline.extras.real" style="flex:251;background:#8FD18F"></div><div class="seg" data-flex="headline.extras.diff" style="flex:636;background:#E09B16"></div><div class="seg" data-flex="headline.extras.print" style="flex:103;background:#CFCABB"></div><div class="seg" data-flex="headline.extras.none" style="flex:14;background:#C62828"></div>
+<div class="seg" data-flex="headline.extras.real" style="flex:234;background:#8FD18F"></div><div class="seg" data-flex="headline.extras.diff" style="flex:745;background:#E09B16"></div><div class="seg" data-flex="headline.extras.print" style="flex:24;background:#CFCABB"></div><div class="seg" data-flex="headline.extras.none" style="flex:1;background:#C62828"></div>
 </div>
 <div class="legend">
-<div class="lg"><div class="lgsw" style="background:#8FD18F"></div><p class="lgtext"><b data-num="headline.extras_pct.real" data-fmt="{}%">25%</b> real handwriting the expert didn’t mark</p></div>
-<div class="lg"><div class="lgsw" style="background:#E09B16"></div><p class="lgtext"><b data-num="headline.extras_pct.diff" data-fmt="{}%">63%</b> same writing, split or joined differently</p></div>
-<div class="lg"><div class="lgsw" style="background:#CFCABB"></div><p class="lgtext"><b data-num="headline.extras_pct.print" data-fmt="{}%">10%</b> printed text</p></div>
-<div class="lg"><div class="lgsw" style="background:#C62828"></div><p class="lgtext"><b data-num="headline.extras_pct.none" data-fmt="{}%">1%</b> no writing at all</p></div>
+<div class="lg"><div class="lgsw" style="background:#8FD18F"></div><p class="lgtext"><b data-num="headline.extras_pct.real" data-fmt="{}%">23%</b> real handwriting the expert didn’t mark</p></div>
+<div class="lg"><div class="lgsw" style="background:#E09B16"></div><p class="lgtext"><b data-num="headline.extras_pct.diff" data-fmt="{}%">74%</b> same writing, split or joined differently</p></div>
+<div class="lg"><div class="lgsw" style="background:#CFCABB"></div><p class="lgtext"><b data-num="headline.extras_pct.print" data-fmt="{}%">2%</b> printed text</p></div>
+<div class="lg"><div class="lgsw" style="background:#C62828"></div><p class="lgtext"><b data-num="headline.extras_pct.none" data-fmt="{}%">0%</b> no writing at all</p></div>
 </div>
 </div>
 <div class="rise" style="--i:3;display:flex;flex-direction:column;gap:14px">
 <p style="font-size:28px"><b class="blue">The expert’s <span data-num="headline.n_missed">1,837</span> lines Claude didn’t pair with</b></p>
 <div class="bar">
-<div class="seg" data-flex="headline.misses.diff" style="flex:831;background:#E09B16"></div><div class="seg" data-flex="headline.truly_missed" style="flex:575;background:#C62828"></div><div class="seg" data-flex="headline.misses.print" style="flex:195;background:#CFCABB"></div><div class="seg" data-flex="headline.misses.none" style="flex:226;background:#8FD18F"></div>
+<div class="seg" data-flex="headline.misses.diff" style="flex:1107;background:#E09B16"></div><div class="seg" data-flex="headline.truly_missed" style="flex:560;background:#C62828"></div><div class="seg" data-flex="headline.misses.print" style="flex:140;background:#CFCABB"></div><div class="seg" data-flex="headline.misses.none" style="flex:30;background:#8FD18F"></div>
 </div>
 <div class="legend">
-<div class="lg"><div class="lgsw" style="background:#E09B16"></div><p class="lgtext"><b data-num="headline.misses_pct.diff" data-fmt="{}%">45%</b> same writing, split or joined differently</p></div>
-<div class="lg"><div class="lgsw" style="background:#C62828"></div><p class="lgtext"><b data-num="headline.truly_pct" data-fmt="{}%">31%</b> handwriting Claude truly missed</p></div>
-<div class="lg"><div class="lgsw" style="background:#CFCABB"></div><p class="lgtext"><b data-num="headline.misses_pct.print" data-fmt="{}%">11%</b> printed text</p></div>
-<div class="lg"><div class="lgsw" style="background:#8FD18F"></div><p class="lgtext"><b data-num="headline.misses_pct.none" data-fmt="{}%">12%</b> no writing: the expert’s slip</p></div>
+<div class="lg"><div class="lgsw" style="background:#E09B16"></div><p class="lgtext"><b data-num="headline.misses_pct.diff" data-fmt="{}%">60%</b> same writing, split or joined differently</p></div>
+<div class="lg"><div class="lgsw" style="background:#C62828"></div><p class="lgtext"><b data-num="headline.truly_pct" data-fmt="{}%">30%</b> handwriting Claude truly missed</p></div>
+<div class="lg"><div class="lgsw" style="background:#CFCABB"></div><p class="lgtext"><b data-num="headline.misses_pct.print" data-fmt="{}%">8%</b> printed text</p></div>
+<div class="lg"><div class="lgsw" style="background:#8FD18F"></div><p class="lgtext"><b data-num="headline.misses_pct.none" data-fmt="{}%">2%</b> no writing: the expert’s slip</p></div>
 </div>
 </div>
 <p class="note rise" style="--i:4">Colours say who was right: <b style="color:#3F8F3F">green</b> Claude right · <b style="color:#C62828">red</b> Claude wrong · <b style="color:#B07A10">amber</b> both have it, split differently · <b style="color:#8A887F">grey</b> printed, counts for no one.</p>
-<p class="lede rise" style="--i:5">Handwriting Claude truly missed, by the judge’s reading: <b style="color:var(--ink)"><span data-num="headline.truly_missed">575</span> of the expert’s <span data-num="headline.expert">19,263</span> lines, <span data-num="headline.truly_words">about 3 in 100</span>.</b></p>
+<p class="lede rise" style="--i:5">Handwriting Claude truly missed, by the judge’s reading: <b style="color:var(--ink)"><span data-num="headline.truly_missed">560</span> of the expert’s <span data-num="headline.expert">19,263</span> lines, <span data-num="headline.truly_words">about 3 in 100</span>.</b></p>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Across all 791 held-out pages. Claude’s extra lines are mainly of two kinds: real handwriting the expert simply didn’t mark, and the same writing split or joined differently (one line instead of two, or the other way round). On the other side, many “misses” are the same kind of split. Lines of handwriting Claude truly missed (493 clear plus 82 faint) are about 3 in 100 expert lines. Lines the judge gave no answer for: 0 extra and 10 missed. A caution: in some “no writing” verdicts Claude’s line sits on the writing and the expert’s line just below it; counting those as misses instead would make the judged line score 94.2 rather than 94.5 (shown in the notebook).</div>
+<div class="notes"><b>Notes</b> Across all 791 held-out pages. Claude’s extra lines are mainly of two kinds: real handwriting the expert simply didn’t mark, and the same writing split or joined differently (one line instead of two, or the other way round). On the other side, many “misses” are the same kind of split. Lines of handwriting Claude truly missed (46 clear plus 514 faint) are about 3 in 100 expert lines. Lines the judge gave no answer for: 0 extra and 0 missed.</div>
 <div class="wrap" id="s20" data-n="20"><div class="num">20 / 32</div><section id="boxcheck">
 <div class="split">
 <div class="stage fade" style="--i:0;height:824px">
@@ -612,14 +612,14 @@ body.present .wrap.on { display: block; }
 <div class="cards" style="grid-template-columns:1fr 1fr 1fr 1fr;gap:28px">
 <div class="card rise" style="--i:2"><p class="biglabel">Found</p><p class="big" data-num="headline.found_round" data-fmt="{}%">90%</p><p class="bigsub"><span data-num="headline.matched">17,426</span> of the expert’s <span data-num="headline.expert">19,263</span> lines</p></div>
 <div class="card rise" style="--i:3"><p class="biglabel">Match</p><p class="big" data-num="headline.match_round" data-fmt="{}%">95%</p><p class="bigsub"><span data-num="headline.matched">17,426</span> of Claude’s <span data-num="headline.claude">18,430</span> lines</p></div>
-<div class="card rise" style="--i:4"><p class="biglabel">Line score</p><p class="big" data-num="headline.f1">92.5</p><p class="bigsub"><span data-num="headline.judged_f1">94.5</span> counting the judge’s verdicts</p></div>
+<div class="card rise" style="--i:4"><p class="biglabel">Line score</p><p class="big" data-num="headline.f1">92.5</p><p class="bigsub"><span data-num="headline.judged_f1">96.1</span> counting the judge’s verdicts</p></div>
 <div class="card rise" style="--i:5"><p class="biglabel">Words</p><p class="big" data-num="headline.words_pct" data-fmt="{}%">94%</p><p class="bigsub">of the expert’s words, on the matched lines</p></div>
 </div>
 <p class="lede rise" style="--i:6"><b style="color:var(--ink)" data-num="headline.perfect_pct" data-fmt="{}%">49%</b> of the pages are perfect: every line found, nothing extra.</p>
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> The headline. Claude finds 90 of every 100 lines the expert marked, and 95 of every 100 lines it draws are also in the answer key. Together that is a line score of 92.5; counting the judge’s verdicts, 94.5. On the matched lines it reads 94% of the expert’s words, with 3.8 letter errors per 100 (words and letters are counted on the matched lines only; missed and extra lines are already in the line score). Pages that come out perfect: 49%.</div>
+<div class="notes"><b>Notes</b> The headline. Claude finds 90 of every 100 lines the expert marked, and 95 of every 100 lines it draws are also in the answer key. Together that is a line score of 92.5; counting the judge’s verdicts, 96.1. On the matched lines it reads 94% of the expert’s words, with 3.8 letter errors per 100 (words and letters are counted on the matched lines only; missed and extra lines are already in the line score). Pages that come out perfect: 49%.</div>
 <div class="wrap" id="s23" data-n="23"><div class="num">23 / 32</div><section id="volline">
 <div style="display:flex;flex-direction:column;gap:28px">
 <div class="head">
@@ -831,7 +831,7 @@ body.present .wrap.on { display: block; }
 </div>
 
 </section></div>
-<div class="notes"><b>Notes</b> Everything in this talk can be checked page by page in the browser: pick any of the 903 pages, switch the expert’s and Claude’s lines on and off, and click any missed or extra line to see the judge’s close-up and reason. The notebook follows one page through every step, with every prompt, raw reply and number.</div>
+<div class="notes"><b>Notes</b> Everything in this talk can be checked page by page in the browser: pick any of the 903 pages, switch the expert’s and Claude’s lines on and off, and click any missed or extra line to see a close-up and the judge’s reason. The notebook follows one page through every step, with every prompt, raw reply and number.</div>
 <script>
 const wraps = [...document.querySelectorAll('.wrap')];
 let cur = 0;
