@@ -96,7 +96,7 @@ aside,section.side{background:var(--card);display:flex;flex-direction:column;min
 aside,section.side{border:0}
 .f{padding:12px;display:grid;gap:8px;border-bottom:1px solid var(--rule)}
 .f input[type=search],.f select{font:13px Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:7px 9px;width:100%}
-.f .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f .row{display:grid;grid-template-columns:1fr;gap:8px}
 .f label{font-size:12.5px;color:var(--soft);display:flex;gap:6px;align-items:center}
 .f .n{font-size:12px;color:var(--soft)}
 .list{overflow-y:auto;flex:1}
@@ -152,15 +152,16 @@ main{display:grid;grid-template-rows:auto 1fr;min-height:0;min-width:0}   /* the
 .canvas svg{position:absolute;inset:0;overflow:visible}
 svg{--k:1}
 svg .ex{stroke:var(--expert);stroke-width:calc(2.5px * var(--k));fill:none;stroke-linecap:round}
-svg .mi{stroke:var(--expert);stroke-width:calc(6px * var(--k));fill:none;stroke-linecap:round}
+svg .mi{stroke:var(--expert);stroke-width:calc(4.5px * var(--k));fill:none;stroke-linecap:round;opacity:.85}
 svg .cl{stroke:var(--claude);stroke-width:calc(2px * var(--k));fill:none;stroke-linecap:round}
 svg .cb{stroke:var(--claude);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--claude) 10%,transparent)}
 svg .vc{stroke:var(--cons);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--cons) 8%,transparent)}
 svg .vb{stroke:var(--best);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--best) 8%,transparent)}
 svg .vt{stroke:var(--typ);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--typ) 8%,transparent)}
 svg .vo{stroke:var(--one);stroke-width:calc(2px * var(--k));fill:color-mix(in srgb,var(--one) 8%,transparent)}
-svg .xj{stroke:var(--claude);stroke-width:calc(6px * var(--k));fill:none;stroke-linecap:round}
-svg .xc{stroke:#fff;stroke-width:calc(6px * var(--k));stroke-linecap:round;opacity:.9;pointer-events:none}
+svg .xj{stroke:var(--claude);stroke-width:calc(4.5px * var(--k));fill:none;stroke-linecap:round;opacity:.85}
+svg .mi.dz,svg .xj.dz{stroke-width:calc(3px * var(--k));opacity:.75}
+
 svg .pr{stroke:#9a988f;stroke-width:calc(2.5px * var(--k));fill:none;stroke-linecap:round;cursor:pointer}
 svg .bdg{transform:scale(var(--k));pointer-events:none}
 svg .bdg circle{stroke:#fff;stroke-width:1.5px}svg .bdg text{font:700 11px Inter,system-ui,sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central}
@@ -204,7 +205,7 @@ svg .mi,svg .xj{cursor:pointer}
 .jx .x{border:0;background:none;color:var(--soft);font-size:18px;cursor:pointer;line-height:1;margin-left:4px}
 .jx .vsent{font-size:13.5px;line-height:1.4;font-weight:500}.jx .vsent .bk{margin:0 6px 0 0}
 .ln.open > .jl{display:none}
-.jx img{width:100%;border-radius:8px;border:1px solid var(--rule);display:block}
+.jx img{width:100%;max-height:190px;object-fit:contain;background:var(--paper2,#f1efe8);border-radius:8px;border:1px solid var(--rule);display:block}
 .jx .wd{font-size:13px}.jx .wd span{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--soft);margin-right:4px}
 .jx .wd small{color:var(--soft)}
 .jx .why{background:var(--paper);border-left:3px solid var(--gold);padding:6px 9px;border-radius:6px;font-size:12.5px}
@@ -219,7 +220,7 @@ svg .hit{stroke:transparent;stroke-width:calc(18px * var(--k));stroke-linecap:ro
   padding:6px 9px;font-size:12.5px;line-height:1.4;box-shadow:0 6px 20px rgba(0,0,0,.3);display:none}
 .tip.show{display:block}.tip b{font-weight:600}.tip small{color:var(--soft);display:block;margin-top:2px}
 svg .cb[data-r]{pointer-events:all}
-svg .hot{stroke-width:calc(8px * var(--k))!important;filter:drop-shadow(0 0 calc(2px * var(--k)) #fff) drop-shadow(0 0 calc(5px * var(--k)) rgba(0,0,0,.9))}
+svg .hot{stroke-width:calc(6.5px * var(--k))!important;opacity:1!important;filter:drop-shadow(0 0 calc(1.2px * var(--k)) #0b0b0b)}
 .empty{position:absolute;inset:0;display:grid;place-items:center;color:#c9cfdd}
 .side .head{padding:10px 14px 8px;border-bottom:1px solid var(--rule)}
 .side h2{font:500 24px/1.15 "Cormorant Garamond",Georgia,serif;margin:0}
@@ -277,7 +278,7 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
       <select id="sort">
         <option value="order">Page order</option>
         <option value="f1">Line score (lowest first)</option>
-        <option value="words">Words right (lowest first)</option>
+        <option value="words">Words found (lowest first)</option>
         <option value="vgap">Claude vs best volunteer (Claude behind first)</option>
       </select>
       <label><input type="checkbox" id="vonly"> only pages volunteers boxed</label>
@@ -336,12 +337,12 @@ del{background:var(--diffE);text-decoration:none;border-radius:3px}ins{backgroun
           <b>missed</b> or <b>extra</b> lines, Claude's boxes, the volunteers. Turn on any mix; <b>Reset</b> goes back to the start.</span></div>
         <div class="step"><span class="num">3</span><div class="ill"><div class="ill-card"><i></i><div></div></div></div>
           <b>Click a line with a badge</b><span>Missed and extra lines carry the judge's badge. Click one to see a close-up
-          and the judge's reason, in the right panel.</span></div>
+          of that spot and the judge's reason, in the right panel.</span></div>
       </div>
       <div class="whos"><b>Who's who.</b> <span><b style="color:var(--expert)">Expert</b> = the answer key: a person who drew a line under every
         line of writing and typed it.</span> <span><b style="color:var(--claude)">Claude</b> = the AI being tested (it never saw the answer key).</span>
-        <span><b style="color:var(--best)">Volunteers</b> = people on Zooniverse who drew boxes by hand.</span> <span><b>Judge</b> = a second AI that looks
-        where Claude and the expert disagree and says why; it never changes Claude's answers, and the scores here don't use it.</span></div>
+        <span><b style="color:var(--best)">Volunteers</b> = people on Zooniverse who drew boxes by hand.</span> <span><b>Judge</b> = a second AI that pairs the expert's and
+        Claude's lines by their words and says what is under every line left over; it never changes Claude's answers, and the scores here don't use it.</span></div>
       <details class="more"><summary>Scores and keys</summary>
         <div class="scores">
           <div><b>Found</b>: of the expert's lines, how many Claude also drew. <b>Match</b>: of Claude's lines, how many the expert also drew.<br>
@@ -382,7 +383,7 @@ const META = (window.BBB && window.BBB.meta) || {};
 { const nv = P.filter(x => x.vol).length;
   $("gIntro").textContent = `${P.length} handwritten pages, each with the expert's answer key and what Claude found; on ${nv} of them, the volunteers' boxes too.`; }
 const MNAME = {"claude-opus-5-5": "Claude Opus 5.5", "claude-fable-5-2": "Claude Fable 5.2", "claude-sonnet-5-5": "Claude Sonnet 5.5"};
-$("hdr").innerHTML = `Can an AI do the volunteers' job? <b style="color:#f3eee2">Claude</b>, an AI, finds and reads the handwritten lines on ${P.length} pages an expert has already transcribed.`;
+$("hdr").innerHTML = `Can an AI do the volunteers' job? <b style="color:#f3eee2">Claude</b>, an AI, finds, reads and boxes the handwritten lines on ${P.length} pages an expert has already transcribed.`;
 $("hdr").title = `${P.length} pages · ${P.reduce((a,p)=>a+p.s.expert,0).toLocaleString()} expert lines · ${P.filter(p=>p.vol).length} pages boxed by volunteers`;
 const EFF = ({xhigh: "extra-high", max: "max", high: "high", medium: "medium"})[META.effort] || META.effort;
 if (META.model) $("gmodel").textContent = `(Claude here is ${MNAME[META.model] || META.model} at ${EFF} effort, that is, set to think longer before answering; the judge is Claude Opus 5.5.)`;
@@ -395,7 +396,7 @@ function applyFilters(keepId){
      p.expert.some(l => l.t.toLowerCase().includes(q)) || p.claude.some(l => l.t.toLowerCase().includes(q))));
   const k = $("sort").value;
   const f1 = p => { const r = p.s.matched / Math.max(p.s.expert, 1), q = p.s.matched / Math.max(p.s.claude, 1); return r + q ? 2 * r * q / (r + q) : 0; };
-  const gap = p => p.vol ? f1of(...p.vol.ls.claude) - f1of(...p.vol.ls.att[p.vol.best]) : 1e9;
+  const gap = p => p.vol && p.vol.ls ? f1of(...p.vol.ls.claude) - f1of(...p.vol.ls.att[p.vol.best]) : 1e9;
   const key = {f1: p => f1(p), found: p => p.s.found, extra: p => -(p.s.claude - p.s.matched), vgap: gap,
                words: p => wordsLetters(p.s).wp, letters: p => wordsLetters(p.s).lp}[k];
   if (key) view.sort((a,b) => key(a) - key(b));
@@ -434,7 +435,10 @@ function partners(p){
   p.expert.forEach((e,i) => { if (e.m < 0) p.claude.forEach((c,j) => { if (c.m !== i && same(e.p, c.p)) (p._mp[i] = p._mp[i] || []).push(j); }); });
   p.claude.forEach((c,j) => { if (c.m < 0) p.expert.forEach((e,i) => { if (e.m !== j && same(e.p, c.p)) (p._cp[j] = p._cp[j] || []).push(i); }); });
 }
-const linked = r => { const k = +r.slice(1); return r[0] === "e" ? (page._mp[k] || []).map(j => "c" + j) : (page._cp[k] || []).map(i => "e" + i); };
+// the other side's line(s) on the same writing: the ones the judge names ("the same writing as ..."), else the lines along it
+const jsame = r => { const k = +r.slice(1), L = r[0] === "e" ? page.expert[k] : page.claude[k]; return (r[0] === "e" ? L.ks : L.js) || []; };
+const linked = r => { const k = +r.slice(1), q = jsame(r); if (q.length) return q.map(o => (r[0] === "e" ? "c" : "e") + o);
+  return r[0] === "e" ? (page._mp[k] || []).map(j => "c" + j) : (page._cp[k] || []).map(i => "e" + i); };
 
 // ---------- drawing
 const line = (l, cls, r) => `<line class="${cls}" data-r="${r}" x1="${l[0]}" y1="${l[1]}" x2="${l[2]}" y2="${l[3]}"/>`;
@@ -449,10 +453,10 @@ function draw(){
   const V = p.vol;
   const vset = (boxes, hit, cls) => boxes.map(b => poly(b, cls)).join("");
   if (V){
-    if (on.typ) s += vset(V.all[V.typical], V.am[V.typical], "vt");
+    if (on.typ && V.typical !== undefined) s += vset(V.all[V.typical], V.am[V.typical], "vt");
     if (on.one) s += vset(V.all[vk] || [], V.am[vk] || "", "vo");
     if (on.cons) s += vset(V.consensus, V.cm, "vc");
-    if (on.best) s += vset(V.all[V.best], V.am[V.best], "vb");
+    if (on.best && V.best !== undefined) s += vset(V.all[V.best], V.am[V.best], "vb");
     const tag = vk === V.best ? " · best" : vk === V.typical ? " · typical" : "";
     $("vlab").textContent = `volunteer ${vk + 1} of ${V.n}${tag}`;
   }
@@ -470,8 +474,9 @@ function draw(){
   const one = (kind, l, r) => { const [a, b, c, d] = l.p, cat = (kind === "misses" ? l.k : l.j) || "unknown";
     if (cat === "print") return `<line class="pr" data-r="${r}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
     const [ex, ey] = endOf(l.p);
-    return `<line class="xc" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/><line class="${kind === "misses" ? "mi" : "xj"}" data-r="${r}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>` +
-      badge(kind, cat, ex, ey, spot(ex, ey)); };
+    const dz = cat === "diff";               // the same writing drawn differently: quieter, no badge on the page
+    return `<line class="${kind === "misses" ? "mi" : "xj"}${dz ? " dz" : ""}" data-r="${r}" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>` +
+      (dz ? "" : badge(kind, cat, ex, ey, spot(ex, ey))); };
   if (on.miss) s += ms.map(([l,i]) => one("misses", l, "e" + i)).join("");
   if (on.xtra) s += xs.map(([l,j]) => one("extras", l, "c" + j)).join("");
   // hover areas on top, the missed and extra lines last so they win where lines overlap
@@ -497,7 +502,7 @@ function draw(){
     else if (on.miss && on.xtra && !ms.length && !xs.length) note = `No missed or extra lines on this page.`; }
   $("notice").innerHTML = note; $("notice").classList.toggle("show", !!note);
   legend(p, ms, xs);
-  const TIP = {cbox: "a box around each of Claude's lines: the rectangle around Kraken's outline of it", best: "the volunteer who scores highest on this page, picked afterwards with the answer key (a best case)",
+  const TIP = {cbox: "a box around each of Claude's lines: the rectangle around Kraken's outline of it, corrected by Claude's box check where it was clearly wrong", best: "the volunteer who scores highest on this page, picked afterwards with the answer key (a best case)",
     cons: "boxes at least half the volunteers agree on, combined", typ: "the volunteer with the middle score on this page, among those who boxed at least half as many lines as the expert drew",
     one: "step through every volunteer with ‹ › or [ ]",
     expert: "every line the expert drew (blue)", claude: "every line Claude drew (orange)",
@@ -506,14 +511,15 @@ function draw(){
   document.querySelectorAll(".chip").forEach(ch => {
     const L = ch.dataset.l, na = VOL.includes(L) && !p.vol;
     ch.classList.toggle("off", !on[L]); ch.classList.toggle("on", !!on[L] && !na); ch.classList.toggle("na", na);
+    ch.classList.toggle("hide", na);
     ch.title = na ? "volunteers didn't box this page" : (TIP[L] || "");
     ch.tabIndex = 0; ch.setAttribute("role", "button"); ch.setAttribute("aria-pressed", String(!!on[L] && !na));
   });
 }
-const SHORT = {extras: {real: "real handwriting the expert didn't mark", diff: "same writing, split or joined differently", print: "printed text, not handwriting",
+const SHORT = {extras: {real: "real handwriting the expert didn't mark", diff: "writing an expert line already covers (split or joined)", print: "printed text, not handwriting",
                         none: "no writing here: Claude's mistake", unknown: "no answer"},
-               misses: {missed: "clear handwriting Claude missed", faint: "faint or tiny handwriting Claude missed", diff: "same writing, split or joined differently",
-                        print: "printed text, not handwriting", none: "no writing here: the expert's line is a slip", unknown: "no answer"}};
+               misses: {missed: "clear handwriting Claude missed", faint: "faint or tiny handwriting Claude missed", diff: "writing a Claude line already covers (split or joined)",
+                        print: "printed text, not handwriting", none: "no writing here: the expert's line marks nothing", unknown: "no answer"}};
 const XCAT = SHORT.extras, MCAT = SHORT.misses;
 const cap1 = t => t.charAt(0).toUpperCase() + t.slice(1);
 const BADGE = {extras: {real: ["ok","✓"], diff: ["diff","≈"], print: ["print","P"], none: ["bad","✕"], unknown: ["unk","?"]},
@@ -535,7 +541,7 @@ function badgeKey(p){            // only the badges this page has
   const cats = [...p.expert.filter(l => l.m < 0).map(l => ["misses", l.k]), ...p.claude.filter(l => l.m < 0).map(l => ["extras", l.j])].filter(([, c]) => c);
   const has = c => cats.some(([k, x]) => BADGE[k][x][0] === c);
   const bits = [has("ok") && `<span class="bk ok">✓</span>judge sides with Claude`, has("bad") && `<span class="bk bad">✕</span>Claude's mistake`,
-                has("diff") && `<span class="bk diff">≈</span>split or joined differently`, has("print") && `<i class="prsw"></i>printed, not handwriting`, has("unk") && `<span class="bk unk">?</span>no answer`].filter(Boolean);
+                has("diff") && `<span class="bk diff">≈</span>writing the other side already covers`, has("print") && `<i class="prsw"></i>printed, not handwriting`, has("unk") && `<span class="bk unk">?</span>no answer`].filter(Boolean);
   return bits.length ? `<div class="dkey bkey">${bits.join(" ")}</div>` : "";
 }
 $("reset").addEventListener("click", () => { on = {...START}; draw(); volPanel(); animate(); refit(); });
@@ -590,7 +596,7 @@ function panel(){
   const pct = (a, b) => `${Math.round(100 * a / Math.max(b, 1))}%`;
   const xs = p.claude.filter(l => l.m < 0), mdiff = p.expert.filter(l => l.m < 0 && l.k === "diff").length;
   const why = score < 85 && xs.filter(l => l.j === "diff").length + mdiff >= (xs.length + s.expert - s.matched) / 2 && w.wp >= 85
-    ? `<p class="lsnote">The low line score comes mostly from lines split or joined differently, not from missed words.</p>` : "";
+    ? `<p class="lsnote">The low line score comes mostly from lines drawn apart, split or joined differently, not from missed words.</p>` : "";
   $("cards").innerHTML =
     `<div class="card sc" title="The line score combines found and match into one number out of 100: it is high only when both are high.">
        <span class="k">Found</span><span><b>${s.matched}</b> of the expert's <b>${s.expert}</b> lines <small>${pct(s.matched, s.expert)}</small></span>
@@ -598,20 +604,21 @@ function panel(){
        <span class="k">Line score</span><span><b class="big">${score.toFixed(0)}</b><small> / 100 · combines the two: high only if both are</small></span>
        <span></span>${bar(score)}</div>
      <div class="card sc" title="Words and letters are counted on the matched lines only: each Claude line against the expert line it pairs with. Missed and extra lines are already counted by Found and Match.">
-       <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> read right <small>${pct(w.wr, w.wn)} · on the matched lines</small></span>
+       <span class="k">Words</span><span><b>${w.wr.toLocaleString()}</b> of the expert's <b>${w.wn.toLocaleString()}</b> words found <small>${pct(w.wr, w.wn)} · on the matched lines</small></span>
        <span class="k">Letters</span><span><b>${w.lp.toFixed(0)}%</b> right <small>on the matched lines</small></span></div>${why}`;
   let bc = "";
   if (p.vol){
-    const V = p.vol, L = V.ls, sc = x => f1of(...x).toFixed(0);
+    const V = p.vol, L = V.ls || null, sc = x => f1of(...x).toFixed(0);
     const open = store.get("bbb.volOpen", false) || VOL.some(L => on[L]);
     const sideways = p.expert.some(l => { const a = Math.abs(Math.atan2(l.p[3] - l.p[1], l.p[2] - l.p[0])); return a > Math.PI / 4 && a < 3 * Math.PI / 4; });
-    bc = `<div class="vrow"><span>vs ${V.n} volunteers (line score):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
+    bc = !L ? `<div class="vrow"><span>${V.n} volunteers boxed this page (their scores were not computed for this page)</span></div>` :
+      `<div class="vrow"><span>vs ${V.n} volunteers (line score):</span><span>Claude <b style="color:var(--claude)">${sc(L.claude)}</b></span><span>best <b>${sc(L.att[V.best])}</b></span>
         <span>typical <b>${sc(L.att[V.typical])}</b></span><span>consensus <b>${sc(L.consensus)}</b></span><button class="lnk" id="vmore">${open ? "less" : "more"}</button></div>
       <div class="vdet ${open ? "" : "hide"}">` + lsbar("Claude", L.claude, "var(--claude)", true) + lsbar("Best volunteer", L.att[V.best], "var(--best)")
       + lsbar("Typical volunteer", L.att[V.typical], "var(--typ)") + lsbar("Consensus", L.consensus, "var(--cons)")
       + (on.one && vk !== V.best && vk !== V.typical ? lsbar(`Volunteer ${vk + 1}`, L.att[vk], "var(--one)") : "")
       + `<p class="lsnote">Best = whoever scored highest on this page (picked afterwards with the answer key).</p>`
-      + (sideways ? `<p class="lsnote">This page has sideways writing; boxes around it don't turn into lines well, so volunteer scores here are less reliable.</p>` : "") + `</div>`;
+      + (sideways ? `<p class="lsnote">This page has sideways writing; a box's bottom edge says little about sideways lines, so volunteer scores here are less reliable.</p>` : "") + `</div>`;
   }
   $("boxcmp").innerHTML = bc; $("boxcmp").classList.toggle("hide", !bc);
   // which groups to list: the categories that are switched on (all three when none is)
@@ -623,19 +630,9 @@ function panel(){
   const judgeLine = (kind, cat) => cat ? `<div class="jl">${cat === "print" ? `<i class="prsw" style="margin-left:0"></i>` : bk(kind, cat)}judge: ${esc(SHORT[kind][cat])}</div>` : "";
   const prRow = (r, who, t) => `<div class="ln prt" data-r="${r}" tabindex="0" role="button"><span class="tag prt">printed</span><div class="${who === "expert" ? "e" : "c"}"><span class="who">${who}</span>${esc(t)}</div></div>`;
   const head = (id, name, n, what) => `<h3 class="gh3" id="g-${id}">${name} · ${n} <span>${what}</span></h3>`;
-  const groups = [[gF, "found", "Found", found.length], [gM, "missed", "Missed", missed.length], [gX, "extra", "Extra", extras.length]].filter(g => g[0]);
+  const groups = [[gM, "missed", "Missed", missed.length], [gX, "extra", "Extra", extras.length], [gF, "found", "Found", found.length]].filter(g => g[0]);
   let h = groups.length > 1 ? `<div class="gidx">Jump to: ${groups.map(([, id, name, n]) => `<button class="lnk" data-go="${id}">${name} (${n})</button>`).join(" ")}</div>` : "";
-  if (gF){
-    h += head("found", "Found", found.length, "lines that pair up") + `<div class="dkey">where the words differ: <del>blue</del> = the expert's letters · <ins>orange</ins> = Claude's</div>`;
-    for (const [e, i] of found){
-      const c = p.claude[e.m], how = c.by === "claude" ? "Claude placed this line itself (no Kraken line fitted it)" : "";
-      if (normT(e.t) === normT(c.t))
-        h += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div><span class="who both">both</span>${esc(e.t)}</div></div>`;
-      else { const [A, B] = diff(e.t, c.t);
-        h += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div class="e"><span class="who">expert</span>${A}</div><div class="c"><span class="who">Claude</span>${B}</div></div>`; }
-    }
-  }
-  if ((gM && missed.length) || (gX && extras.length)) h += `<div style="margin-top:12px">${badgeKey(p)}</div>`;
+  if ((gM && missed.length) || (gX && extras.length)) h += `<div style="margin-top:4px">${badgeKey(p)}</div>`;
   if (gM){
     h += head("missed", "Missed", missed.length, "the expert's lines with no Claude partner");
     if (!missed.length) h += `<p class="lsnote">None: Claude found every line the expert drew.</p>`;
@@ -648,6 +645,18 @@ function panel(){
     for (const [l, j] of extras)
       h += l.j === "print" ? prRow("c" + j, "Claude", l.t) : `<div class="ln" data-r="c${j}" tabindex="0" role="button"><span class="tag xtra">extra</span><div class="c"><span class="who">Claude</span>${esc(l.t)}</div>${judgeLine("extras", l.j)}</div>`;
   }
+  let hF = "";
+  if (gF){
+    hF += head("found", "Found", found.length, "lines that pair up") + `<div class="dkey">where the words differ: <del>blue</del> = the expert's letters · <ins>orange</ins> = Claude's</div>`;
+    for (const [e, i] of found){
+      const c = p.claude[e.m], how = c.by === "claude" ? "Claude placed this line itself (no Kraken line fitted it)" : "";
+      if (normT(e.t) === normT(c.t))
+        hF += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div><span class="who both">both</span>${esc(e.t)}</div></div>`;
+      else { const [A, B] = diff(e.t, c.t);
+        hF += `<div class="ln" data-r="e${i}" data-c="c${e.m}" tabindex="0" role="button"${how ? ` title="${how}"` : ""}><div class="e"><span class="who">expert</span>${A}</div><div class="c"><span class="who">Claude</span>${B}</div></div>`; }
+    }
+  }
+  h += hF;
   $("tx").innerHTML = h; $("tx").scrollTop = 0;
 }
 $("boxcmp").addEventListener("click", e => { if (e.target.id !== "vmore") return;
@@ -675,15 +684,20 @@ function cardHTML(r){
   const img = isE ? L.ki : L.ji, why = isE ? L.kr : L.jr;
   // the other side's line on the same writing, if it has one
   const words = t => `<span class="q">“${esc(t)}”</span>`, none = `<span class="nol">no line here</span>`;
-  const same = isE ? (page._mp[k] || []).map(j => page.claude[j].t) : (page._cp[k] || []).map(i => page.expert[i].t);
+  const named = jsame(r).map(o => (isE ? page.claude[o] : page.expert[o]).t);
+  const same = named.length ? [] : isE ? (page._mp[k] || []).map(j => page.claude[j].t) : (page._cp[k] || []).map(i => page.expert[i].t);
   // when the judge says the other side has this writing but no line covers the same stretch, show its lines nearby
   const near = !same.length && (cat === "diff" || cat === "none") ? nearby(L.p, isE ? page.claude : page.expert, pageGap(page)).map(l => l.t) : [];
-  const otherSays = same.length ? same.map(words).join(" ") : near.length ? near.map(words).join(" ") + ` <span class="nol">(nearby)</span>` : none;
+  const otherSays = named.length ? named.map(words).join(" ") + ` <span class="nol">(the same writing, says the judge)</span>`
+    : same.length ? same.map(words).join(" ") : near.length ? near.map(words).join(" ") + ` <span class="nol">(nearby)</span>` : none;
+  // the judge's own labels in its reason (B4, O22): which line each is, in words
+  const cut = t => esc(t.length > 40 ? t.slice(0, 38) + "…" : t);
+  const labs = [...new Set((why || "").match(/\b[BO]\d+\b/g) || [])].filter(x => page.jl && page.jl[x]).map(x => {
+    const ref = page.jl[x], o = ref[0] === "e" ? page.expert[+ref.slice(1)] : page.claude[+ref.slice(1)];
+    return `${x} = ${ref[0] === "e" ? "the expert's" : "Claude's"} “${cut(o.t)}”`; });
   const expertSays = isE ? words(L.t) : otherSays, claudeSays = isE ? otherSays : words(L.t);
-  // the judge's own words, unchanged; its colour words get their colour (in its pictures, as here: blue = expert, orange = Claude;
-  // in its pictures of missed lines the expert's line is red)
-  const gloss = t => esc(t).replace(/\bblue\b/gi, m => `<b style="color:var(--expert)">${m}</b>`).replace(/\borange\b/gi, m => `<b style="color:var(--claude)">${m}</b>`)
-                           .replace(/\bred\b/gi, m => `<b style="color:#c62828">${m}</b>`);
+  // the judge's own words, unchanged; its colour words get their colour (in its picture, as here: blue = expert, orange = Claude)
+  const gloss = t => esc(t).replace(/\bblue\b/gi, m => `<b style="color:var(--expert)">${m}</b>`).replace(/\borange\b/gi, m => `<b style="color:var(--claude)">${m}</b>`);
   const n = dlist.indexOf(r);
   return `<div class="jx">
     <div class="jh"><b>${isE ? "Missed line: no Claude line pairs with the expert's" : "Extra line: no expert line pairs with Claude's"}</b>
@@ -693,7 +707,7 @@ function cardHTML(r){
     <div class="sides"><span class="lab" style="color:var(--expert)">Expert</span><div>${expertSays}</div>
       <span class="lab" style="color:var(--claude)">Claude</span><div>${claudeSays}</div></div>
     <div class="verdict"><span class="lab">Judge decided</span><div>${cat === "print" ? `<i class="prsw" style="margin-left:0"></i>` : bk(kind, cat)}<b>${cap1(SHORT[kind][cat])}</b></div>
-      ${why ? `<span class="lab">Because</span><div class="because">“${gloss(why)}”${/\bred\b/i.test(why) ? ` <small>(in the judge's picture, red is the expert's line)</small>` : ""}</div>` : ""}</div>
+      ${why ? `<span class="lab">Because</span><div class="because">“${gloss(why)}”${labs.length ? ` <small>(${labs.join("; ")})</small>` : ""}</div>` : ""}</div>
   </div>`;
 }
 function closeCard(){ document.querySelectorAll("#tx .jx").forEach(x => x.remove()); document.querySelectorAll("#tx .ln.open").forEach(x => x.classList.remove("open")); }
@@ -705,6 +719,8 @@ function card(r){
   row.insertAdjacentHTML("beforeend", cardHTML(r)); row.classList.add("open");
   di = dlist.indexOf(r);
   reveal($("tx"), row, true);
+  const im_ = row.querySelector(".jx img");                  // reveal again once the close-up has its height
+  if (im_ && !im_.complete) im_.addEventListener("load", () => reveal($("tx"), row, true), {once: true});
   if (matchMedia("(max-width:860px)").matches) row.scrollIntoView({behavior: "smooth", block: "start"});
   return true;
 }
@@ -779,7 +795,7 @@ function locate(r){
   if (L.b) for (let t = 0; t < 8; t += 2){ xs.push(L.b[t]); ys.push(L.b[t+1]); }
   const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
   const st = $("stage").getBoundingClientRect(), pad = 80;
-  const s = Math.min(st.width / (x1 - x0 + 2 * pad), st.height / (y1 - y0 + 6 * pad), 3);
+  const s = Math.min(st.width / (x1 - x0 + 2 * pad), st.height / (y1 - y0 + 6 * pad), 1.25);
   tf.s = s; tf.x = st.width / 2 - s * (x0 + x1) / 2; tf.y = st.height / 2 - s * (y0 + y1) / 2; fitted = false; apply();
 }
 $("tx").addEventListener("click", e => {

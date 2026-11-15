@@ -24,23 +24,28 @@ boxes are the comparison.
 4. **Claude checks the boxes, in a second call.** It sees the boxes drawn and numbered and corrects only the ones that
    are clearly wrong (for example a box that cuts off the last words of a line).
 
-Kraken alone scores 80.7 (line score) and can't read; with Claude's one answer per page, which drops Kraken's junk
-lines, joins its broken pieces, splits lines that run across two pieces of writing, adds the lines it missed and reads
-every word, the score is 92.5.
+Kraken alone scores 83.9 (line score) and can't read. Claude's one answer per page drops Kraken's junk lines, joins
+its broken pieces, splits lines that run across two pieces of writing, adds the lines Kraken missed and reads every
+word: the score rises to 94.8 (both matched the same way, from positions only).
 
 ## Results on 791 held-out pages
 
+To score, an AI (Claude Opus 5.5, used only to evaluate) pairs Claude's lines with the expert's by their positions and
+words; a pair counts as found. No person has checked its pairs.
+
 | | |
 |---|---|
-| Found (recall) | 90.5% of the expert's lines |
-| Match (precision) | 94.6% of Claude's lines |
-| Line score (F1) | 92.5 |
-| Words and letters (on the matched lines) | 94.1% of the expert's words, 3.8 letter errors per 100 (counted on the matched lines only; missed and extra lines are already in found and match) |
-| Boxes | 86% of the expert's lines sit inside one box; 88% of boxes hold exactly one line |
+| Found | 92.9%: 17,886 of the expert's 19,263 lines |
+| Match | 97.0%: 17,886 of Claude's 18,430 lines |
+| Line score | 94.9 (found and match in one number out of 100, high only when both are high; 95% range from re-drawing the pages at random: 94.1 to 95.7) |
+| Words and letters (on the pairs) | 94% of the expert's words, 3.7 letter errors per 100 |
+| Boxes | 88% of the expert's lines sit inside one box; 89% of boxes hold exactly one line |
 
-Against the volunteers, on the 271 held-out pages they boxed (each box scored as the line along its bottom
-edge, with the same F1): Claude 94.1 · best volunteer on each page 95.1 · typical volunteer 92.0 ·
-volunteers' consensus 83.4.
+Against the volunteers, on the 271 held-out pages they boxed (each box read as the line along its bottom edge; every
+set, Claude's included, paired by the same AI from positions only): Claude 95.8 · best volunteer on each page 95.6 ·
+typical volunteer 92.9 · volunteers' consensus 83.8. The best volunteer is picked afterwards on each page; Claude is
+level with it (+0.2, range −0.9 to +1.4) and ahead of the typical volunteer (+3.0). These pages are easier than the
+rest (Claude 94.3 on the other 520). The answer key is one transcriber's work.
 
 ## Work in progress
 
