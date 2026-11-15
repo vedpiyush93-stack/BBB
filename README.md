@@ -44,7 +44,7 @@ words; a pair counts as found. No person has checked its pairs.
 Against the volunteers, on the 271 held-out pages they boxed (each box read as the line along its bottom edge; every
 set, Claude's included, paired by the same AI without the set's words): Claude 95.8 · best volunteer on each page 95.6 ·
 median volunteer 92.9 · volunteers' consensus 83.8. The best volunteer is picked afterwards on each page; Claude is
-level with it (+0.2, range −0.9 to +1.4) and ahead of the median volunteer (+3.0). Counting handwriting only (leaving out printed text, which volunteers mostly skip): Claude 96.8 · best 98.2 · median 96.3: Claude is
+level with it counting every line (+0.2, range −0.9 to +1.4) and ahead of the median volunteer (+3.0). Not counting the printed lines left unpaired (volunteers mostly skip printed text): Claude 96.8 · best 98.2 · median 96.3: Claude is
 at least as good as the median volunteer, a little below the best one. These pages are easier than the
 rest (Claude 94.3 on the other 520). The answer key is one transcriber's work.
 
